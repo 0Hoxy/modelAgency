@@ -5,40 +5,33 @@
  */
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import type { ReactNode } from 'react'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
+type PopoverRenderApi = { close: () => void }
 type PopoverProps = {
   trigger: ReactNode
-  children: ReactNode
+  children: ReactNode | ((api: PopoverRenderApi) => ReactNode)
+  onOpenChange?: (open: boolean) => void
 }
 
-export function Popover({ trigger, children }: PopoverProps) {
-  const triggerRef = useRef<HTMLElement | null>(null)
-  const [triggerWidth, setTriggerWidth] = useState<number | undefined>(undefined)
+export function Popover({ trigger, children, onOpenChange }: PopoverProps) {
+  const [open, setOpen] = useState(false)
 
-  useLayoutEffect(() => {
-    const measure = () => {
-      if (triggerRef.current) {
-        const rect = triggerRef.current.getBoundingClientRect()
-        setTriggerWidth(rect.width)
-      }
-    }
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [])
-
-  const minWidth = 200
-  const contentWidth = Math.max(triggerWidth ?? 0, minWidth)
+  const viewportMax = typeof window !== 'undefined' ? Math.max(320, window.innerWidth - 32) : 960
+  const minWidth = 0
+  const hardMax = 960
+  const maxWidth = Math.min(viewportMax, hardMax)
+  // width is determined via CSS (max-content) with min/max bounds
 
   return (
-    <PopoverPrimitive.Root>
-      <PopoverPrimitive.Trigger
-        asChild
-        ref={triggerRef as unknown as React.RefObject<HTMLButtonElement>}
-      >
-        {trigger}
-      </PopoverPrimitive.Trigger>
+    <PopoverPrimitive.Root
+      open={open}
+      onOpenChange={(newOpen) => {
+        setOpen(newOpen)
+        onOpenChange?.(newOpen)
+      }}
+    >
+      <PopoverPrimitive.Trigger asChild>{trigger}</PopoverPrimitive.Trigger>
       <PopoverPrimitive.Portal>
         <PopoverPrimitive.Content
           side="bottom"
@@ -48,9 +41,10 @@ export function Popover({ trigger, children }: PopoverProps) {
           collisionPadding={8}
           style={{
             zIndex: 1000,
-            width: contentWidth,
+            // Let content expand to fit chips while respecting min/max
+            width: 'max-content',
             minWidth,
-            maxWidth: 'calc(100vw - 24px)',
+            maxWidth,
           }}
         >
           <div
@@ -59,11 +53,14 @@ export function Popover({ trigger, children }: PopoverProps) {
               borderRadius: 8,
               boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
               border: '1px solid #e2e8f0',
-              padding: 12,
-              whiteSpace: 'nowrap',
+              padding: '12px 16px',
+              whiteSpace: 'normal',
+              maxHeight: '85vh',
+              overflowY: 'auto',
+              overflowX: 'hidden',
             }}
           >
-            {children}
+            {typeof children === 'function' ? children({ close: () => setOpen(false) }) : children}
           </div>
         </PopoverPrimitive.Content>
       </PopoverPrimitive.Portal>

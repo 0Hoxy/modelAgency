@@ -1,8 +1,22 @@
 /**
  * Sidebar: 좌측 내비게이션 오거니즘. 주요 섹션으로 이동하는 링크 제공.
  */
-import { Bell, Moon, Sun, Monitor, Check, Cog, LogOut, User } from '@utils/icon'
 import { Popover } from '@molecules/Popover'
+import {
+  Bell,
+  Check,
+  Cog,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  Monitor,
+  Moon,
+  Sun,
+  User,
+  Users,
+  Wallet,
+} from '@utils/icon'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const linkStyle: React.CSSProperties = {
@@ -16,17 +30,35 @@ const linkStyle: React.CSSProperties = {
 
 export function Sidebar() {
   const { pathname } = useLocation()
-  const item = (to: string, label: string) => (
+  const [activeTheme, setActiveTheme] = useState<'system' | 'dark' | 'light'>('system')
+  const getSectionPrefix = (path: string) => {
+    const parts = path.split('/').filter(Boolean)
+    return parts.length > 0 ? `/${parts[0]}` : '/'
+  }
+  const item = (to: string, label: string, icon?: React.ReactNode) => (
     <Link
       key={to}
       to={to}
       style={{
         ...linkStyle,
-        background: pathname === to ? '#e2e8f0' : 'transparent',
-        fontWeight: pathname === to ? 600 : 400,
+        background:
+          pathname === to ||
+          pathname.startsWith(getSectionPrefix(to) + '/') ||
+          pathname === getSectionPrefix(to)
+            ? '#e2e8f0'
+            : 'transparent',
+        fontWeight:
+          pathname === to ||
+          pathname.startsWith(getSectionPrefix(to) + '/') ||
+          pathname === getSectionPrefix(to)
+            ? 600
+            : 400,
       }}
     >
-      {label}
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+        {icon}
+        <span>{label}</span>
+      </span>
     </Link>
   )
   return (
@@ -44,7 +76,7 @@ export function Sidebar() {
       <div
         style={{
           display: 'grid',
-          gap: 30,
+          gap: 4,
           flex: 1,
           minHeight: 0,
           alignContent: 'start',
@@ -76,8 +108,9 @@ export function Sidebar() {
                     gap: 8,
                     justifyContent: 'flex-start',
                   }}
+                  onClick={() => setActiveTheme('system')}
                 >
-                  <Monitor size={16} /> 시스템 {false && <Check size={14} />}
+                  <Monitor size={16} /> 시스템 {activeTheme === 'system' && <Check size={14} />}
                 </button>
                 <button
                   type="button"
@@ -88,8 +121,9 @@ export function Sidebar() {
                     gap: 8,
                     justifyContent: 'flex-start',
                   }}
+                  onClick={() => setActiveTheme('dark')}
                 >
-                  <Moon size={16} /> 다크 {false && <Check size={14} />}
+                  <Moon size={16} /> 다크 {activeTheme === 'dark' && <Check size={14} />}
                 </button>
                 <button
                   type="button"
@@ -100,8 +134,9 @@ export function Sidebar() {
                     gap: 8,
                     justifyContent: 'flex-start',
                   }}
+                  onClick={() => setActiveTheme('light')}
                 >
-                  <Sun size={16} /> 라이트 {false && <Check size={14} />}
+                  <Sun size={16} /> 라이트 {activeTheme === 'light' && <Check size={14} />}
                 </button>
               </div>
             </Popover>
@@ -115,21 +150,21 @@ export function Sidebar() {
             </button>
           </div>
         </div>
-        <div style={{ borderTop: '1px solid #e2e8f0', margin: '8px 0' }} />
+        <div style={{ borderTop: '1px solid #e2e8f0', margin: '4px -1rem' }} />
         <nav
           style={{
             display: 'grid',
             gap: 4,
             alignContent: 'start',
             overflowY: 'auto',
-            marginTop: 8,
+            marginTop: 4,
           }}
         >
-          {item('/dashboard', '대시보드')}
-          {item('/models', '모델')}
-          {item('#', '인사')}
-          {item('#', '회계')}
-          {item('/contact', '문의')}
+          {item('/dashboard/overview', '대시보드', <LayoutDashboard size={16} />)}
+          {item('/models/domestic', '모델', <Users size={16} />)}
+          {item('/hr/members', '인사', <User size={16} />)}
+          {item('/finance/expenses', '회계', <Wallet size={16} />)}
+          {item('/contact', '문의', <Mail size={16} />)}
         </nav>
       </div>
 

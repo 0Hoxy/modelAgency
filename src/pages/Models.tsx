@@ -3,7 +3,7 @@
  */
 import { QueryState } from '@molecules/QueryState'
 import { useQuery } from '@tanstack/react-query'
-import { MainLayout } from '@templates/MainLayout'
+import { SidebarLayout } from '@templates/SidebarLayout'
 import { http, UsersSchema } from '@utils/http'
 
 export default function Models() {
@@ -15,8 +15,7 @@ export default function Models() {
     },
   })
   return (
-    <MainLayout>
-      <h2>모델 리스트</h2>
+    <SidebarLayout>
       <QueryState isLoading={isLoading} error={error} data={data}>
         {(list) => (
           <ul>
@@ -26,6 +25,6 @@ export default function Models() {
           </ul>
         )}
       </QueryState>
-    </MainLayout>
+    </SidebarLayout>
   )
 }

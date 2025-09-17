@@ -3,5 +3,23 @@
  * - 사용처에서는 `@utils/icon`에서 임포트하여 일관성 유지
  * - 필요 시 공통 크기/색상 정책을 여기서 통일 가능
  */
-export { Bell, Moon, Sun, Monitor, User, LogOut, Cog, Check } from 'lucide-react'
 export type { LucideProps } from 'lucide-react'
+export {
+  Bell,
+  BookOpen,
+  Check,
+  Cog,
+  Filter,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  Monitor,
+  Moon,
+  Plus,
+  Search,
+  Sun,
+  User,
+  Users,
+  Video,
+  Wallet,
+} from 'lucide-react'

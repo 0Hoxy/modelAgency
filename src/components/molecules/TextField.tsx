@@ -11,10 +11,13 @@ type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   helpText?: ReactNode
   error?: ReactNode
   requiredMark?: boolean
+  labelStyle?: React.CSSProperties
+  inputStyle?: React.CSSProperties
+  leading?: ReactNode
 }
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
-  { id, label, helpText, error, requiredMark, style, ...props },
+  { id, label, helpText, error, requiredMark, style, labelStyle, inputStyle, leading, ...props },
   ref,
 ) {
   const describedBy = [helpText ? `${id}-help` : undefined, error ? `${id}-error` : undefined]
@@ -24,17 +27,39 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
   return (
     <div style={{ display: 'grid', gap: 6, ...style }}>
       {label && (
-        <Label htmlFor={id} requiredMark={requiredMark}>
+        <Label htmlFor={id} requiredMark={requiredMark} style={labelStyle}>
           {label}
         </Label>
       )}
-      <Input
-        ref={ref}
-        id={id}
-        aria-describedby={describedBy || undefined}
-        invalid={!!error}
-        {...props}
-      />
+      <div style={{ position: 'relative' }}>
+        {leading && (
+          <span
+            aria-hidden
+            style={{
+              position: 'absolute',
+              left: 10,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              color: '#64748b',
+            }}
+          >
+            {leading}
+          </span>
+        )}
+        <Input
+          ref={ref}
+          id={id}
+          aria-describedby={describedBy || undefined}
+          invalid={!!error}
+          {...props}
+          style={{
+            paddingLeft: leading ? 32 : undefined,
+            ...(inputStyle || {}),
+          }}
+        />
+      </div>
       {helpText && (
         <div id={`${id}-help`} style={{ color: '#64748b', fontSize: 12 }}>
           {helpText}
