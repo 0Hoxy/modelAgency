@@ -1,16 +1,10 @@
 /**
  * Models - Camera Test (카메라테스트)
  */
-import 'react-datepicker/dist/react-datepicker.css'
-
 import { SidebarLayout } from '@templates/SidebarLayout'
 import { Search as SearchIcon } from '@utils/icon'
-import { ko } from 'date-fns/locale'
+import { format } from 'date-fns'
 import { useEffect, useMemo, useState } from 'react'
-import DatePicker, { registerLocale } from 'react-datepicker'
-
-// 한국어 로케일 등록
-registerLocale('ko', ko)
 
 import type { CameraTestModel, CameraTestStatus } from '../../types/camera-test'
 import {
@@ -22,14 +16,13 @@ import {
 
 export default function CameraTest() {
   const [allModels, setAllModels] = useState<CameraTestModel[]>([])
-  const [selectedDate, setSelectedDate] = useState<string>('')
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
 
   // 오늘 날짜를 기본값으로 설정
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0]
-    setSelectedDate(today)
+    setSelectedDate(new Date())
 
     // Mock 데이터 로드
     const mockData = generateMockCameraTestData()
@@ -43,7 +36,7 @@ export default function CameraTest() {
 
     // 날짜별 필터링
     if (selectedDate) {
-      filtered = filterByTestDate(filtered, selectedDate)
+      filtered = filterByTestDate(filtered, format(selectedDate, 'yyyy-MM-dd'))
     }
 
     // 검색 필터링
@@ -158,84 +151,19 @@ export default function CameraTest() {
               <label htmlFor="testDate" style={{ fontSize: 14, fontWeight: 500, color: '#374151' }}>
                 테스트 일자:
               </label>
-              <DatePicker
-                selected={selectedDate ? new Date(selectedDate) : null}
-                onChange={(date: Date | null) => {
-                  if (date) {
-                    setSelectedDate(date.toISOString().split('T')[0])
-                  }
-                }}
-                dateFormat="yyyy-MM-dd"
-                placeholderText="날짜 선택"
-                locale="ko"
-                renderCustomHeader={({
-                  date,
-                  decreaseMonth,
-                  increaseMonth,
-                  prevMonthButtonDisabled,
-                  nextMonthButtonDisabled,
-                }) => (
-                  <div
-                    style={{
-                      margin: 8,
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <button
-                      onClick={decreaseMonth}
-                      disabled={prevMonthButtonDisabled}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        fontSize: '16px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      ←
-                    </button>
-                    <span style={{ fontSize: '16px', fontWeight: '600' }}>
-                      {date.getFullYear()}년 {date.getMonth() + 1}월
-                    </span>
-                    <button
-                      onClick={increaseMonth}
-                      disabled={nextMonthButtonDisabled}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        fontSize: '16px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      →
-                    </button>
-                  </div>
-                )}
-                customInput={
-                  <input
-                    style={{
-                      padding: '4px 11px',
-                      border: '1px solid #d9d9d9',
-                      borderRadius: '6px',
-                      fontSize: '14px',
-                      background: '#ffffff',
-                      width: '160px',
-                      height: '32px',
-                      outline: 'none',
-                      transition: 'all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)',
-                      cursor: 'pointer',
-                      color: 'rgba(0, 0, 0, 0.85)',
-                      fontFamily:
-                        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-                      lineHeight: '1.5715',
-                      boxShadow: 'none',
-                    }}
-                  />
+              <input
+                type="date"
+                value={selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}
+                onChange={(e) =>
+                  setSelectedDate(e.target.value ? new Date(e.target.value) : undefined)
                 }
-                popperClassName="custom-datepicker-popper"
-                calendarClassName="custom-datepicker-calendar"
-                popperPlacement="bottom-start"
+                style={{
+                  padding: '8px 12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  width: '160px',
+                }}
               />
             </div>
           </div>
@@ -413,7 +341,9 @@ export default function CameraTest() {
           color: '#64748b',
         }}
       >
-        총 {filteredModels.length}명의 모델이 {selectedDate}에 카메라테스트 예정입니다.
+        총 {filteredModels.length}명의 모델이{' '}
+        {selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '선택된 날짜'}에 카메라테스트
+        예정입니다.
       </div>
     </SidebarLayout>
   )

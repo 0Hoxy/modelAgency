@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      '@': '/src',
       '@components': '/src/components',
       '@atoms': '/src/components/atoms',
       '@molecules': '/src/components/molecules',

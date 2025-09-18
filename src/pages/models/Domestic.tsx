@@ -5,7 +5,7 @@ import { Pagination } from '@molecules/Pagination'
 import { Popover } from '@molecules/Popover'
 import { TextField } from '@molecules/TextField'
 import { SidebarLayout } from '@templates/SidebarLayout'
-import { BookOpen, Filter as FilterIcon, Plus, Search as SearchIcon, Video } from '@utils/icon'
+import { Filter as FilterIcon, Search as SearchIcon } from '@utils/icon'
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -164,55 +164,73 @@ export default function ModelsDomestic() {
             type="button"
             className="iconBtn"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 8,
-              border: '1px solid #d1d5db',
+              border: 'none',
               background: '#fff',
               color: '#374151',
               borderRadius: 6,
+              transition: 'background 160ms ease, color 160ms ease',
+              padding: '6px 10px',
+              cursor: 'pointer',
             }}
             onClick={() => console.log('모델 등록 클릭')}
-            title="모델 등록"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#f1f5f9'
+              e.currentTarget.style.color = '#111827'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#fff'
+              e.currentTarget.style.color = '#374151'
+            }}
           >
-            <Plus size={18} />
+            모델 등록
           </button>
           <button
             type="button"
             className="iconBtn"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 8,
-              border: '1px solid #d1d5db',
+              border: 'none',
               background: '#fff',
               color: '#374151',
               borderRadius: 6,
+              transition: 'background 160ms ease, color 160ms ease',
+              padding: '6px 10px',
+              cursor: 'pointer',
             }}
             onClick={() => console.log('카메라테스트 등록 클릭')}
-            title="카메라테스트 등록"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#f1f5f9'
+              e.currentTarget.style.color = '#111827'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#fff'
+              e.currentTarget.style.color = '#374151'
+            }}
           >
-            <Video size={18} />
+            카메라테스트 등록
           </button>
           <button
             type="button"
             className="iconBtn"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 8,
-              border: '1px solid #d1d5db',
+              border: 'none',
               background: '#fff',
               color: '#374151',
               borderRadius: 6,
+              transition: 'background 160ms ease, color 160ms ease',
+              padding: '6px 10px',
+              cursor: 'pointer',
             }}
             onClick={() => console.log('주소록 저장 클릭')}
-            title="주소록 저장"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#f1f5f9'
+              e.currentTarget.style.color = '#111827'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#fff'
+              e.currentTarget.style.color = '#374151'
+            }}
           >
-            <BookOpen size={18} />
+            주소록 저장
           </button>
         </div>
 

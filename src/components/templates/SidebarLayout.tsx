@@ -28,7 +28,11 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
         ? [
             { label: '구성원', to: '/hr/members' },
             { label: '채용', to: '/hr/recruit' },
-            { label: '평가', to: '/hr/review' },
+            { label: '근태', to: '/hr/attendance' },
+            { label: '급여', to: '/hr/payroll' },
+            { label: '교육', to: '/hr/training' },
+            { label: '복리후생', to: '/hr/benefits' },
+            { label: '성과평가', to: '/hr/performance' },
           ]
         : inSection('/finance')
           ? [

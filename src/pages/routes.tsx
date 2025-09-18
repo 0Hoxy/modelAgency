@@ -2,34 +2,31 @@ import { createBrowserRouter } from 'react-router-dom'
 
 import Contact from './Contact'
 import ContactNew from './contact/New'
-import Dashboard from './Dashboard'
 import DashboardOverview from './dashboard/Overview'
 import DashboardStats from './dashboard/Stats'
-import Finance from './Finance'
 import FinanceExpenses from './finance/Expenses'
 import FinanceIncome from './finance/Income'
 import FinanceReports from './finance/Reports'
 import Home from './Home'
 import Hr from './Hr'
+import HrAttendance from './hr/Attendance'
+import HrBenefits from './hr/Benefits'
 import HrMembers from './hr/Members'
+import HrPayroll from './hr/Payroll'
+import HrPerformance from './hr/Performance'
 import HrRecruit from './hr/Recruit'
-import HrReview from './hr/Review'
-import Models from './Models'
+import HrTraining from './hr/Training'
+import ModelsCameraTest from './models/CameraTest'
 import ModelsCategories from './models/Categories'
+import ModelsDomestic from './models/Domestic'
 import ModelsFilters from './models/Filters'
 import ModelsList from './models/List'
-import ModelsCameraTest from './models/CameraTest'
-import ModelsDomestic from './models/Domestic'
 import ModelsOverseas from './models/Overseas'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
-  },
-  {
-    path: '/models',
-    element: <Models />,
   },
   { path: '/models/list', element: <ModelsList /> },
   { path: '/models/categories', element: <ModelsCategories /> },
@@ -43,11 +40,11 @@ export const router = createBrowserRouter([
   },
   { path: '/hr/members', element: <HrMembers /> },
   { path: '/hr/recruit', element: <HrRecruit /> },
-  { path: '/hr/review', element: <HrReview /> },
-  {
-    path: '/finance',
-    element: <Finance />,
-  },
+  { path: '/hr/attendance', element: <HrAttendance /> },
+  { path: '/hr/payroll', element: <HrPayroll /> },
+  { path: '/hr/training', element: <HrTraining /> },
+  { path: '/hr/benefits', element: <HrBenefits /> },
+  { path: '/hr/performance', element: <HrPerformance /> },
   { path: '/finance/expenses', element: <FinanceExpenses /> },
   { path: '/finance/income', element: <FinanceIncome /> },
   { path: '/finance/reports', element: <FinanceReports /> },
@@ -56,10 +53,6 @@ export const router = createBrowserRouter([
     element: <Contact />,
   },
   { path: '/contact/new', element: <ContactNew /> },
-  {
-    path: '/dashboard',
-    element: <Dashboard />,
-  },
   { path: '/dashboard/overview', element: <DashboardOverview /> },
   { path: '/dashboard/stats', element: <DashboardStats /> },
 ])
