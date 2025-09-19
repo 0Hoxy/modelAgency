@@ -171,133 +171,120 @@ export default function ModelsOverseas() {
   )
   return (
     <SidebarLayout>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          marginBottom: 8,
-        }}
-      >
-        {/* 좌측 액션 버튼들 */}
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button
-            type="button"
-            className="iconBtn"
-            style={{
-              border: 'none',
-              background: '#fff',
-              color: '#374151',
-              borderRadius: 6,
-              transition: 'background 160ms ease, color 160ms ease',
-              padding: '6px 10px',
-              cursor: 'pointer',
-            }}
-            onClick={() => console.log('모델 등록 클릭')}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f1f5f9'
-              e.currentTarget.style.color = '#111827'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#fff'
-              e.currentTarget.style.color = '#374151'
-            }}
-          >
-            모델 등록
-          </button>
-          <button
-            type="button"
-            className="iconBtn"
-            style={{
-              border: 'none',
-              background: '#fff',
-              color: '#374151',
-              borderRadius: 6,
-              transition: 'background 160ms ease, color 160ms ease',
-              padding: '6px 10px',
-              cursor: 'pointer',
-            }}
-            onClick={() => console.log('카메라테스트 등록 클릭')}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f1f5f9'
-              e.currentTarget.style.color = '#111827'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#fff'
-              e.currentTarget.style.color = '#374151'
-            }}
-          >
-            카메라테스트 등록
-          </button>
-          <button
-            type="button"
-            className="iconBtn"
-            style={{
-              border: 'none',
-              background: '#fff',
-              color: '#374151',
-              borderRadius: 6,
-              transition: 'background 160ms ease, color 160ms ease',
-              padding: '6px 10px',
-              cursor: 'pointer',
-            }}
-            onClick={() => console.log('주소록 저장 클릭')}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f1f5f9'
-              e.currentTarget.style.color = '#111827'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#fff'
-              e.currentTarget.style.color = '#374151'
-            }}
-          >
-            주소록 저장
-          </button>
-        </div>
+      {/* 헤더 섹션 */}
+      <div style={{ marginBottom: 24 }}>
+        {/* 필터 및 검색 */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 16,
+          }}
+        >
+          {/* 검색 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <SearchIcon size={16} color="#64748b" />
+            <input
+              type="text"
+              placeholder="이름, 주소, 국적, 특기, 외국어, 비자타입으로 검색..."
+              value={filters.query}
+              onChange={(e) => updateFilter('query', e.target.value)}
+              style={{
+                padding: '8px 12px',
+                border: '1px solid #d1d5db',
+                borderRadius: 6,
+                fontSize: 14,
+                width: 320,
+                background: '#fff',
+              }}
+            />
+          </div>
 
-        {/* 중앙 여백 */}
-        <div style={{ flex: 1 }} />
-
-        {/* 우측 검색 및 필터 */}
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <TextField
-            id="q"
-            placeholder="통합검색: 이름/주소/국적/특기/외국어/비자타입"
-            value={filters.query}
-            onChange={(e) => updateFilter('query', e.target.value)}
-            style={{ width: 320 }}
-            aria-label="통합검색"
-            leading={<SearchIcon size={14} />}
-          />
-          <Popover
-            onOpenChange={(open) => {
-              if (open) {
-                // 필터 팝오버가 열릴 때 임시 필터를 현재 필터로 초기화
-                setTempFilters(filters)
-                // 주소 선택 상태도 초기화
-                const addressParts = filters.address?.split(' ') || []
-                setSelectedCity(addressParts[0] || '')
-                setSelectedDistrict(addressParts[1] || '')
-                setSelectedDong(addressParts[2] || '')
-              }
-            }}
-            trigger={
+          {/* 우측 섹션: 액션 버튼들 + 필터 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {/* 액션 버튼들 */}
+            <div style={{ display: 'flex', gap: 8 }}>
               <button
                 type="button"
-                className="iconBtn"
                 style={{
-                  border: '1px solid #cbd5e1',
-                  background: recentChange ? '#f1f5f9' : '#fff',
-                  transition: 'background 180ms ease',
+                  padding: '8px 12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: 6,
+                  background: '#fff',
+                  color: '#374151',
+                  fontSize: 14,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+                onClick={() => console.log('모델 등록 클릭')}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#f1f5f9'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#fff'
                 }}
               >
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                  <FilterIcon size={16} />
-                  필터{activeCount > 0 ? `(${activeCount})` : ''}
-                </span>
+                모델 등록
               </button>
-            }
-          >
+              <button
+                type="button"
+                style={{
+                  padding: '8px 12px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: 6,
+                  background: '#fff',
+                  color: '#374151',
+                  fontSize: 14,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+                onClick={() => console.log('카메라테스트 등록 클릭')}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#f1f5f9'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#fff'
+                }}
+              >
+                카메라테스트 등록
+              </button>
+            </div>
+
+            {/* 필터 */}
+            <Popover
+              onOpenChange={(open) => {
+                if (open) {
+                  // 필터 팝오버가 열릴 때 임시 필터를 현재 필터로 초기화
+                  setTempFilters(filters)
+                  // 주소 선택 상태도 초기화
+                  const addressParts = filters.address?.split(' ') || []
+                  setSelectedCity(addressParts[0] || '')
+                  setSelectedDistrict(addressParts[1] || '')
+                  setSelectedDong(addressParts[2] || '')
+                }
+              }}
+              trigger={
+                <button
+                  type="button"
+                  style={{
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 6,
+                    background: recentChange ? '#f1f5f9' : '#fff',
+                    color: '#374151',
+                    fontSize: 14,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <FilterIcon size={16} />
+                    필터{activeCount > 0 ? `(${activeCount})` : ''}
+                  </span>
+                </button>
+              }
+            >
             {(api) => (
               <div
                 style={{
@@ -616,18 +603,7 @@ export default function ModelsOverseas() {
             )}
           </Popover>
 
-          <button
-            type="button"
-            className="iconBtn"
-            style={{ border: '1px solid #2563eb', background: '#2563eb', color: '#fff' }}
-            onClick={applyFilters}
-            aria-label="검색 실행"
-          >
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <SearchIcon size={16} />
-              검색
-            </span>
-          </button>
+          </div>
         </div>
       </div>
 
@@ -778,10 +754,17 @@ export default function ModelsOverseas() {
             </div>
           </div>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 1200 }}>
+          <div
+            style={{
+              background: '#fff',
+              border: '1px solid #e5e7eb',
+              borderRadius: 8,
+              overflow: 'hidden',
+            }}
+          >
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
-                <tr style={{ background: '#f8fafc' }}>
+                <tr style={{ background: '#f9fafb' }}>
                   {[
                     '이름',
                     '성별',
@@ -790,7 +773,7 @@ export default function ModelsOverseas() {
                     '주소',
                     '국적',
                     '특기',
-                    '가능한외국어',
+                    '가능한 외국어',
                     '인스타그램',
                     '유튜브',
                     '비자타입',
@@ -800,10 +783,12 @@ export default function ModelsOverseas() {
                     <th
                       key={h}
                       style={{
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        padding: '10px 12px',
-                        borderBottom: '1px solid #e2e8f0',
-                        whiteSpace: 'nowrap',
+                        fontSize: 14,
+                        fontWeight: 600,
+                        color: '#374151',
+                        borderBottom: '1px solid #e5e7eb',
                       }}
                     >
                       {h}
@@ -813,20 +798,46 @@ export default function ModelsOverseas() {
               </thead>
               <tbody>
                 {overseasData?.data?.map((r, idx) => (
-                  <tr key={idx} style={{ borderBottom: '1px solid #eef2f7' }}>
-                    <td style={{ padding: '10px 12px' }}>{r.name}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.gender}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.birth}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.phone}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.address}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.nationality}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.specialty}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.languages}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.instagram}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.youtube}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.visa}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.tattoo}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.note}</td>
+                  <tr key={idx} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#0f172a' }}>
+                      {r.name}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.gender}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.birth}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.phone}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.address}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.nationality}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.specialty}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.languages}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.instagram}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.youtube}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.visa}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.tattoo}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.note}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -834,6 +845,22 @@ export default function ModelsOverseas() {
           </div>
         )}
       </div>
+
+      {/* 결과 요약 */}
+      {overseasData && overseasData.data && overseasData.data.length > 0 && (
+        <div
+          style={{
+            marginTop: 16,
+            padding: '12px 16px',
+            background: '#f8fafc',
+            borderRadius: 6,
+            fontSize: 14,
+            color: '#64748b',
+          }}
+        >
+          총 {overseasData.total}명의 해외모델이 검색되었습니다. (현재 페이지: {overseasData.data.length}명)
+        </div>
+      )}
 
       {/* Pagination */}
       {overseasData && overseasData.data && overseasData.data.length > 0 && (
