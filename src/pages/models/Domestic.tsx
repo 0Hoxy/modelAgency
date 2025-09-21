@@ -779,6 +779,9 @@ export default function ModelsDomestic() {
                         padding: '10px 12px',
                         borderBottom: '1px solid #e2e8f0',
                         whiteSpace: 'nowrap',
+                        fontSize: 14,
+                        fontWeight: 600,
+                        color: '#374151',
                       }}
                     >
                       {h}
@@ -788,23 +791,55 @@ export default function ModelsDomestic() {
               </thead>
               <tbody>
                 {domesticData?.data?.map((r, idx) => (
-                  <tr key={idx} style={{ borderBottom: '1px solid #eef2f7' }}>
-                    <td style={{ padding: '10px 12px' }}>{r.name}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.gender}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.birth}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.phone}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.agency}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.manager}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.managerPhone}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.address}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.nationality}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.specialty}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.languages}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.instagram}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.youtube}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.tiktok}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.tattoo}</td>
-                    <td style={{ padding: '10px 12px' }}>{r.note}</td>
+                  <tr key={idx} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#0f172a' }}>
+                      {r.name}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.gender}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.birth}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.phone}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.agency}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.manager}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.managerPhone}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.address}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.nationality}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.specialty}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.languages}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.instagram}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.youtube}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.tiktok}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.tattoo}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                      {r.note}
+                    </td>
                   </tr>
                 ))}
               </tbody>
