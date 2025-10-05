@@ -9,8 +9,12 @@ import { Hero } from '@molecules/Hero'
 import { Popover } from '@molecules/Popover'
 import { TextField } from '@molecules/TextField'
 import { MainLayout } from '@templates/MainLayout'
+import { UserPlus } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
+  const navigate = useNavigate()
+
   return (
     <MainLayout>
       <Hero
@@ -18,6 +22,40 @@ export default function Home() {
         subtitle="Atomic Design 구조로 구성된 React 템플릿"
         ctaLabel="둘러보기"
       />
+
+      {/* 모델 등록 버튼 */}
+      <div style={{ marginTop: '32px', marginBottom: '32px' }}>
+        <button
+          onClick={() => navigate('/registration')}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '16px 32px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            border: 'none',
+            borderRadius: '12px',
+            color: 'white',
+            fontSize: '16px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            boxShadow: '0 4px 6px rgba(102, 126, 234, 0.3)',
+            transition: 'all 0.3s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)'
+            e.currentTarget.style.boxShadow = '0 8px 12px rgba(102, 126, 234, 0.4)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.boxShadow = '0 4px 6px rgba(102, 126, 234, 0.3)'
+          }}
+        >
+          <UserPlus size={24} />
+          모델 등록하기
+        </button>
+      </div>
+
       <div style={{ display: 'flex', gap: 12 }}>
         <Dialog
           trigger={<Button>다이얼로그 열기</Button>}

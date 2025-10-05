@@ -22,12 +22,22 @@ import ModelsDomestic from './models/Domestic'
 import ModelsFilters from './models/Filters'
 import ModelsList from './models/List'
 import ModelsOverseas from './models/Overseas'
+import RegistrationComplete from './registration/Complete'
+import RegistrationLanding from './registration/Landing'
+import RegistrationTypeSelection from './registration/ModelTypeSelection'
+import RegistrationForm from './registration/RegistrationForm'
+import RegistrationVerification from './registration/Verification'
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <RegistrationLanding />,
   },
+  { path: '/registration', element: <RegistrationTypeSelection /> },
+  { path: '/registration/verification', element: <RegistrationVerification /> },
+  { path: '/registration/form', element: <RegistrationForm /> },
+  { path: '/registration/complete', element: <RegistrationComplete /> },
+  { path: '/home', element: <Home /> },
   { path: '/models/list', element: <ModelsList /> },
   { path: '/models/categories', element: <ModelsCategories /> },
   { path: '/models/filters', element: <ModelsFilters /> },
