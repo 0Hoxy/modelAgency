@@ -495,10 +495,11 @@ export default function HrAttendance() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       직원명
@@ -507,10 +508,11 @@ export default function HrAttendance() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       부서
@@ -519,10 +521,11 @@ export default function HrAttendance() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       날짜
@@ -531,10 +534,11 @@ export default function HrAttendance() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       출근
@@ -543,10 +547,11 @@ export default function HrAttendance() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       퇴근
@@ -555,10 +560,11 @@ export default function HrAttendance() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       근무시간
@@ -567,10 +573,11 @@ export default function HrAttendance() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       상태
@@ -579,10 +586,11 @@ export default function HrAttendance() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       비고
@@ -594,18 +602,33 @@ export default function HrAttendance() {
                     const employee = employees.find((emp) => emp.id === record.employeeId)
                     return (
                       <tr key={record.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                        <td style={{ padding: '12px 16px', fontSize: '14px', color: '#1e293b' }}>
+                        <td
+                          style={{
+                            padding: '12px 16px',
+                            fontSize: 13,
+                            color: '#1e293b',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {employee?.name || 'Unknown'}
                         </td>
-                        <td style={{ padding: '12px 16px', fontSize: '14px', color: '#64748b' }}>
+                        <td
+                          style={{
+                            padding: '12px 16px',
+                            fontSize: 13,
+                            color: '#64748b',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {employee?.department || '-'}
                         </td>
                         <td
                           style={{
                             padding: '12px 16px',
-                            fontSize: '14px',
+                            fontSize: 13,
                             color: '#64748b',
                             textAlign: 'center',
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {record.date}
@@ -613,9 +636,10 @@ export default function HrAttendance() {
                         <td
                           style={{
                             padding: '12px 16px',
-                            fontSize: '14px',
+                            fontSize: 13,
                             color: '#1e293b',
                             textAlign: 'center',
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {record.clockIn || '-'}
@@ -623,9 +647,10 @@ export default function HrAttendance() {
                         <td
                           style={{
                             padding: '12px 16px',
-                            fontSize: '14px',
+                            fontSize: 13,
                             color: '#1e293b',
                             textAlign: 'center',
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {record.clockOut || '-'}
@@ -633,22 +658,30 @@ export default function HrAttendance() {
                         <td
                           style={{
                             padding: '12px 16px',
-                            fontSize: '14px',
+                            fontSize: 13,
                             color: '#1e293b',
                             textAlign: 'center',
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {record.workHours ? `${record.workHours}시간` : '-'}
                         </td>
-                        <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                        <td
+                          style={{
+                            padding: '12px 16px',
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {getStatusBadge(record)}
                         </td>
                         <td
                           style={{
                             padding: '12px 16px',
-                            fontSize: '14px',
+                            fontSize: 13,
                             color: '#64748b',
                             textAlign: 'center',
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {record.note || '-'}

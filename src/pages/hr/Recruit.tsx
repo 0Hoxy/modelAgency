@@ -678,12 +678,13 @@ export default function HrRecruit() {
                   <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                     <th
                       style={{
-                        padding: '12px',
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         cursor: 'pointer',
                         userSelect: 'none',
+                        whiteSpace: 'nowrap',
                       }}
                       onClick={() => {
                         if (sortField === 'name') {
@@ -698,42 +699,46 @@ export default function HrRecruit() {
                     </th>
                     <th
                       style={{
-                        padding: '12px',
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       포지션
                     </th>
                     <th
                       style={{
-                        padding: '12px',
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       부서
                     </th>
                     <th
                       style={{
-                        padding: '12px',
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       경력
                     </th>
                     <th
                       style={{
-                        padding: '12px',
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         cursor: 'pointer',
                         userSelect: 'none',
+                        whiteSpace: 'nowrap',
                       }}
                       onClick={() => {
                         if (sortField === 'stage') {
@@ -748,12 +753,13 @@ export default function HrRecruit() {
                     </th>
                     <th
                       style={{
-                        padding: '12px',
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         cursor: 'pointer',
                         userSelect: 'none',
+                        whiteSpace: 'nowrap',
                       }}
                       onClick={() => {
                         if (sortField === 'appliedAt') {
@@ -768,20 +774,22 @@ export default function HrRecruit() {
                     </th>
                     <th
                       style={{
-                        padding: '12px',
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       채용공고
                     </th>
                     <th
                       style={{
-                        padding: '12px',
+                        padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       담당자
@@ -795,20 +803,22 @@ export default function HrRecruit() {
                       style={{ borderBottom: '1px solid #f1f5f9', cursor: 'pointer' }}
                       onClick={() => selectCandidate(candidate)}
                     >
-                      <td style={{ padding: '12px', fontSize: '14px' }}>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                         <div style={{ fontWeight: 500 }}>{candidate.name}</div>
                         {candidate.email && (
-                          <div style={{ fontSize: '12px', color: '#64748b' }}>
-                            {candidate.email}
-                          </div>
+                          <div style={{ fontSize: 12, color: '#64748b' }}>{candidate.email}</div>
                         )}
                       </td>
-                      <td style={{ padding: '12px', fontSize: '14px' }}>{candidate.position}</td>
-                      <td style={{ padding: '12px', fontSize: '14px' }}>{candidate.department}</td>
-                      <td style={{ padding: '12px', fontSize: '14px' }}>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                        {candidate.position}
+                      </td>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                        {candidate.department}
+                      </td>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                         {candidate.experienceYears}년
                       </td>
-                      <td style={{ padding: '12px', fontSize: '14px' }}>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                         <span
                           onClick={(e) => {
                             e.stopPropagation()
@@ -841,8 +851,10 @@ export default function HrRecruit() {
                           <span style={{ fontSize: '8px' }}>▼</span>
                         </span>
                       </td>
-                      <td style={{ padding: '12px', fontSize: '14px' }}>{candidate.appliedAt}</td>
-                      <td style={{ padding: '12px', fontSize: '14px' }}>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                        {candidate.appliedAt}
+                      </td>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                         {candidate.jobPostingId
                           ? (() => {
                               const jobPosting = jobPostings.find(
@@ -851,7 +863,7 @@ export default function HrRecruit() {
                               return jobPosting ? (
                                 <div>
                                   <div style={{ fontWeight: 500 }}>{jobPosting.title}</div>
-                                  <div style={{ fontSize: '12px', color: '#64748b' }}>
+                                  <div style={{ fontSize: 12, color: '#64748b' }}>
                                     {jobPosting.department}
                                   </div>
                                 </div>
@@ -861,7 +873,7 @@ export default function HrRecruit() {
                             })()
                           : '-'}
                       </td>
-                      <td style={{ padding: '12px', fontSize: '14px' }}>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                         {candidate.owner || '-'}
                       </td>
                     </tr>
@@ -1304,11 +1316,12 @@ export default function HrRecruit() {
                 <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
                       width: '40px',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     <input
@@ -1328,91 +1341,100 @@ export default function HrRecruit() {
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     제목
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'center',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     부서
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'center',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     유형
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'center',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     레벨
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'center',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     상태
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'center',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     지원자 수
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     등록일
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     담당자
                   </th>
                   <th
                     style={{
-                      padding: '12px',
+                      padding: '12px 16px',
                       textAlign: 'center',
-                      fontSize: '14px',
+                      fontSize: 13,
                       fontWeight: 600,
                       width: '120px',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     액션
@@ -1422,7 +1444,7 @@ export default function HrRecruit() {
               <tbody>
                 {paginatedJobs.data.map((job) => (
                   <tr key={job.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                    <td style={{ padding: '12px', fontSize: '14px' }}>
+                    <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                       <input
                         type="checkbox"
                         checked={selectedJobs.includes(job.id)}
@@ -1430,14 +1452,28 @@ export default function HrRecruit() {
                         style={{ cursor: 'pointer' }}
                       />
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px' }}>
+                    <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                       <div style={{ fontWeight: 500 }}>{job.title}</div>
-                      <div style={{ fontSize: '12px', color: '#64748b' }}>{job.location}</div>
+                      <div style={{ fontSize: 12, color: '#64748b' }}>{job.location}</div>
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px', textAlign: 'center' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {job.department}
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px', textAlign: 'center' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       <div
                         style={{
                           display: 'flex',
@@ -1480,7 +1516,14 @@ export default function HrRecruit() {
                         })}
                       </div>
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px', textAlign: 'center' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       <div
                         style={{
                           display: 'flex',
@@ -1523,14 +1566,21 @@ export default function HrRecruit() {
                         })}
                       </div>
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px', textAlign: 'center' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       <span
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
                           padding: '2px 8px',
                           borderRadius: 999,
-                          fontSize: '12px',
+                          fontSize: 12,
                           background: getStatusColor(job.status) + '20',
                           color: getStatusColor(job.status),
                           fontWeight: 500,
@@ -1539,7 +1589,14 @@ export default function HrRecruit() {
                         {getStatusLabel(job.status)}
                       </span>
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px', textAlign: 'center' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       <span
                         style={{
                           display: 'inline-flex',
@@ -1550,18 +1607,27 @@ export default function HrRecruit() {
                           borderRadius: '50%',
                           background: '#3b82f6',
                           color: '#fff',
-                          fontSize: '12px',
+                          fontSize: 12,
                           fontWeight: 'bold',
                         }}
                       >
                         {candidates.filter((candidate) => candidate.jobPostingId === job.id).length}
                       </span>
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px' }}>{job.postedAt || '-'}</td>
-                    <td style={{ padding: '12px', fontSize: '14px' }}>
+                    <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                      {job.postedAt || '-'}
+                    </td>
+                    <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                       {job.hiringManager || '-'}
                     </td>
-                    <td style={{ padding: '12px', fontSize: '14px', textAlign: 'center' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       <button
                         onClick={() => openJobEditModal(job)}
                         style={{

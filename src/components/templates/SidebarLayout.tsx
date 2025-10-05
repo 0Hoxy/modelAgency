@@ -48,11 +48,21 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
             : undefined
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <Sidebar />
-      <div style={{ flex: 1, display: 'grid', gridTemplateRows: 'auto 1fr' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <Header menus={menus} />
-        <main style={{ padding: '12px 16px', width: '100%' }}>{children}</main>
+        <main
+          style={{
+            padding: '12px 16px',
+            width: '100%',
+            flex: 1,
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          }}
+        >
+          {children}
+        </main>
       </div>
     </div>
   )

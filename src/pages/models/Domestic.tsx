@@ -776,10 +776,10 @@ export default function ModelsDomestic() {
                       key={h}
                       style={{
                         textAlign: 'left',
-                        padding: '10px 12px',
+                        padding: '12px 16px',
                         borderBottom: '1px solid #e2e8f0',
                         whiteSpace: 'nowrap',
-                        fontSize: 14,
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                       }}
@@ -792,52 +792,164 @@ export default function ModelsDomestic() {
               <tbody>
                 {domesticData?.data?.map((r, idx) => (
                   <tr key={idx} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#0f172a' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#0f172a',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.name}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.gender}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.birth}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.phone}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.agency}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.manager}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.managerPhone}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.address}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.nationality}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.specialty}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.languages}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.instagram}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.youtube}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.tiktok}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.tattoo}
                     </td>
-                    <td style={{ padding: '12px 16px', fontSize: 14, color: '#64748b' }}>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {r.note}
                     </td>
                   </tr>

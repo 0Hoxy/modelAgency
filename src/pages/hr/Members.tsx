@@ -194,7 +194,7 @@ export default function HrMembers() {
                   setQ(e.target.value)
                   setPage(1)
                 }}
-                style={{ padding: '8px 10px', border: '1px solid #e2e8f0', borderRadius: 6 }}
+                style={{ padding: '12px 16px', border: '1px solid #e2e8f0', borderRadius: 6 }}
               />
               <select
                 aria-label="부서"
@@ -203,7 +203,7 @@ export default function HrMembers() {
                   setDept(e.target.value)
                   setPage(1)
                 }}
-                style={{ padding: '8px 10px', border: '1px solid #e2e8f0', borderRadius: 6 }}
+                style={{ padding: '12px 16px', border: '1px solid #e2e8f0', borderRadius: 6 }}
               >
                 <option value="">부서 전체</option>
                 {['기획', '영업', '마케팅', '캐스팅', '인사', '재무', 'IT', '디자인'].map((d) => (
@@ -219,7 +219,7 @@ export default function HrMembers() {
                   setTitle(e.target.value)
                   setPage(1)
                 }}
-                style={{ padding: '8px 10px', border: '1px solid #e2e8f0', borderRadius: 6 }}
+                style={{ padding: '12px 16px', border: '1px solid #e2e8f0', borderRadius: 6 }}
               >
                 <option value="">직급 전체</option>
                 {['사원', '대리', '과장', '팀장', '부장', '이사', '상무', '전무'].map((t) => (
@@ -235,7 +235,7 @@ export default function HrMembers() {
                   setStatus(e.target.value)
                   setPage(1)
                 }}
-                style={{ padding: '8px 10px', border: '1px solid #e2e8f0', borderRadius: 6 }}
+                style={{ padding: '12px 16px', border: '1px solid #e2e8f0', borderRadius: 6 }}
               >
                 <option value="">상태 전체</option>
                 <option value="active">재직</option>
@@ -261,8 +261,12 @@ export default function HrMembers() {
                         key={h}
                         style={{
                           textAlign: 'left',
-                          padding: '10px 12px',
+                          padding: '12px 16px',
                           borderBottom: '1px solid #e2e8f0',
+                          fontSize: 13,
+                          fontWeight: 600,
+                          color: '#374151',
+                          whiteSpace: 'nowrap',
                         }}
                       >
                         {h}
@@ -277,14 +281,24 @@ export default function HrMembers() {
                       style={{ borderBottom: '1px solid #eef2f7', cursor: 'pointer' }}
                       onClick={() => openDrawer(r)}
                     >
-                      <td style={{ padding: '10px 12px' }}>{r.name}</td>
-                      <td style={{ padding: '10px 12px' }}>{r.department}</td>
-                      <td style={{ padding: '10px 12px' }}>{r.title}</td>
-                      <td style={{ padding: '10px 12px' }}>{r.joinedAt}</td>
-                      <td style={{ padding: '10px 12px' }}>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                        {r.name}
+                      </td>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                        {r.department}
+                      </td>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                        {r.title}
+                      </td>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                        {r.joinedAt}
+                      </td>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
                         {r.status === 'active' ? '재직' : r.status === 'leave' ? '휴직' : '퇴사'}
                       </td>
-                      <td style={{ padding: '10px 12px' }}>{r.phone}</td>
+                      <td style={{ padding: '12px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                        {r.phone}
+                      </td>
                     </tr>
                   ))}
                   {data.length === 0 && (
@@ -436,7 +450,7 @@ export default function HrMembers() {
                         onChange={(e) => updateField('name', e.target.value)}
                         disabled={isFieldLocked('name')}
                         style={{
-                          padding: '8px 10px',
+                          padding: '12px 16px',
                           border: '1px solid #e2e8f0',
                           borderRadius: 6,
                         }}
@@ -447,7 +461,7 @@ export default function HrMembers() {
                         onChange={(e) => updateField('email', e.target.value)}
                         disabled={isFieldLocked('email')}
                         style={{
-                          padding: '8px 10px',
+                          padding: '12px 16px',
                           border: '1px solid #e2e8f0',
                           borderRadius: 6,
                         }}
@@ -457,7 +471,7 @@ export default function HrMembers() {
                         onChange={(e) => updateField('department', e.target.value)}
                         disabled={isFieldLocked('department')}
                         style={{
-                          padding: '8px 10px',
+                          padding: '12px 16px',
                           border: '1px solid #e2e8f0',
                           borderRadius: 6,
                         }}
@@ -475,7 +489,7 @@ export default function HrMembers() {
                         onChange={(e) => updateField('title', e.target.value)}
                         disabled={isFieldLocked('title')}
                         style={{
-                          padding: '8px 10px',
+                          padding: '12px 16px',
                           border: '1px solid #e2e8f0',
                           borderRadius: 6,
                         }}
@@ -494,7 +508,7 @@ export default function HrMembers() {
                         onChange={(e) => updateField('joinedAt', e.target.value)}
                         disabled={isFieldLocked('joinedAt')}
                         style={{
-                          padding: '8px 10px',
+                          padding: '12px 16px',
                           border: '1px solid #e2e8f0',
                           borderRadius: 6,
                         }}
@@ -504,7 +518,7 @@ export default function HrMembers() {
                         onChange={(e) => updateField('status', e.target.value as EmployeeStatus)}
                         disabled={isFieldLocked('status')}
                         style={{
-                          padding: '8px 10px',
+                          padding: '12px 16px',
                           border: '1px solid #e2e8f0',
                           borderRadius: 6,
                         }}
@@ -519,7 +533,7 @@ export default function HrMembers() {
                         onChange={(e) => updateField('phone', e.target.value)}
                         disabled={isFieldLocked('phone')}
                         style={{
-                          padding: '8px 10px',
+                          padding: '12px 16px',
                           border: '1px solid #e2e8f0',
                           borderRadius: 6,
                           gridColumn: '1 / span 2',

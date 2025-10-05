@@ -130,22 +130,9 @@ export default function FinanceExpenses() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-end',
           }}
         >
-          <div>
-            <h1
-              style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                margin: 0,
-                marginBottom: 4,
-              }}
-            >
-              지출 관리
-            </h1>
-            <p style={{ color: '#64748b', margin: 0 }}>회사의 모든 지출 내역을 관리합니다</p>
-          </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <button
               onClick={handleExport}
@@ -453,7 +440,7 @@ export default function FinanceExpenses() {
                       onChange={(e) => setSelectedCategory(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: 8,
+                        padding: '12px 16px',
                         border: '1px solid #d1d5db',
                         borderRadius: 6,
                       }}
@@ -483,7 +470,7 @@ export default function FinanceExpenses() {
                       onChange={(e) => setSelectedStatus(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: 8,
+                        padding: '12px 16px',
                         border: '1px solid #d1d5db',
                         borderRadius: 6,
                       }}
@@ -514,7 +501,7 @@ export default function FinanceExpenses() {
                       onChange={(e) => setStartDate(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: 8,
+                        padding: '12px 16px',
                         border: '1px solid #d1d5db',
                         borderRadius: 6,
                       }}
@@ -538,7 +525,7 @@ export default function FinanceExpenses() {
                       onChange={(e) => setEndDate(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: 8,
+                        padding: '12px 16px',
                         border: '1px solid #d1d5db',
                         borderRadius: 6,
                       }}
@@ -608,96 +595,104 @@ export default function FinanceExpenses() {
                 <tr>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     날짜
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     카테고리
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     설명
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     업체
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'right',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     금액
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     결제방법
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     상태
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     승인자
@@ -707,11 +702,13 @@ export default function FinanceExpenses() {
               <tbody>
                 {paginatedData.data.map((expense) => (
                   <tr key={expense.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                    <td style={{ padding: 12, fontSize: 14 }}>{formatDate(expense.date)}</td>
-                    <td style={{ padding: 12, fontSize: 14 }}>
+                    <td style={{ padding: '8px 10px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                      {formatDate(expense.date)}
+                    </td>
+                    <td style={{ padding: '8px 10px', fontSize: 13, whiteSpace: 'nowrap' }}>
                       {categoryLabels[expense.category]}
                     </td>
-                    <td style={{ padding: 12, fontSize: 14 }}>
+                    <td style={{ padding: '8px 10px', fontSize: 13, whiteSpace: 'nowrap' }}>
                       <div>
                         <div style={{ fontWeight: 'medium' }}>{expense.description}</div>
                         {expense.note && (
@@ -727,27 +724,32 @@ export default function FinanceExpenses() {
                         )}
                       </div>
                     </td>
-                    <td style={{ padding: 12, fontSize: 14 }}>{expense.vendor || '-'}</td>
+                    <td style={{ padding: '8px 10px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                      {expense.vendor || '-'}
+                    </td>
                     <td
                       style={{
-                        padding: 12,
-                        fontSize: 14,
+                        padding: '8px 10px',
+                        fontSize: 13,
                         textAlign: 'right',
                         fontWeight: 'medium',
                         color: '#dc2626',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       {formatCurrency(expense.amount)}
                     </td>
-                    <td style={{ padding: 12, fontSize: 14 }}>
+                    <td style={{ padding: '8px 10px', fontSize: 13, whiteSpace: 'nowrap' }}>
                       {paymentMethodLabels[expense.paymentMethod]}
                     </td>
-                    <td style={{ padding: 12, fontSize: 14 }}>
+                    <td style={{ padding: '8px 10px', fontSize: 13, whiteSpace: 'nowrap' }}>
                       <Badge className={statusColors[expense.status]}>
                         {statusLabels[expense.status]}
                       </Badge>
                     </td>
-                    <td style={{ padding: 12, fontSize: 14 }}>{expense.approvedBy || '-'}</td>
+                    <td style={{ padding: '8px 10px', fontSize: 13, whiteSpace: 'nowrap' }}>
+                      {expense.approvedBy || '-'}
+                    </td>
                   </tr>
                 ))}
               </tbody>

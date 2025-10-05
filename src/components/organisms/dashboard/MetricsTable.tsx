@@ -8,13 +8,43 @@ export function MetricsTable({ rows, title }: MetricsTableProps) {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th style={{ textAlign: 'left', padding: 12, borderBottom: '1px solid #e2e8f0' }}>
+            <th
+              style={{
+                textAlign: 'left',
+                padding: '8px 10px',
+                borderBottom: '1px solid #e2e8f0',
+                fontSize: 13,
+                fontWeight: 600,
+                color: '#374151',
+                whiteSpace: 'nowrap',
+              }}
+            >
               지표
             </th>
-            <th style={{ textAlign: 'right', padding: 12, borderBottom: '1px solid #e2e8f0' }}>
+            <th
+              style={{
+                textAlign: 'right',
+                padding: '8px 10px',
+                borderBottom: '1px solid #e2e8f0',
+                fontSize: 13,
+                fontWeight: 600,
+                color: '#374151',
+                whiteSpace: 'nowrap',
+              }}
+            >
               값
             </th>
-            <th style={{ textAlign: 'right', padding: 12, borderBottom: '1px solid #e2e8f0' }}>
+            <th
+              style={{
+                textAlign: 'right',
+                padding: '8px 10px',
+                borderBottom: '1px solid #e2e8f0',
+                fontSize: 13,
+                fontWeight: 600,
+                color: '#374151',
+                whiteSpace: 'nowrap',
+              }}
+            >
               변화
             </th>
           </tr>
@@ -22,16 +52,35 @@ export function MetricsTable({ rows, title }: MetricsTableProps) {
         <tbody>
           {rows.map((r) => (
             <tr key={r.metric}>
-              <td style={{ padding: 12, borderTop: '1px solid #e2e8f0' }}>{r.metric}</td>
-              <td style={{ padding: 12, borderTop: '1px solid #e2e8f0', textAlign: 'right' }}>
+              <td
+                style={{
+                  padding: '8px 10px',
+                  borderTop: '1px solid #e2e8f0',
+                  fontSize: 13,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {r.metric}
+              </td>
+              <td
+                style={{
+                  padding: '8px 10px',
+                  borderTop: '1px solid #e2e8f0',
+                  textAlign: 'right',
+                  fontSize: 13,
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 {r.value}
               </td>
               <td
                 style={{
-                  padding: 12,
+                  padding: '8px 10px',
                   borderTop: '1px solid #e2e8f0',
                   textAlign: 'right',
                   color: '#16a34a',
+                  fontSize: 13,
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {r.change ?? '-'}

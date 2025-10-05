@@ -13,22 +13,9 @@ export default function FinanceIncome() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-end',
           }}
         >
-          <div>
-            <h1
-              style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                margin: 0,
-                marginBottom: 4,
-              }}
-            >
-              수익 관리
-            </h1>
-            <p style={{ color: '#64748b', margin: 0 }}>회사의 모든 수익 내역을 관리합니다</p>
-          </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <button
               style={{
@@ -319,96 +306,104 @@ export default function FinanceIncome() {
                 <tr>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     날짜
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     카테고리
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     설명
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     고객
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '12px 16px',
                       textAlign: 'right',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     금액
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     결제방법
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     상태
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '12px 16px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     송장번호

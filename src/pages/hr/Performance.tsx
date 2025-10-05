@@ -192,218 +192,197 @@ export default function HrPerformance() {
 
   return (
     <SidebarLayout>
-      {/* Summary Cards */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '16px',
-          marginBottom: '24px',
-        }}
-      >
-        <div
-          style={{
-            background: 'white',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            padding: '20px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <BarChart3 size={20} style={{ color: '#3b82f6' }} />
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>총 평가</span>
-          </div>
-          <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
-            {summaryStats.totalReviews}건
-          </div>
-        </div>
-
-        <div
-          style={{
-            background: 'white',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            padding: '20px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <Target size={20} style={{ color: '#10b981' }} />
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>완료율</span>
-          </div>
-          <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
-            {summaryStats.completionRate.toFixed(1)}%
-          </div>
-        </div>
-
-        <div
-          style={{
-            background: 'white',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            padding: '20px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <Star size={20} style={{ color: '#f59e0b' }} />
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>평균 점수</span>
-          </div>
-          <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
-            {summaryStats.averageRating.toFixed(1)}점
-          </div>
-        </div>
-
-        <div
-          style={{
-            background: 'white',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            padding: '20px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <Users size={20} style={{ color: '#8b5cf6' }} />
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>총 목표</span>
-          </div>
-          <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
-            {summaryStats.totalGoals}개
-          </div>
-        </div>
-      </div>
-
-      {/* Tabs */}
       <div
         style={{
           display: 'flex',
-          gap: '8px',
-          marginBottom: '24px',
-          borderBottom: '1px solid #e5e7eb',
+          flexDirection: 'column',
+          height: '100%',
+          overflow: 'hidden',
         }}
       >
-        <button
-          onClick={() => setSelectedTab('reviews')}
+        {/* Summary Cards */}
+        <div
           style={{
-            padding: '12px 24px',
-            border: 'none',
-            background: 'none',
-            borderBottom: selectedTab === 'reviews' ? '2px solid #3b82f6' : '2px solid transparent',
-            color: selectedTab === 'reviews' ? '#3b82f6' : '#6b7280',
-            fontWeight: selectedTab === 'reviews' ? 600 : 400,
-            cursor: 'pointer',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '16px',
+            marginBottom: '24px',
+            flexShrink: 0,
           }}
         >
-          성과 평가
-        </button>
-        <button
-          onClick={() => setSelectedTab('goals')}
-          style={{
-            padding: '12px 24px',
-            border: 'none',
-            background: 'none',
-            borderBottom: selectedTab === 'goals' ? '2px solid #3b82f6' : '2px solid transparent',
-            color: selectedTab === 'goals' ? '#3b82f6' : '#6b7280',
-            fontWeight: selectedTab === 'goals' ? 600 : 400,
-            cursor: 'pointer',
-          }}
-        >
-          목표 관리
-        </button>
-        <button
-          onClick={() => setSelectedTab('feedbacks')}
-          style={{
-            padding: '12px 24px',
-            border: 'none',
-            background: 'none',
-            borderBottom:
-              selectedTab === 'feedbacks' ? '2px solid #3b82f6' : '2px solid transparent',
-            color: selectedTab === 'feedbacks' ? '#3b82f6' : '#6b7280',
-            fontWeight: selectedTab === 'feedbacks' ? 600 : 400,
-            cursor: 'pointer',
-          }}
-        >
-          360도 피드백
-        </button>
-      </div>
-
-      {/* Filters and Actions */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '24px',
-        }}
-      >
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <TextField
-            placeholder="검색..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            leading={<Search size={16} />}
-            style={{ width: '300px' }}
-          />
-
-          <Popover
-            trigger={
-              <button
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  background: 'white',
-                  cursor: 'pointer',
-                }}
-              >
-                <Filter size={16} />
-                필터
-              </button>
-            }
+          <div
+            style={{
+              background: 'white',
+              border: '1px solid #e5e7eb',
+              borderRadius: '8px',
+              padding: '20px',
+            }}
           >
-            <div style={{ padding: '16px', minWidth: '200px' }}>
-              <div style={{ marginBottom: '16px' }}>
-                <label
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}
+            >
+              <BarChart3 size={20} style={{ color: '#3b82f6' }} />
+              <span style={{ fontSize: '14px', color: '#6b7280' }}>총 평가</span>
+            </div>
+            <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
+              {summaryStats.totalReviews}건
+            </div>
+          </div>
+
+          <div
+            style={{
+              background: 'white',
+              border: '1px solid #e5e7eb',
+              borderRadius: '8px',
+              padding: '20px',
+            }}
+          >
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}
+            >
+              <Target size={20} style={{ color: '#10b981' }} />
+              <span style={{ fontSize: '14px', color: '#6b7280' }}>완료율</span>
+            </div>
+            <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
+              {summaryStats.completionRate.toFixed(1)}%
+            </div>
+          </div>
+
+          <div
+            style={{
+              background: 'white',
+              border: '1px solid #e5e7eb',
+              borderRadius: '8px',
+              padding: '20px',
+            }}
+          >
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}
+            >
+              <Star size={20} style={{ color: '#f59e0b' }} />
+              <span style={{ fontSize: '14px', color: '#6b7280' }}>평균 점수</span>
+            </div>
+            <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
+              {summaryStats.averageRating.toFixed(1)}점
+            </div>
+          </div>
+
+          <div
+            style={{
+              background: 'white',
+              border: '1px solid #e5e7eb',
+              borderRadius: '8px',
+              padding: '20px',
+            }}
+          >
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}
+            >
+              <Users size={20} style={{ color: '#8b5cf6' }} />
+              <span style={{ fontSize: '14px', color: '#6b7280' }}>총 목표</span>
+            </div>
+            <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
+              {summaryStats.totalGoals}개
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px',
+            marginBottom: '24px',
+            borderBottom: '1px solid #e5e7eb',
+            flexShrink: 0,
+          }}
+        >
+          <button
+            onClick={() => setSelectedTab('reviews')}
+            style={{
+              padding: '12px 24px',
+              border: 'none',
+              background: 'none',
+              borderBottom:
+                selectedTab === 'reviews' ? '2px solid #3b82f6' : '2px solid transparent',
+              color: selectedTab === 'reviews' ? '#3b82f6' : '#6b7280',
+              fontWeight: selectedTab === 'reviews' ? 600 : 400,
+              cursor: 'pointer',
+            }}
+          >
+            성과 평가
+          </button>
+          <button
+            onClick={() => setSelectedTab('goals')}
+            style={{
+              padding: '12px 24px',
+              border: 'none',
+              background: 'none',
+              borderBottom: selectedTab === 'goals' ? '2px solid #3b82f6' : '2px solid transparent',
+              color: selectedTab === 'goals' ? '#3b82f6' : '#6b7280',
+              fontWeight: selectedTab === 'goals' ? 600 : 400,
+              cursor: 'pointer',
+            }}
+          >
+            목표 관리
+          </button>
+          <button
+            onClick={() => setSelectedTab('feedbacks')}
+            style={{
+              padding: '12px 24px',
+              border: 'none',
+              background: 'none',
+              borderBottom:
+                selectedTab === 'feedbacks' ? '2px solid #3b82f6' : '2px solid transparent',
+              color: selectedTab === 'feedbacks' ? '#3b82f6' : '#6b7280',
+              fontWeight: selectedTab === 'feedbacks' ? 600 : 400,
+              cursor: 'pointer',
+            }}
+          >
+            360도 피드백
+          </button>
+        </div>
+
+        {/* Filters and Actions */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '24px',
+            flexShrink: 0,
+          }}
+        >
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <TextField
+              placeholder="검색..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              leading={<Search size={16} />}
+              style={{ width: '300px' }}
+            />
+
+            <Popover
+              trigger={
+                <button
                   style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    marginBottom: '8px',
-                  }}
-                >
-                  상태
-                </label>
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 16px',
                     border: '1px solid #d1d5db',
                     borderRadius: '6px',
+                    background: 'white',
+                    cursor: 'pointer',
                   }}
                 >
-                  <option value="">전체</option>
-                  {selectedTab === 'reviews' ? (
-                    <>
-                      <option value="draft">초안</option>
-                      <option value="in_progress">진행중</option>
-                      <option value="completed">완료</option>
-                      <option value="cancelled">취소</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="draft">초안</option>
-                      <option value="active">활성</option>
-                      <option value="completed">완료</option>
-                      <option value="cancelled">취소</option>
-                    </>
-                  )}
-                </select>
-              </div>
-
-              {selectedTab === 'reviews' && (
-                <div>
+                  <Filter size={16} />
+                  필터
+                </button>
+              }
+            >
+              <div style={{ padding: '16px', minWidth: '200px' }}>
+                <div style={{ marginBottom: '16px' }}>
                   <label
                     style={{
                       display: 'block',
@@ -412,11 +391,11 @@ export default function HrPerformance() {
                       marginBottom: '8px',
                     }}
                   >
-                    평가 기간
+                    상태
                   </label>
                   <select
-                    value={periodFilter}
-                    onChange={(e) => setPeriodFilter(e.target.value)}
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
                     style={{
                       width: '100%',
                       padding: '8px 12px',
@@ -425,447 +404,622 @@ export default function HrPerformance() {
                     }}
                   >
                     <option value="">전체</option>
-                    <option value="2023-Q4">2023년 4분기</option>
-                    <option value="2024-Q1">2024년 1분기</option>
-                    <option value="2024-Q2">2024년 2분기</option>
-                    <option value="2024-Q3">2024년 3분기</option>
-                    <option value="2024-Q4">2024년 4분기</option>
+                    {selectedTab === 'reviews' ? (
+                      <>
+                        <option value="draft">초안</option>
+                        <option value="in_progress">진행중</option>
+                        <option value="completed">완료</option>
+                        <option value="cancelled">취소</option>
+                      </>
+                    ) : (
+                      <>
+                        <option value="draft">초안</option>
+                        <option value="active">활성</option>
+                        <option value="completed">완료</option>
+                        <option value="cancelled">취소</option>
+                      </>
+                    )}
                   </select>
                 </div>
-              )}
-            </div>
-          </Popover>
-        </div>
 
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
-              border: 'none',
-              background: 'none',
-              color: '#374151',
-              cursor: 'pointer',
-              fontSize: '14px',
-            }}
-          >
-            <Plus size={16} />
-            {selectedTab === 'reviews'
-              ? '평가 생성'
-              : selectedTab === 'goals'
-                ? '목표 설정'
-                : '피드백 요청'}
-          </button>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
-              border: 'none',
-              background: 'none',
-              color: '#374151',
-              cursor: 'pointer',
-              fontSize: '14px',
-            }}
-          >
-            <Upload size={16} />
-            일괄 업로드
-          </button>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
-              border: 'none',
-              background: 'none',
-              color: '#374151',
-              cursor: 'pointer',
-              fontSize: '14px',
-            }}
-          >
-            <Download size={16} />
-            내보내기
-          </button>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div style={{ display: 'flex', gap: '24px', flex: 1, minHeight: 0 }}>
-        {/* List */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-          <div
-            style={{
-              background: 'white',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: 0,
-            }}
-          >
-            {/* Table Header */}
-            <div
-              style={{
-                padding: '16px',
-                borderBottom: '1px solid #e5e7eb',
-                background: '#f9fafb',
-              }}
-            >
-              {selectedTab === 'reviews' ? (
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
-                    gap: '16px',
-                    fontWeight: 600,
-                    fontSize: '14px',
-                  }}
-                >
-                  <div>직원명</div>
-                  <div style={{ textAlign: 'center' }}>부서</div>
-                  <div style={{ textAlign: 'center' }}>평가자</div>
-                  <div style={{ textAlign: 'center' }}>기간</div>
-                  <div style={{ textAlign: 'center' }}>평점</div>
-                </div>
-              ) : selectedTab === 'goals' ? (
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
-                    gap: '16px',
-                    fontWeight: 600,
-                    fontSize: '14px',
-                  }}
-                >
-                  <div>목표명</div>
-                  <div style={{ textAlign: 'center' }}>카테고리</div>
-                  <div style={{ textAlign: 'center' }}>목표값</div>
-                  <div style={{ textAlign: 'center' }}>실제값</div>
-                  <div style={{ textAlign: 'center' }}>진행률</div>
-                </div>
-              ) : (
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
-                    gap: '16px',
-                    fontWeight: 600,
-                    fontSize: '14px',
-                  }}
-                >
-                  <div>피드백 제공자</div>
-                  <div style={{ textAlign: 'center' }}>피드백 대상자</div>
-                  <div style={{ textAlign: 'center' }}>카테고리</div>
-                  <div style={{ textAlign: 'center' }}>평점</div>
-                  <div style={{ textAlign: 'center' }}>제출일</div>
-                </div>
-              )}
-            </div>
-
-            {/* Table Body */}
-            <div style={{ flex: 1, overflow: 'auto' }}>
-              {selectedTab === 'reviews'
-                ? paginatedReviews.data.map((review) => (
-                    <div
-                      key={review.id}
-                      onClick={() => setSelectedReview(review)}
+                {selectedTab === 'reviews' && (
+                  <div>
+                    <label
                       style={{
-                        padding: '16px',
-                        borderBottom: '1px solid #f3f4f6',
-                        cursor: 'pointer',
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
-                        gap: '16px',
-                        alignItems: 'center',
-                        background: selectedReview?.id === review.id ? '#eff6ff' : 'white',
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        marginBottom: '8px',
                       }}
                     >
-                      <div style={{ fontWeight: 500 }}>{review.employeeName}</div>
-                      <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                        {review.department}
-                      </div>
-                      <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                        {review.reviewerName}
-                      </div>
-                      <div style={{ textAlign: 'center', fontSize: '14px' }}>{review.period}</div>
-                      <div
-                        style={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}
-                      >
-                        {getRatingStars(review.overallRating)}
-                      </div>
-                    </div>
-                  ))
-                : selectedTab === 'goals'
-                  ? paginatedGoals.data.map((goal) => (
-                      <div
-                        key={goal.id}
-                        onClick={() => setSelectedGoal(goal)}
-                        style={{
-                          padding: '16px',
-                          borderBottom: '1px solid #f3f4f6',
-                          cursor: 'pointer',
-                          display: 'grid',
-                          gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
-                          gap: '16px',
-                          alignItems: 'center',
-                          background: selectedGoal?.id === goal.id ? '#eff6ff' : 'white',
-                        }}
-                      >
-                        <div>
-                          <div style={{ fontWeight: 500, marginBottom: '4px' }}>{goal.title}</div>
-                          <div style={{ fontSize: '12px', color: '#6b7280' }}>
-                            {goal.description}
-                          </div>
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {getCategoryText(goal.category)}
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {goal.targetValue}
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {goal.actualValue}
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {goal.progress}%
-                        </div>
-                      </div>
-                    ))
-                  : paginatedFeedbacks.data.map((feedback) => (
-                      <div
-                        key={feedback.id}
-                        onClick={() => setSelectedFeedback(feedback)}
-                        style={{
-                          padding: '16px',
-                          borderBottom: '1px solid #f3f4f6',
-                          cursor: 'pointer',
-                          display: 'grid',
-                          gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
-                          gap: '16px',
-                          alignItems: 'center',
-                          background: selectedFeedback?.id === feedback.id ? '#eff6ff' : 'white',
-                        }}
-                      >
-                        <div style={{ fontWeight: 500 }}>{feedback.fromEmployeeName}</div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {feedback.toEmployeeName}
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {feedback.category === 'peer'
-                            ? '동료'
-                            : feedback.category === 'subordinate'
-                              ? '부하직원'
-                              : '자기평가'}
-                        </div>
-                        <div
-                          style={{
-                            textAlign: 'center',
-                            display: 'flex',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          {getRatingStars(feedback.rating)}
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {feedback.submittedAt}
-                        </div>
-                      </div>
-                    ))}
-            </div>
+                      평가 기간
+                    </label>
+                    <select
+                      value={periodFilter}
+                      onChange={(e) => setPeriodFilter(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        border: '1px solid #d1d5db',
+                        borderRadius: '6px',
+                      }}
+                    >
+                      <option value="">전체</option>
+                      <option value="2023-Q4">2023년 4분기</option>
+                      <option value="2024-Q1">2024년 1분기</option>
+                      <option value="2024-Q2">2024년 2분기</option>
+                      <option value="2024-Q3">2024년 3분기</option>
+                      <option value="2024-Q4">2024년 4분기</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+            </Popover>
+          </div>
 
-            {/* Pagination */}
-            <div
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
               style={{
-                padding: '16px',
-                borderTop: '1px solid #e5e7eb',
                 display: 'flex',
-                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                border: 'none',
+                background: 'none',
+                color: '#374151',
+                cursor: 'pointer',
+                fontSize: '14px',
               }}
             >
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <button
-                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                  style={{
-                    padding: '8px 12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    background: 'white',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                    opacity: currentPage === 1 ? 0.5 : 1,
-                  }}
-                >
-                  이전
-                </button>
-
-                <span style={{ padding: '8px 16px', fontSize: '14px' }}>
-                  {currentPage} /{' '}
-                  {selectedTab === 'reviews'
-                    ? paginatedReviews.totalPages
-                    : selectedTab === 'goals'
-                      ? paginatedGoals.totalPages
-                      : paginatedFeedbacks.totalPages}
-                </span>
-
-                <button
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                  disabled={
-                    currentPage >=
-                    (selectedTab === 'reviews'
-                      ? paginatedReviews.totalPages
-                      : selectedTab === 'goals'
-                        ? paginatedGoals.totalPages
-                        : paginatedFeedbacks.totalPages)
-                  }
-                  style={{
-                    padding: '8px 12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    background: 'white',
-                    cursor:
-                      currentPage >=
-                      (selectedTab === 'reviews'
-                        ? paginatedReviews.totalPages
-                        : selectedTab === 'goals'
-                          ? paginatedGoals.totalPages
-                          : paginatedFeedbacks.totalPages)
-                        ? 'not-allowed'
-                        : 'pointer',
-                    opacity:
-                      currentPage >=
-                      (selectedTab === 'reviews'
-                        ? paginatedReviews.totalPages
-                        : selectedTab === 'goals'
-                          ? paginatedGoals.totalPages
-                          : paginatedFeedbacks.totalPages)
-                        ? 0.5
-                        : 1,
-                  }}
-                >
-                  다음
-                </button>
-              </div>
-            </div>
+              <Plus size={16} />
+              {selectedTab === 'reviews'
+                ? '평가 생성'
+                : selectedTab === 'goals'
+                  ? '목표 설정'
+                  : '피드백 요청'}
+            </button>
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                border: 'none',
+                background: 'none',
+                color: '#374151',
+                cursor: 'pointer',
+                fontSize: '14px',
+              }}
+            >
+              <Upload size={16} />
+              일괄 업로드
+            </button>
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                border: 'none',
+                background: 'none',
+                color: '#374151',
+                cursor: 'pointer',
+                fontSize: '14px',
+              }}
+            >
+              <Download size={16} />
+              내보내기
+            </button>
           </div>
         </div>
 
-        {/* Detail Card */}
-        <div style={{ width: '400px', minWidth: '400px' }}>
-          <div
-            style={{
-              background: 'white',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '24px',
-              height: 'fit-content',
-            }}
-          >
-            {selectedTab === 'reviews' ? (
-              selectedReview ? (
-                <div>
-                  <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>
-                    성과 평가 상세
-                  </h3>
+        {/* Content */}
+        <div style={{ display: 'flex', gap: '24px', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+          {/* List */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div
+              style={{
+                background: 'white',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0,
+              }}
+            >
+              {/* Table Header */}
+              <div
+                style={{
+                  padding: '16px',
+                  borderBottom: '1px solid #e5e7eb',
+                  background: '#f9fafb',
+                }}
+              >
+                {selectedTab === 'reviews' ? (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+                      gap: '16px',
+                      fontWeight: 600,
+                      fontSize: 13,
+                    }}
+                  >
+                    <div>직원명</div>
+                    <div style={{ textAlign: 'center' }}>부서</div>
+                    <div style={{ textAlign: 'center' }}>평가자</div>
+                    <div style={{ textAlign: 'center' }}>기간</div>
+                    <div style={{ textAlign: 'center' }}>평점</div>
+                  </div>
+                ) : selectedTab === 'goals' ? (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
+                      gap: '16px',
+                      fontWeight: 600,
+                      fontSize: 13,
+                    }}
+                  >
+                    <div>목표명</div>
+                    <div style={{ textAlign: 'center' }}>카테고리</div>
+                    <div style={{ textAlign: 'center' }}>목표값</div>
+                    <div style={{ textAlign: 'center' }}>실제값</div>
+                    <div style={{ textAlign: 'center' }}>진행률</div>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+                      gap: '16px',
+                      fontWeight: 600,
+                      fontSize: 13,
+                    }}
+                  >
+                    <div>피드백 제공자</div>
+                    <div style={{ textAlign: 'center' }}>피드백 대상자</div>
+                    <div style={{ textAlign: 'center' }}>카테고리</div>
+                    <div style={{ textAlign: 'center' }}>평점</div>
+                    <div style={{ textAlign: 'center' }}>제출일</div>
+                  </div>
+                )}
+              </div>
 
-                  <div style={{ marginBottom: '16px' }}>
-                    <h4
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: 500,
-                        marginBottom: '8px',
-                        color: '#374151',
-                      }}
-                    >
-                      기본 정보
-                    </h4>
-                    <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>직원:</strong> {selectedReview.employeeName}
+              {/* Table Body */}
+              <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
+                <div style={{ overflowX: 'auto' }}>
+                  <div style={{ minWidth: '800px' }}>
+                    {selectedTab === 'reviews'
+                      ? paginatedReviews.data.map((review) => (
+                          <div
+                            key={review.id}
+                            onClick={() => setSelectedReview(review)}
+                            style={{
+                              padding: '16px',
+                              borderBottom: '1px solid #f3f4f6',
+                              cursor: 'pointer',
+                              display: 'grid',
+                              gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+                              gap: '16px',
+                              alignItems: 'center',
+                              background: selectedReview?.id === review.id ? '#eff6ff' : 'white',
+                            }}
+                          >
+                            <div style={{ fontWeight: 500, fontSize: 13, whiteSpace: 'nowrap' }}>
+                              {review.employeeName}
+                            </div>
+                            <div
+                              style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                            >
+                              {review.department}
+                            </div>
+                            <div
+                              style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                            >
+                              {review.reviewerName}
+                            </div>
+                            <div
+                              style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                            >
+                              {review.period}
+                            </div>
+                            <div
+                              style={{
+                                textAlign: 'center',
+                                display: 'flex',
+                                justifyContent: 'center',
+                              }}
+                            >
+                              {getRatingStars(review.overallRating)}
+                            </div>
+                          </div>
+                        ))
+                      : selectedTab === 'goals'
+                        ? paginatedGoals.data.map((goal) => (
+                            <div
+                              key={goal.id}
+                              onClick={() => setSelectedGoal(goal)}
+                              style={{
+                                padding: '16px',
+                                borderBottom: '1px solid #f3f4f6',
+                                cursor: 'pointer',
+                                display: 'grid',
+                                gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
+                                gap: '16px',
+                                alignItems: 'center',
+                                background: selectedGoal?.id === goal.id ? '#eff6ff' : 'white',
+                              }}
+                            >
+                              <div>
+                                <div
+                                  style={{
+                                    fontWeight: 500,
+                                    marginBottom: '4px',
+                                    fontSize: 13,
+                                  }}
+                                >
+                                  {goal.title}
+                                </div>
+                                <div
+                                  style={{
+                                    fontSize: 12,
+                                    color: '#6b7280',
+                                  }}
+                                >
+                                  {goal.description}
+                                </div>
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {getCategoryText(goal.category)}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {goal.targetValue}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {goal.actualValue}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {goal.progress}%
+                              </div>
+                            </div>
+                          ))
+                        : paginatedFeedbacks.data.map((feedback) => (
+                            <div
+                              key={feedback.id}
+                              onClick={() => setSelectedFeedback(feedback)}
+                              style={{
+                                padding: '16px',
+                                borderBottom: '1px solid #f3f4f6',
+                                cursor: 'pointer',
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+                                gap: '16px',
+                                alignItems: 'center',
+                                background:
+                                  selectedFeedback?.id === feedback.id ? '#eff6ff' : 'white',
+                              }}
+                            >
+                              <div style={{ fontWeight: 500, fontSize: 13, whiteSpace: 'nowrap' }}>
+                                {feedback.fromEmployeeName}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {feedback.toEmployeeName}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {feedback.category === 'peer'
+                                  ? '동료'
+                                  : feedback.category === 'subordinate'
+                                    ? '부하직원'
+                                    : '자기평가'}
+                              </div>
+                              <div
+                                style={{
+                                  textAlign: 'center',
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                {getRatingStars(feedback.rating)}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {feedback.submittedAt}
+                              </div>
+                            </div>
+                          ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Pagination */}
+              <div
+                style={{
+                  padding: '16px',
+                  borderTop: '1px solid #e5e7eb',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <button
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    style={{
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      background: 'white',
+                      cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                      opacity: currentPage === 1 ? 0.5 : 1,
+                    }}
+                  >
+                    이전
+                  </button>
+
+                  <span style={{ padding: '8px 16px', fontSize: '14px' }}>
+                    {currentPage} /{' '}
+                    {selectedTab === 'reviews'
+                      ? paginatedReviews.totalPages
+                      : selectedTab === 'goals'
+                        ? paginatedGoals.totalPages
+                        : paginatedFeedbacks.totalPages}
+                  </span>
+
+                  <button
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                    disabled={
+                      currentPage >=
+                      (selectedTab === 'reviews'
+                        ? paginatedReviews.totalPages
+                        : selectedTab === 'goals'
+                          ? paginatedGoals.totalPages
+                          : paginatedFeedbacks.totalPages)
+                    }
+                    style={{
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      background: 'white',
+                      cursor:
+                        currentPage >=
+                        (selectedTab === 'reviews'
+                          ? paginatedReviews.totalPages
+                          : selectedTab === 'goals'
+                            ? paginatedGoals.totalPages
+                            : paginatedFeedbacks.totalPages)
+                          ? 'not-allowed'
+                          : 'pointer',
+                      opacity:
+                        currentPage >=
+                        (selectedTab === 'reviews'
+                          ? paginatedReviews.totalPages
+                          : selectedTab === 'goals'
+                            ? paginatedGoals.totalPages
+                            : paginatedFeedbacks.totalPages)
+                          ? 0.5
+                          : 1,
+                    }}
+                  >
+                    다음
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Detail Card */}
+          <div style={{ width: '400px', minWidth: '400px' }}>
+            <div
+              style={{
+                background: 'white',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                padding: '24px',
+                height: 'fit-content',
+              }}
+            >
+              {selectedTab === 'reviews' ? (
+                selectedReview ? (
+                  <div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>
+                      성과 평가 상세
+                    </h3>
+
+                    <div style={{ marginBottom: '16px' }}>
+                      <h4
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          marginBottom: '8px',
+                          color: '#374151',
+                        }}
+                      >
+                        기본 정보
+                      </h4>
+                      <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>직원:</strong> {selectedReview.employeeName}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>부서:</strong> {selectedReview.department}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>평가자:</strong> {selectedReview.reviewerName}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>평가 기간:</strong> {selectedReview.period}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>평점:</strong> {selectedReview.overallRating}/5
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>상태:</strong>{' '}
+                          <span
+                            className={getStatusColor(selectedReview.status)}
+                            style={{
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontSize: '12px',
+                            }}
+                          >
+                            {getStatusText(selectedReview.status)}
+                          </span>
+                        </div>
                       </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>부서:</strong> {selectedReview.department}
+                    </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                      <h4
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          marginBottom: '8px',
+                          color: '#374151',
+                        }}
+                      >
+                        강점
+                      </h4>
+                      <div style={{ fontSize: '14px' }}>
+                        {selectedReview.strengths.map((strength: string, index: number) => (
+                          <div key={index} style={{ marginBottom: '4px' }}>
+                            • {strength}
+                          </div>
+                        ))}
                       </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>평가자:</strong> {selectedReview.reviewerName}
+                    </div>
+
+                    <div>
+                      <h4
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          marginBottom: '8px',
+                          color: '#374151',
+                        }}
+                      >
+                        개선사항
+                      </h4>
+                      <div style={{ fontSize: '14px' }}>
+                        {selectedReview.improvements.map((improvement: string, index: number) => (
+                          <div key={index} style={{ marginBottom: '4px' }}>
+                            • {improvement}
+                          </div>
+                        ))}
                       </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>평가 기간:</strong> {selectedReview.period}
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
+                    <BarChart3 size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                    <p>성과 평가를 선택하세요</p>
+                  </div>
+                )
+              ) : selectedTab === 'goals' ? (
+                selectedGoal ? (
+                  <div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>
+                      목표 상세
+                    </h3>
+
+                    <div style={{ marginBottom: '16px' }}>
+                      <h4
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          marginBottom: '8px',
+                          color: '#374151',
+                        }}
+                      >
+                        기본 정보
+                      </h4>
+                      <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>목표명:</strong> {selectedGoal.title}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>설명:</strong> {selectedGoal.description}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>카테고리:</strong> {getCategoryText(selectedGoal.category)}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>목표값:</strong> {selectedGoal.targetValue}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>실제값:</strong> {selectedGoal.actualValue}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>가중치:</strong> {selectedGoal.weight}%
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>진행률:</strong> {selectedGoal.progress}%
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>기간:</strong> {selectedGoal.startDate} ~ {selectedGoal.endDate}
+                        </div>
                       </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>평점:</strong> {selectedReview.overallRating}/5
-                      </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>상태:</strong>{' '}
-                        <span
-                          className={getStatusColor(selectedReview.status)}
+                    </div>
+
+                    <div>
+                      <h4
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          marginBottom: '8px',
+                          color: '#374151',
+                        }}
+                      >
+                        진행률
+                      </h4>
+                      <div
+                        style={{
+                          width: '100%',
+                          height: '8px',
+                          background: '#e5e7eb',
+                          borderRadius: '4px',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <div
                           style={{
-                            padding: '2px 6px',
-                            borderRadius: '4px',
-                            fontSize: '12px',
+                            width: `${selectedGoal.progress}%`,
+                            height: '100%',
+                            background:
+                              selectedGoal.progress > 80
+                                ? '#10b981'
+                                : selectedGoal.progress > 60
+                                  ? '#f59e0b'
+                                  : '#3b82f6',
                           }}
-                        >
-                          {getStatusText(selectedReview.status)}
-                        </span>
+                        />
                       </div>
                     </div>
                   </div>
-
-                  <div style={{ marginBottom: '16px' }}>
-                    <h4
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: 500,
-                        marginBottom: '8px',
-                        color: '#374151',
-                      }}
-                    >
-                      강점
-                    </h4>
-                    <div style={{ fontSize: '14px' }}>
-                      {selectedReview.strengths.map((strength: string, index: number) => (
-                        <div key={index} style={{ marginBottom: '4px' }}>
-                          • {strength}
-                        </div>
-                      ))}
-                    </div>
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
+                    <Target size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                    <p>목표를 선택하세요</p>
                   </div>
-
-                  <div>
-                    <h4
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: 500,
-                        marginBottom: '8px',
-                        color: '#374151',
-                      }}
-                    >
-                      개선사항
-                    </h4>
-                    <div style={{ fontSize: '14px' }}>
-                      {selectedReview.improvements.map((improvement: string, index: number) => (
-                        <div key={index} style={{ marginBottom: '4px' }}>
-                          • {improvement}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
-                  <BarChart3 size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
-                  <p>성과 평가를 선택하세요</p>
-                </div>
-              )
-            ) : selectedTab === 'goals' ? (
-              selectedGoal ? (
+                )
+              ) : selectedFeedback ? (
                 <div>
                   <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>
-                    목표 상세
+                    피드백 상세
                   </h3>
 
                   <div style={{ marginBottom: '16px' }}>
@@ -881,28 +1035,24 @@ export default function HrPerformance() {
                     </h4>
                     <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>목표명:</strong> {selectedGoal.title}
+                        <strong>피드백 제공자:</strong> {selectedFeedback.fromEmployeeName}
                       </div>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>설명:</strong> {selectedGoal.description}
+                        <strong>피드백 대상자:</strong> {selectedFeedback.toEmployeeName}
                       </div>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>카테고리:</strong> {getCategoryText(selectedGoal.category)}
+                        <strong>카테고리:</strong>{' '}
+                        {selectedFeedback.category === 'peer'
+                          ? '동료'
+                          : selectedFeedback.category === 'subordinate'
+                            ? '부하직원'
+                            : '자기평가'}
                       </div>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>목표값:</strong> {selectedGoal.targetValue}
+                        <strong>평점:</strong> {selectedFeedback.rating}/5
                       </div>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>실제값:</strong> {selectedGoal.actualValue}
-                      </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>가중치:</strong> {selectedGoal.weight}%
-                      </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>진행률:</strong> {selectedGoal.progress}%
-                      </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>기간:</strong> {selectedGoal.startDate} ~ {selectedGoal.endDate}
+                        <strong>제출일:</strong> {selectedFeedback.submittedAt}
                       </div>
                     </div>
                   </div>
@@ -916,109 +1066,28 @@ export default function HrPerformance() {
                         color: '#374151',
                       }}
                     >
-                      진행률
+                      피드백 내용
                     </h4>
                     <div
                       style={{
-                        width: '100%',
-                        height: '8px',
-                        background: '#e5e7eb',
-                        borderRadius: '4px',
-                        overflow: 'hidden',
+                        fontSize: '14px',
+                        padding: '12px',
+                        background: '#f9fafb',
+                        borderRadius: '6px',
+                        border: '1px solid #e5e7eb',
                       }}
                     >
-                      <div
-                        style={{
-                          width: `${selectedGoal.progress}%`,
-                          height: '100%',
-                          background:
-                            selectedGoal.progress > 80
-                              ? '#10b981'
-                              : selectedGoal.progress > 60
-                                ? '#f59e0b'
-                                : '#3b82f6',
-                        }}
-                      />
+                      {selectedFeedback.feedback}
                     </div>
                   </div>
                 </div>
               ) : (
                 <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
-                  <Target size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
-                  <p>목표를 선택하세요</p>
+                  <Users size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                  <p>피드백을 선택하세요</p>
                 </div>
-              )
-            ) : selectedFeedback ? (
-              <div>
-                <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>
-                  피드백 상세
-                </h3>
-
-                <div style={{ marginBottom: '16px' }}>
-                  <h4
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      marginBottom: '8px',
-                      color: '#374151',
-                    }}
-                  >
-                    기본 정보
-                  </h4>
-                  <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>피드백 제공자:</strong> {selectedFeedback.fromEmployeeName}
-                    </div>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>피드백 대상자:</strong> {selectedFeedback.toEmployeeName}
-                    </div>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>카테고리:</strong>{' '}
-                      {selectedFeedback.category === 'peer'
-                        ? '동료'
-                        : selectedFeedback.category === 'subordinate'
-                          ? '부하직원'
-                          : '자기평가'}
-                    </div>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>평점:</strong> {selectedFeedback.rating}/5
-                    </div>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>제출일:</strong> {selectedFeedback.submittedAt}
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h4
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      marginBottom: '8px',
-                      color: '#374151',
-                    }}
-                  >
-                    피드백 내용
-                  </h4>
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      padding: '12px',
-                      background: '#f9fafb',
-                      borderRadius: '6px',
-                      border: '1px solid #e5e7eb',
-                    }}
-                  >
-                    {selectedFeedback.feedback}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
-                <Users size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
-                <p>피드백을 선택하세요</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

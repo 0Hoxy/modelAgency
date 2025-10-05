@@ -491,10 +491,11 @@ export default function HrPayroll() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       직원명
@@ -503,10 +504,11 @@ export default function HrPayroll() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'left',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       부서
@@ -515,10 +517,11 @@ export default function HrPayroll() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       지급월
@@ -527,10 +530,11 @@ export default function HrPayroll() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'right',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       지급액
@@ -539,10 +543,11 @@ export default function HrPayroll() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'right',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       공제액
@@ -551,10 +556,11 @@ export default function HrPayroll() {
                       style={{
                         padding: '12px 16px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: 13,
                         fontWeight: 600,
                         color: '#374151',
                         borderBottom: '1px solid #e2e8f0',
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       상태
@@ -566,18 +572,33 @@ export default function HrPayroll() {
                     const employee = employees.find((emp) => emp.id === item.employeeId)
                     return (
                       <tr key={item.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                        <td style={{ padding: '12px 16px', fontSize: '14px', color: '#1e293b' }}>
+                        <td
+                          style={{
+                            padding: '12px 16px',
+                            fontSize: 13,
+                            color: '#1e293b',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {employee?.name || 'Unknown'}
                         </td>
-                        <td style={{ padding: '12px 16px', fontSize: '14px', color: '#64748b' }}>
+                        <td
+                          style={{
+                            padding: '12px 16px',
+                            fontSize: 13,
+                            color: '#64748b',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {item.department}
                         </td>
                         <td
                           style={{
                             padding: '12px 16px',
-                            fontSize: '14px',
+                            fontSize: 13,
                             color: '#64748b',
                             textAlign: 'center',
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {item.month}
@@ -585,10 +606,11 @@ export default function HrPayroll() {
                         <td
                           style={{
                             padding: '12px 16px',
-                            fontSize: '14px',
+                            fontSize: 13,
                             color: '#1e293b',
                             textAlign: 'right',
                             fontWeight: 500,
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {formatCurrency(item.amount)}
@@ -596,14 +618,21 @@ export default function HrPayroll() {
                         <td
                           style={{
                             padding: '12px 16px',
-                            fontSize: '14px',
+                            fontSize: 13,
                             color: '#64748b',
                             textAlign: 'right',
+                            whiteSpace: 'nowrap',
                           }}
                         >
                           {formatCurrency(item.deduction)}
                         </td>
-                        <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                        <td
+                          style={{
+                            padding: '12px 16px',
+                            textAlign: 'center',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {getStatusBadge(item.status)}
                         </td>
                       </tr>

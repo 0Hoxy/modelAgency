@@ -149,126 +149,96 @@ export default function HrTraining() {
 
   return (
     <SidebarLayout>
-      {/* Tabs */}
       <div
         style={{
           display: 'flex',
-          gap: '8px',
-          marginBottom: '24px',
-          borderBottom: '1px solid #e5e7eb',
+          flexDirection: 'column',
+          height: '100%',
+          overflow: 'hidden',
         }}
       >
-        <button
-          onClick={() => setSelectedTab('courses')}
+        {/* Tabs */}
+        <div
           style={{
-            padding: '12px 24px',
-            border: 'none',
-            background: 'none',
-            borderBottom: selectedTab === 'courses' ? '2px solid #3b82f6' : '2px solid transparent',
-            color: selectedTab === 'courses' ? '#3b82f6' : '#6b7280',
-            fontWeight: selectedTab === 'courses' ? 600 : 400,
-            cursor: 'pointer',
+            display: 'flex',
+            gap: '8px',
+            marginBottom: '24px',
+            borderBottom: '1px solid #e5e7eb',
+            flexShrink: 0,
           }}
         >
-          교육 과정
-        </button>
-        <button
-          onClick={() => setSelectedTab('enrollments')}
-          style={{
-            padding: '12px 24px',
-            border: 'none',
-            background: 'none',
-            borderBottom:
-              selectedTab === 'enrollments' ? '2px solid #3b82f6' : '2px solid transparent',
-            color: selectedTab === 'enrollments' ? '#3b82f6' : '#6b7280',
-            fontWeight: selectedTab === 'enrollments' ? 600 : 400,
-            cursor: 'pointer',
-          }}
-        >
-          수강 현황
-        </button>
-      </div>
-
-      {/* Filters and Actions */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '24px',
-        }}
-      >
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <TextField
-            placeholder="검색..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            leading={<Search size={16} />}
-            style={{ width: '300px' }}
-          />
-
-          <Popover
-            trigger={
-              <button
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  background: 'white',
-                  cursor: 'pointer',
-                }}
-              >
-                <Filter size={16} />
-                필터
-              </button>
-            }
+          <button
+            onClick={() => setSelectedTab('courses')}
+            style={{
+              padding: '12px 24px',
+              border: 'none',
+              background: 'none',
+              borderBottom:
+                selectedTab === 'courses' ? '2px solid #3b82f6' : '2px solid transparent',
+              color: selectedTab === 'courses' ? '#3b82f6' : '#6b7280',
+              fontWeight: selectedTab === 'courses' ? 600 : 400,
+              cursor: 'pointer',
+            }}
           >
-            <div style={{ padding: '16px', minWidth: '200px' }}>
-              <div style={{ marginBottom: '16px' }}>
-                <label
+            교육 과정
+          </button>
+          <button
+            onClick={() => setSelectedTab('enrollments')}
+            style={{
+              padding: '12px 24px',
+              border: 'none',
+              background: 'none',
+              borderBottom:
+                selectedTab === 'enrollments' ? '2px solid #3b82f6' : '2px solid transparent',
+              color: selectedTab === 'enrollments' ? '#3b82f6' : '#6b7280',
+              fontWeight: selectedTab === 'enrollments' ? 600 : 400,
+              cursor: 'pointer',
+            }}
+          >
+            수강 현황
+          </button>
+        </div>
+
+        {/* Filters and Actions */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '24px',
+            flexShrink: 0,
+          }}
+        >
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <TextField
+              placeholder="검색..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              leading={<Search size={16} />}
+              style={{ width: '300px' }}
+            />
+
+            <Popover
+              trigger={
+                <button
                   style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    marginBottom: '8px',
-                  }}
-                >
-                  상태
-                </label>
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 16px',
                     border: '1px solid #d1d5db',
                     borderRadius: '6px',
+                    background: 'white',
+                    cursor: 'pointer',
                   }}
                 >
-                  <option value="">전체</option>
-                  {selectedTab === 'courses' ? (
-                    <>
-                      <option value="draft">초안</option>
-                      <option value="active">진행중</option>
-                      <option value="completed">완료</option>
-                      <option value="cancelled">취소</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="enrolled">수강신청</option>
-                      <option value="in_progress">수강중</option>
-                      <option value="completed">완료</option>
-                      <option value="dropped">중도포기</option>
-                    </>
-                  )}
-                </select>
-              </div>
-
-              {selectedTab === 'courses' && (
-                <div>
+                  <Filter size={16} />
+                  필터
+                </button>
+              }
+            >
+              <div style={{ padding: '16px', minWidth: '200px' }}>
+                <div style={{ marginBottom: '16px' }}>
                   <label
                     style={{
                       display: 'block',
@@ -277,11 +247,11 @@ export default function HrTraining() {
                       marginBottom: '8px',
                     }}
                   >
-                    카테고리
+                    상태
                   </label>
                   <select
-                    value={categoryFilter}
-                    onChange={(e) => setCategoryFilter(e.target.value)}
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
                     style={{
                       width: '100%',
                       padding: '8px 12px',
@@ -290,319 +260,492 @@ export default function HrTraining() {
                     }}
                   >
                     <option value="">전체</option>
-                    <option value="technical">기술교육</option>
-                    <option value="leadership">리더십</option>
-                    <option value="compliance">준수교육</option>
-                    <option value="soft-skills">소프트스킬</option>
+                    {selectedTab === 'courses' ? (
+                      <>
+                        <option value="draft">초안</option>
+                        <option value="active">진행중</option>
+                        <option value="completed">완료</option>
+                        <option value="cancelled">취소</option>
+                      </>
+                    ) : (
+                      <>
+                        <option value="enrolled">수강신청</option>
+                        <option value="in_progress">수강중</option>
+                        <option value="completed">완료</option>
+                        <option value="dropped">중도포기</option>
+                      </>
+                    )}
                   </select>
                 </div>
-              )}
-            </div>
-          </Popover>
-        </div>
 
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
-              border: 'none',
-              background: 'none',
-              color: '#374151',
-              cursor: 'pointer',
-              fontSize: '14px',
-            }}
-          >
-            <Plus size={16} />
-            {selectedTab === 'courses' ? '교육과정 등록' : '수강신청'}
-          </button>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
-              border: 'none',
-              background: 'none',
-              color: '#374151',
-              cursor: 'pointer',
-              fontSize: '14px',
-            }}
-          >
-            <Upload size={16} />
-            일괄 업로드
-          </button>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
-              border: 'none',
-              background: 'none',
-              color: '#374151',
-              cursor: 'pointer',
-              fontSize: '14px',
-            }}
-          >
-            <Download size={16} />
-            내보내기
-          </button>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div style={{ display: 'flex', gap: '24px', flex: 1, minHeight: 0 }}>
-        {/* List */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-          <div
-            style={{
-              background: 'white',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: 0,
-            }}
-          >
-            {/* Table Header */}
-            <div
-              style={{
-                padding: '16px',
-                borderBottom: '1px solid #e5e7eb',
-                background: '#f9fafb',
-              }}
-            >
-              {selectedTab === 'courses' ? (
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
-                    gap: '16px',
-                    fontWeight: 600,
-                    fontSize: '14px',
-                  }}
-                >
-                  <div>교육과정명</div>
-                  <div style={{ textAlign: 'center' }}>카테고리</div>
-                  <div style={{ textAlign: 'center' }}>강사</div>
-                  <div style={{ textAlign: 'center' }}>기간</div>
-                  <div style={{ textAlign: 'center' }}>상태</div>
-                </div>
-              ) : (
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
-                    gap: '16px',
-                    fontWeight: 600,
-                    fontSize: '14px',
-                  }}
-                >
-                  <div>이름</div>
-                  <div style={{ textAlign: 'center' }}>부서</div>
-                  <div style={{ textAlign: 'center' }}>교육과정</div>
-                  <div style={{ textAlign: 'center' }}>신청일</div>
-                  <div style={{ textAlign: 'center' }}>상태</div>
-                  <div style={{ textAlign: 'center' }}>점수</div>
-                </div>
-              )}
-            </div>
-
-            {/* Table Body */}
-            <div style={{ flex: 1, overflow: 'auto' }}>
-              {selectedTab === 'courses'
-                ? paginatedCourses.data.map((course) => (
-                    <div
-                      key={course.id}
-                      onClick={() => setSelectedCourse(course)}
+                {selectedTab === 'courses' && (
+                  <div>
+                    <label
                       style={{
-                        padding: '16px',
-                        borderBottom: '1px solid #f3f4f6',
-                        cursor: 'pointer',
-                        display: 'grid',
-                        gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
-                        gap: '16px',
-                        alignItems: 'center',
-                        background: selectedCourse?.id === course.id ? '#eff6ff' : 'white',
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        marginBottom: '8px',
                       }}
                     >
-                      <div>
-                        <div style={{ fontWeight: 500, marginBottom: '4px' }}>{course.title}</div>
-                        <div style={{ fontSize: '12px', color: '#6b7280' }}>
-                          {course.description}
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'center' }}>
-                        <span
-                          className={getCategoryColor(course.category)}
-                          style={{
-                            padding: '4px 8px',
-                            borderRadius: '12px',
-                            fontSize: '12px',
-                            fontWeight: 500,
-                          }}
-                        >
-                          {getCategoryText(course.category)}
-                        </span>
-                      </div>
-                      <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                        {course.instructor}
-                      </div>
-                      <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                        {course.startDate} ~ {course.endDate}
-                      </div>
-                      <div style={{ textAlign: 'center' }}>
-                        <span
-                          className={getStatusColor(course.status)}
-                          style={{
-                            padding: '4px 8px',
-                            borderRadius: '12px',
-                            fontSize: '12px',
-                            fontWeight: 500,
-                          }}
-                        >
-                          {getStatusText(course.status)}
-                        </span>
-                      </div>
-                    </div>
-                  ))
-                : paginatedEnrollments.data.map((enrollment) => {
-                    const course = courses.find((c) => c.id === enrollment.courseId)
-                    return (
-                      <div
-                        key={enrollment.id}
-                        onClick={() => setSelectedEnrollment(enrollment)}
-                        style={{
-                          padding: '16px',
-                          borderBottom: '1px solid #f3f4f6',
-                          cursor: 'pointer',
-                          display: 'grid',
-                          gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
-                          gap: '16px',
-                          alignItems: 'center',
-                          background:
-                            selectedEnrollment?.id === enrollment.id ? '#eff6ff' : 'white',
-                        }}
-                      >
-                        <div style={{ fontWeight: 500 }}>{enrollment.employeeName}</div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {enrollment.department}
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {course?.title || 'N/A'}
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {enrollment.enrolledAt}
-                        </div>
-                        <div style={{ textAlign: 'center' }}>
-                          <span
-                            className={getStatusColor(enrollment.status)}
-                            style={{
-                              padding: '4px 8px',
-                              borderRadius: '12px',
-                              fontSize: '12px',
-                              fontWeight: 500,
-                            }}
-                          >
-                            {getStatusText(enrollment.status)}
-                          </span>
-                        </div>
-                        <div style={{ textAlign: 'center', fontSize: '14px' }}>
-                          {enrollment.score ? `${enrollment.score}점` : '-'}
-                        </div>
-                      </div>
-                    )
-                  })}
-            </div>
+                      카테고리
+                    </label>
+                    <select
+                      value={categoryFilter}
+                      onChange={(e) => setCategoryFilter(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        border: '1px solid #d1d5db',
+                        borderRadius: '6px',
+                      }}
+                    >
+                      <option value="">전체</option>
+                      <option value="technical">기술교육</option>
+                      <option value="leadership">리더십</option>
+                      <option value="compliance">준수교육</option>
+                      <option value="soft-skills">소프트스킬</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+            </Popover>
+          </div>
 
-            {/* Pagination */}
-            <div
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
               style={{
-                padding: '16px',
-                borderTop: '1px solid #e5e7eb',
                 display: 'flex',
-                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                border: 'none',
+                background: 'none',
+                color: '#374151',
+                cursor: 'pointer',
+                fontSize: '14px',
               }}
             >
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <button
-                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                  style={{
-                    padding: '8px 12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    background: 'white',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                    opacity: currentPage === 1 ? 0.5 : 1,
-                  }}
-                >
-                  이전
-                </button>
-
-                <span style={{ padding: '8px 16px', fontSize: '14px' }}>
-                  {currentPage} /{' '}
-                  {selectedTab === 'courses'
-                    ? paginatedCourses.totalPages
-                    : paginatedEnrollments.totalPages}
-                </span>
-
-                <button
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                  disabled={
-                    currentPage >=
-                    (selectedTab === 'courses'
-                      ? paginatedCourses.totalPages
-                      : paginatedEnrollments.totalPages)
-                  }
-                  style={{
-                    padding: '8px 12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    background: 'white',
-                    cursor:
-                      currentPage >=
-                      (selectedTab === 'courses'
-                        ? paginatedCourses.totalPages
-                        : paginatedEnrollments.totalPages)
-                        ? 'not-allowed'
-                        : 'pointer',
-                    opacity:
-                      currentPage >=
-                      (selectedTab === 'courses'
-                        ? paginatedCourses.totalPages
-                        : paginatedEnrollments.totalPages)
-                        ? 0.5
-                        : 1,
-                  }}
-                >
-                  다음
-                </button>
-              </div>
-            </div>
+              <Plus size={16} />
+              {selectedTab === 'courses' ? '교육과정 등록' : '수강신청'}
+            </button>
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                border: 'none',
+                background: 'none',
+                color: '#374151',
+                cursor: 'pointer',
+                fontSize: '14px',
+              }}
+            >
+              <Upload size={16} />
+              일괄 업로드
+            </button>
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                border: 'none',
+                background: 'none',
+                color: '#374151',
+                cursor: 'pointer',
+                fontSize: '14px',
+              }}
+            >
+              <Download size={16} />
+              내보내기
+            </button>
           </div>
         </div>
 
-        {/* Detail Card */}
-        <div style={{ width: '400px', minWidth: '400px' }}>
-          <div
-            style={{
-              background: 'white',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '24px',
-              height: 'fit-content',
-            }}
-          >
-            {selectedTab === 'courses' ? (
-              selectedCourse ? (
+        {/* Content */}
+        <div style={{ display: 'flex', gap: '24px', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+          {/* List */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div
+              style={{
+                background: 'white',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0,
+              }}
+            >
+              {/* Table Header */}
+              <div
+                style={{
+                  padding: '16px',
+                  borderBottom: '1px solid #e5e7eb',
+                  background: '#f9fafb',
+                }}
+              >
+                {selectedTab === 'courses' ? (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
+                      gap: '16px',
+                      fontWeight: 600,
+                      fontSize: 13,
+                    }}
+                  >
+                    <div>교육과정명</div>
+                    <div style={{ textAlign: 'center' }}>카테고리</div>
+                    <div style={{ textAlign: 'center' }}>강사</div>
+                    <div style={{ textAlign: 'center' }}>기간</div>
+                    <div style={{ textAlign: 'center' }}>상태</div>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
+                      gap: '16px',
+                      fontWeight: 600,
+                      fontSize: 13,
+                    }}
+                  >
+                    <div>이름</div>
+                    <div style={{ textAlign: 'center' }}>부서</div>
+                    <div style={{ textAlign: 'center' }}>교육과정</div>
+                    <div style={{ textAlign: 'center' }}>신청일</div>
+                    <div style={{ textAlign: 'center' }}>상태</div>
+                    <div style={{ textAlign: 'center' }}>점수</div>
+                  </div>
+                )}
+              </div>
+
+              {/* Table Body */}
+              <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
+                <div style={{ overflowX: 'auto' }}>
+                  <div style={{ minWidth: '800px' }}>
+                    {selectedTab === 'courses'
+                      ? paginatedCourses.data.map((course) => (
+                          <div
+                            key={course.id}
+                            onClick={() => setSelectedCourse(course)}
+                            style={{
+                              padding: '16px',
+                              borderBottom: '1px solid #f3f4f6',
+                              cursor: 'pointer',
+                              display: 'grid',
+                              gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
+                              gap: '16px',
+                              alignItems: 'center',
+                              background: selectedCourse?.id === course.id ? '#eff6ff' : 'white',
+                            }}
+                          >
+                            <div>
+                              <div
+                                style={{
+                                  fontWeight: 500,
+                                  marginBottom: '4px',
+                                  fontSize: 13,
+                                }}
+                              >
+                                {course.title}
+                              </div>
+                              <div
+                                style={{
+                                  fontSize: 12,
+                                  color: '#6b7280',
+                                }}
+                              >
+                                {course.description}
+                              </div>
+                            </div>
+                            <div style={{ textAlign: 'center' }}>
+                              <span
+                                className={getCategoryColor(course.category)}
+                                style={{
+                                  padding: '4px 8px',
+                                  borderRadius: '12px',
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {getCategoryText(course.category)}
+                              </span>
+                            </div>
+                            <div
+                              style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                            >
+                              {course.instructor}
+                            </div>
+                            <div
+                              style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                            >
+                              {course.startDate} ~ {course.endDate}
+                            </div>
+                            <div style={{ textAlign: 'center' }}>
+                              <span
+                                className={getStatusColor(course.status)}
+                                style={{
+                                  padding: '4px 8px',
+                                  borderRadius: '12px',
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {getStatusText(course.status)}
+                              </span>
+                            </div>
+                          </div>
+                        ))
+                      : paginatedEnrollments.data.map((enrollment) => {
+                          const course = courses.find((c) => c.id === enrollment.courseId)
+                          return (
+                            <div
+                              key={enrollment.id}
+                              onClick={() => setSelectedEnrollment(enrollment)}
+                              style={{
+                                padding: '16px',
+                                borderBottom: '1px solid #f3f4f6',
+                                cursor: 'pointer',
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
+                                gap: '16px',
+                                alignItems: 'center',
+                                background:
+                                  selectedEnrollment?.id === enrollment.id ? '#eff6ff' : 'white',
+                              }}
+                            >
+                              <div style={{ fontWeight: 500, fontSize: 13, whiteSpace: 'nowrap' }}>
+                                {enrollment.employeeName}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {enrollment.department}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {course?.title || 'N/A'}
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {enrollment.enrolledAt}
+                              </div>
+                              <div style={{ textAlign: 'center' }}>
+                                <span
+                                  className={getStatusColor(enrollment.status)}
+                                  style={{
+                                    padding: '4px 8px',
+                                    borderRadius: '12px',
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {getStatusText(enrollment.status)}
+                                </span>
+                              </div>
+                              <div
+                                style={{ textAlign: 'center', fontSize: 13, whiteSpace: 'nowrap' }}
+                              >
+                                {enrollment.score ? `${enrollment.score}점` : '-'}
+                              </div>
+                            </div>
+                          )
+                        })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Pagination */}
+              <div
+                style={{
+                  padding: '16px',
+                  borderTop: '1px solid #e5e7eb',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <button
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    style={{
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      background: 'white',
+                      cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                      opacity: currentPage === 1 ? 0.5 : 1,
+                    }}
+                  >
+                    이전
+                  </button>
+
+                  <span style={{ padding: '8px 16px', fontSize: '14px' }}>
+                    {currentPage} /{' '}
+                    {selectedTab === 'courses'
+                      ? paginatedCourses.totalPages
+                      : paginatedEnrollments.totalPages}
+                  </span>
+
+                  <button
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                    disabled={
+                      currentPage >=
+                      (selectedTab === 'courses'
+                        ? paginatedCourses.totalPages
+                        : paginatedEnrollments.totalPages)
+                    }
+                    style={{
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      background: 'white',
+                      cursor:
+                        currentPage >=
+                        (selectedTab === 'courses'
+                          ? paginatedCourses.totalPages
+                          : paginatedEnrollments.totalPages)
+                          ? 'not-allowed'
+                          : 'pointer',
+                      opacity:
+                        currentPage >=
+                        (selectedTab === 'courses'
+                          ? paginatedCourses.totalPages
+                          : paginatedEnrollments.totalPages)
+                          ? 0.5
+                          : 1,
+                    }}
+                  >
+                    다음
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Detail Card */}
+          <div style={{ width: '400px', minWidth: '400px' }}>
+            <div
+              style={{
+                background: 'white',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                padding: '24px',
+                height: 'fit-content',
+              }}
+            >
+              {selectedTab === 'courses' ? (
+                selectedCourse ? (
+                  <div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>
+                      {selectedCourse.title}
+                    </h3>
+
+                    <div style={{ marginBottom: '16px' }}>
+                      <h4
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          marginBottom: '8px',
+                          color: '#374151',
+                        }}
+                      >
+                        기본 정보
+                      </h4>
+                      <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>설명:</strong> {selectedCourse.description}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>카테고리:</strong> {getCategoryText(selectedCourse.category)}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>강사:</strong> {selectedCourse.instructor}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>기간:</strong> {selectedCourse.duration}시간
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>정원:</strong> {selectedCourse.maxParticipants}명
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>장소:</strong> {selectedCourse.location}
+                        </div>
+                        <div style={{ marginBottom: '4px' }}>
+                          <strong>비용:</strong>{' '}
+                          {selectedCourse.cost
+                            ? `${selectedCourse.cost.toLocaleString()}원`
+                            : '무료'}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                      <h4
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          marginBottom: '8px',
+                          color: '#374151',
+                        }}
+                      >
+                        사전 요구사항
+                      </h4>
+                      <div style={{ fontSize: '14px' }}>
+                        {selectedCourse.prerequisites?.map((prereq, index) => (
+                          <div
+                            key={index}
+                            style={{
+                              padding: '4px 8px',
+                              background: '#f3f4f6',
+                              borderRadius: '4px',
+                              marginBottom: '4px',
+                              display: 'inline-block',
+                              marginRight: '8px',
+                            }}
+                          >
+                            {prereq}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          marginBottom: '8px',
+                          color: '#374151',
+                        }}
+                      >
+                        학습 목표
+                      </h4>
+                      <div style={{ fontSize: '14px' }}>
+                        {selectedCourse.objectives.map((objective, index) => (
+                          <div key={index} style={{ marginBottom: '4px' }}>
+                            • {objective}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
+                    <BookOpen size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                    <p>교육과정을 선택하세요</p>
+                  </div>
+                )
+              ) : selectedEnrollment ? (
                 <div>
                   <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>
-                    {selectedCourse.title}
+                    수강 정보
                   </h3>
 
                   <div style={{ marginBottom: '16px' }}>
@@ -614,61 +757,25 @@ export default function HrTraining() {
                         color: '#374151',
                       }}
                     >
-                      기본 정보
+                      수강자 정보
                     </h4>
                     <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>설명:</strong> {selectedCourse.description}
+                        <strong>이름:</strong> {selectedEnrollment.employeeName}
                       </div>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>카테고리:</strong> {getCategoryText(selectedCourse.category)}
+                        <strong>부서:</strong> {selectedEnrollment.department}
                       </div>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>강사:</strong> {selectedCourse.instructor}
+                        <strong>신청일:</strong> {selectedEnrollment.enrolledAt}
                       </div>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>기간:</strong> {selectedCourse.duration}시간
+                        <strong>완료일:</strong> {selectedEnrollment.completedAt || '-'}
                       </div>
                       <div style={{ marginBottom: '4px' }}>
-                        <strong>정원:</strong> {selectedCourse.maxParticipants}명
+                        <strong>점수:</strong>{' '}
+                        {selectedEnrollment.score ? `${selectedEnrollment.score}점` : '-'}
                       </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>장소:</strong> {selectedCourse.location}
-                      </div>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>비용:</strong>{' '}
-                        {selectedCourse.cost ? `${selectedCourse.cost.toLocaleString()}원` : '무료'}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style={{ marginBottom: '16px' }}>
-                    <h4
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: 500,
-                        marginBottom: '8px',
-                        color: '#374151',
-                      }}
-                    >
-                      사전 요구사항
-                    </h4>
-                    <div style={{ fontSize: '14px' }}>
-                      {selectedCourse.prerequisites?.map((prereq, index) => (
-                        <div
-                          key={index}
-                          style={{
-                            padding: '4px 8px',
-                            background: '#f3f4f6',
-                            borderRadius: '4px',
-                            marginBottom: '4px',
-                            display: 'inline-block',
-                            marginRight: '8px',
-                          }}
-                        >
-                          {prereq}
-                        </div>
-                      ))}
                     </div>
                   </div>
 
@@ -681,90 +788,28 @@ export default function HrTraining() {
                         color: '#374151',
                       }}
                     >
-                      학습 목표
+                      피드백
                     </h4>
-                    <div style={{ fontSize: '14px' }}>
-                      {selectedCourse.objectives.map((objective, index) => (
-                        <div key={index} style={{ marginBottom: '4px' }}>
-                          • {objective}
-                        </div>
-                      ))}
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        padding: '12px',
+                        background: '#f9fafb',
+                        borderRadius: '6px',
+                        border: '1px solid #e5e7eb',
+                      }}
+                    >
+                      {selectedEnrollment.feedback || '피드백이 없습니다.'}
                     </div>
                   </div>
                 </div>
               ) : (
                 <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
-                  <BookOpen size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
-                  <p>교육과정을 선택하세요</p>
+                  <Users size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                  <p>수강 정보를 선택하세요</p>
                 </div>
-              )
-            ) : selectedEnrollment ? (
-              <div>
-                <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>
-                  수강 정보
-                </h3>
-
-                <div style={{ marginBottom: '16px' }}>
-                  <h4
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      marginBottom: '8px',
-                      color: '#374151',
-                    }}
-                  >
-                    수강자 정보
-                  </h4>
-                  <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>이름:</strong> {selectedEnrollment.employeeName}
-                    </div>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>부서:</strong> {selectedEnrollment.department}
-                    </div>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>신청일:</strong> {selectedEnrollment.enrolledAt}
-                    </div>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>완료일:</strong> {selectedEnrollment.completedAt || '-'}
-                    </div>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>점수:</strong>{' '}
-                      {selectedEnrollment.score ? `${selectedEnrollment.score}점` : '-'}
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h4
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      marginBottom: '8px',
-                      color: '#374151',
-                    }}
-                  >
-                    피드백
-                  </h4>
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      padding: '12px',
-                      background: '#f9fafb',
-                      borderRadius: '6px',
-                      border: '1px solid #e5e7eb',
-                    }}
-                  >
-                    {selectedEnrollment.feedback || '피드백이 없습니다.'}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6b7280' }}>
-                <Users size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
-                <p>수강 정보를 선택하세요</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

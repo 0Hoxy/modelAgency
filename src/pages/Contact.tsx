@@ -107,16 +107,6 @@ export default function Contact() {
   return (
     <SidebarLayout>
       <div style={{ display: 'grid', gap: 16 }}>
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>
-            <h1 style={{ fontSize: 24, fontWeight: 'bold', margin: 0, marginBottom: 4 }}>
-              문의 관리
-            </h1>
-            <p style={{ color: '#64748b', margin: 0 }}>고객 문의를 관리하고 응답합니다</p>
-          </div>
-        </div>
-
         {/* Summary Cards */}
         <div
           style={{
@@ -524,96 +514,104 @@ export default function Contact() {
                 <tr>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     문의자
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     제목
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     카테고리
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     우선순위
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     상태
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     담당자
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     생성일
                   </th>
                   <th
                     style={{
-                      padding: 12,
+                      padding: '8px 10px',
                       textAlign: 'left',
-                      fontSize: 12,
-                      fontWeight: 'medium',
-                      color: '#64748b',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#374151',
                       borderBottom: '1px solid #e2e8f0',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     작업
@@ -630,11 +628,11 @@ export default function Contact() {
                 ) : (
                   paginatedContacts.data.map((contact) => (
                     <tr key={contact.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                      <td style={{ padding: 12 }}>
+                      <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>
                         <div>
                           <p
                             style={{
-                              fontSize: 14,
+                              fontSize: 13,
                               fontWeight: 'medium',
                               margin: 0,
                               marginBottom: 4,
@@ -642,7 +640,7 @@ export default function Contact() {
                           >
                             {contact.name}
                             {!contact.isRead && (
-                              <span style={{ marginLeft: 8, fontSize: 12, color: '#dc2626' }}>
+                              <span style={{ marginLeft: 8, fontSize: 11, color: '#dc2626' }}>
                                 ●
                               </span>
                             )}
@@ -657,11 +655,11 @@ export default function Contact() {
                           )}
                         </div>
                       </td>
-                      <td style={{ padding: 12 }}>
+                      <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>
                         <div>
                           <p
                             style={{
-                              fontSize: 14,
+                              fontSize: 13,
                               fontWeight: 'medium',
                               margin: 0,
                               marginBottom: 4,
@@ -684,30 +682,30 @@ export default function Contact() {
                           </p>
                         </div>
                       </td>
-                      <td style={{ padding: 12 }}>
+                      <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>
                         <Badge color="primary">
                           {categoryLabels[contact.category] || contact.category}
                         </Badge>
                       </td>
-                      <td style={{ padding: 12 }}>
+                      <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>
                         <Badge className={priorityColors[contact.priority]}>
                           {priorityLabels[contact.priority] || contact.priority}
                         </Badge>
                       </td>
-                      <td style={{ padding: 12 }}>
+                      <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>
                         <Badge className={statusColors[contact.status]}>
                           {statusLabels[contact.status] || contact.status}
                         </Badge>
                       </td>
-                      <td style={{ padding: 12 }}>
-                        <p style={{ fontSize: 14, margin: 0 }}>{contact.assignedTo || '-'}</p>
+                      <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>
+                        <p style={{ fontSize: 13, margin: 0 }}>{contact.assignedTo || '-'}</p>
                       </td>
-                      <td style={{ padding: 12 }}>
-                        <p style={{ fontSize: 14, margin: 0 }}>
+                      <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>
+                        <p style={{ fontSize: 13, margin: 0 }}>
                           {formatDateTime(contact.createdAt)}
                         </p>
                       </td>
-                      <td style={{ padding: 12 }}>
+                      <td style={{ padding: '12px 16px', whiteSpace: 'nowrap' }}>
                         <div style={{ display: 'flex', gap: 8 }}>
                           <button
                             style={{
