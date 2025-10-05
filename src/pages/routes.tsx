@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 
+import AdminLogin from './admin/Login'
 import Contact from './Contact'
 import ContactNew from './contact/New'
 import DashboardOverview from './dashboard/Overview'
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <RegistrationLanding />,
   },
+  { path: '/admin/login', element: <AdminLogin /> },
   { path: '/registration', element: <RegistrationTypeSelection /> },
   { path: '/registration/verification', element: <RegistrationVerification /> },
   { path: '/registration/form', element: <RegistrationForm /> },
