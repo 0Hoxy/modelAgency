@@ -165,6 +165,8 @@ export function Sidebar() {
           {item('/hr/members', '인사', <User size={16} />)}
           {item('/finance/expenses', '회계', <Wallet size={16} />)}
           {item('/contact', '문의', <Mail size={16} />)}
+          <div style={{ borderTop: '1px solid #e2e8f0', margin: '8px 0' }} />
+          {item('/settings/users', '시스템 설정', <Cog size={16} />)}
         </nav>
       </div>
 

@@ -47,11 +47,14 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
               ]
             : undefined
 
+  // 시스템 설정 페이지에서는 Header를 숨김
+  const isSettingsPage = inSection('/settings')
+
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <Sidebar />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Header menus={menus} />
+        {!isSettingsPage && <Header menus={menus} />}
         <main
           style={{
             padding: '12px 16px',

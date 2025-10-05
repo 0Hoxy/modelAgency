@@ -28,6 +28,9 @@ import RegistrationLanding from './registration/Landing'
 import RegistrationTypeSelection from './registration/ModelTypeSelection'
 import RegistrationForm from './registration/RegistrationForm'
 import RegistrationVerification from './registration/Verification'
+import SettingsGeneral from './settings/General'
+import SettingsPermissions from './settings/Permissions'
+import SettingsUsers from './settings/Users'
 
 export const router = createBrowserRouter([
   {
@@ -67,4 +70,7 @@ export const router = createBrowserRouter([
   { path: '/contact/new', element: <ContactNew /> },
   { path: '/dashboard/overview', element: <DashboardOverview /> },
   { path: '/dashboard/stats', element: <DashboardStats /> },
+  { path: '/settings/users', element: <SettingsUsers /> },
+  { path: '/settings/permissions', element: <SettingsPermissions /> },
+  { path: '/settings/general', element: <SettingsGeneral /> },
 ])

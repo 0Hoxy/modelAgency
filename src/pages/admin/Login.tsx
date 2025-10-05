@@ -1,7 +1,7 @@
 /**
- * 관리자 로그인 페이지 - Premium Admin Login
+ * 관리자 로그인 페이지 - Premium Admin Login with Signup Modal
  */
-import { Eye, EyeOff, Lock, LogIn, Mail, Shield } from 'lucide-react'
+import { Eye, EyeOff, Lock, LogIn, Mail, Shield, User, UserPlus, X } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -9,10 +9,18 @@ export default function AdminLogin() {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [showSignupModal, setShowSignupModal] = useState(false)
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
+  const [signupData, setSignupData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  })
+  const [signupLoading, setSignupLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,6 +37,32 @@ export default function AdminLogin() {
       alert('로그인에 실패했습니다. 다시 시도해주세요.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    // 비밀번호 확인
+    if (signupData.password !== signupData.confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다.')
+      return
+    }
+
+    setSignupLoading(true)
+
+    try {
+      // TODO: API 호출
+      setTimeout(() => {
+        alert('회원가입 요청이 완료되었습니다.\n관리자 승인 후 로그인이 가능합니다.')
+        setShowSignupModal(false)
+        setSignupData({ name: '', email: '', password: '', confirmPassword: '' })
+      }, 1000)
+    } catch (error) {
+      console.error('회원가입 실패:', error)
+      alert('회원가입에 실패했습니다. 다시 시도해주세요.')
+    } finally {
+      setSignupLoading(false)
     }
   }
 
@@ -543,6 +577,27 @@ export default function AdminLogin() {
               를 클릭하세요
             </p>
           </div>
+
+          {/* 회원가입 링크 */}
+          <div style={{ marginTop: '24px', textAlign: 'center' }}>
+            <p style={{ fontSize: '14px', color: '#a1a1aa', margin: 0 }}>
+              계정이 없으신가요?{' '}
+              <button
+                onClick={() => setShowSignupModal(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#60a5fa',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+              >
+                회원가입
+              </button>
+            </p>
+          </div>
         </div>
 
         {/* 푸터 */}
@@ -552,6 +607,418 @@ export default function AdminLogin() {
           </p>
         </div>
       </div>
+
+      {/* 회원가입 모달 */}
+      {showSignupModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '24px',
+            zIndex: 1000,
+          }}
+          onClick={() => setShowSignupModal(false)}
+        >
+          <div
+            style={{
+              maxWidth: '480px',
+              width: '100%',
+              background: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '24px',
+              padding: '40px',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* 모달 헤더 */}
+            <div style={{ marginBottom: '32px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '20px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '12px',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <UserPlus size={24} color="white" strokeWidth={2.5} />
+                  </div>
+                  <h2
+                    style={{
+                      fontSize: '24px',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      margin: 0,
+                      letterSpacing: '-0.5px',
+                    }}
+                  >
+                    관리자 회원가입
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setShowSignupModal(false)}
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '8px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                  }}
+                >
+                  <X size={20} color="#ffffff" />
+                </button>
+              </div>
+              <p style={{ fontSize: '14px', color: '#a1a1aa', margin: 0 }}>
+                관리자 승인 후 계정이 활성화됩니다
+              </p>
+            </div>
+
+            {/* 회원가입 폼 */}
+            <form
+              onSubmit={handleSignup}
+              style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+            >
+              {/* 이름 */}
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#e4e4e7',
+                    marginBottom: '8px',
+                  }}
+                >
+                  이름
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '14px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <User size={18} color="#71717a" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="홍길동"
+                    value={signupData.name}
+                    onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '12px 14px 12px 44px',
+                      background: 'rgba(9, 9, 11, 0.5)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      color: '#ffffff',
+                      boxSizing: 'border-box',
+                      outline: 'none',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.5)'
+                      e.currentTarget.style.background = 'rgba(9, 9, 11, 0.8)'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                      e.currentTarget.style.background = 'rgba(9, 9, 11, 0.5)'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* 이메일 */}
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#e4e4e7',
+                    marginBottom: '8px',
+                  }}
+                >
+                  이메일
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '14px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <Mail size={18} color="#71717a" />
+                  </div>
+                  <input
+                    type="email"
+                    placeholder="admin@example.com"
+                    value={signupData.email}
+                    onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '12px 14px 12px 44px',
+                      background: 'rgba(9, 9, 11, 0.5)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      color: '#ffffff',
+                      boxSizing: 'border-box',
+                      outline: 'none',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.5)'
+                      e.currentTarget.style.background = 'rgba(9, 9, 11, 0.8)'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                      e.currentTarget.style.background = 'rgba(9, 9, 11, 0.5)'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* 비밀번호 */}
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#e4e4e7',
+                    marginBottom: '8px',
+                  }}
+                >
+                  비밀번호
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '14px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <Lock size={18} color="#71717a" />
+                  </div>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={signupData.password}
+                    onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                    required
+                    minLength={8}
+                    style={{
+                      width: '100%',
+                      padding: '12px 14px 12px 44px',
+                      background: 'rgba(9, 9, 11, 0.5)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      color: '#ffffff',
+                      boxSizing: 'border-box',
+                      outline: 'none',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.5)'
+                      e.currentTarget.style.background = 'rgba(9, 9, 11, 0.8)'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                      e.currentTarget.style.background = 'rgba(9, 9, 11, 0.5)'
+                    }}
+                  />
+                </div>
+                <p style={{ fontSize: '12px', color: '#71717a', margin: '6px 0 0 0' }}>
+                  최소 8자 이상
+                </p>
+              </div>
+
+              {/* 비밀번호 확인 */}
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#e4e4e7',
+                    marginBottom: '8px',
+                  }}
+                >
+                  비밀번호 확인
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '14px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <Lock size={18} color="#71717a" />
+                  </div>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={signupData.confirmPassword}
+                    onChange={(e) =>
+                      setSignupData({ ...signupData, confirmPassword: e.target.value })
+                    }
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '12px 14px 12px 44px',
+                      background: 'rgba(9, 9, 11, 0.5)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      color: '#ffffff',
+                      boxSizing: 'border-box',
+                      outline: 'none',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.5)'
+                      e.currentTarget.style.background = 'rgba(9, 9, 11, 0.8)'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                      e.currentTarget.style.background = 'rgba(9, 9, 11, 0.5)'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* 안내 메시지 */}
+              <div
+                style={{
+                  padding: '16px',
+                  background: 'rgba(59, 130, 246, 0.05)',
+                  border: '1px solid rgba(59, 130, 246, 0.2)',
+                  borderRadius: '10px',
+                }}
+              >
+                <p style={{ fontSize: '13px', color: '#a1a1aa', margin: 0, lineHeight: 1.5 }}>
+                  💡 회원가입 요청 후 관리자 승인이 필요합니다.
+                  <br />
+                  승인 완료 시 이메일로 안내드립니다.
+                </p>
+              </div>
+
+              {/* 버튼 */}
+              <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowSignupModal(false)}
+                  style={{
+                    flex: 1,
+                    padding: '14px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '10px',
+                    color: '#a1a1aa',
+                    fontSize: '15px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                  }}
+                >
+                  취소
+                </button>
+                <button
+                  type="submit"
+                  disabled={signupLoading}
+                  style={{
+                    flex: 2,
+                    padding: '14px',
+                    background: signupLoading
+                      ? 'rgba(63, 63, 70, 0.5)'
+                      : 'linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)',
+                    border: 'none',
+                    borderRadius: '10px',
+                    color: 'white',
+                    fontSize: '15px',
+                    fontWeight: 600,
+                    cursor: signupLoading ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!signupLoading) {
+                      e.currentTarget.style.transform = 'translateY(-1px)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!signupLoading) {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }
+                  }}
+                >
+                  {signupLoading ? '처리 중...' : '회원가입'}
+                  {!signupLoading && <UserPlus size={18} />}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* 반응형 스타일 */}
       <style>
