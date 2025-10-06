@@ -209,7 +209,7 @@ export interface ModelResponse {
 }
 
 /**
- * 국내 모델 등록
+ * 국내 모델 등록 (일반 사용자용)
  * POST /models/domestic
  */
 export async function createDomesticModel(
@@ -219,11 +219,31 @@ export async function createDomesticModel(
 }
 
 /**
- * 해외 모델 등록
+ * 해외 모델 등록 (일반 사용자용)
  * POST /models/global
  */
 export async function createGlobalModel(data: CreateGlobalModelRequest): Promise<ModelResponse> {
   return post<ModelResponse>('/models/global', data)
+}
+
+/**
+ * 국내 모델 등록 (관리자용)
+ * POST /admins/models/domestic
+ */
+export async function createDomesticModelByAdmin(
+  data: CreateDomesticModelRequest,
+): Promise<ModelResponse> {
+  return post<ModelResponse>('/admins/models/domestic', data)
+}
+
+/**
+ * 해외 모델 등록 (관리자용)
+ * POST /admins/models/global
+ */
+export async function createGlobalModelByAdmin(
+  data: CreateGlobalModelRequest,
+): Promise<ModelResponse> {
+  return post<ModelResponse>('/admins/models/global', data)
 }
 
 // ==================== 모델 정보 수정 ====================
@@ -464,6 +484,27 @@ export interface CameraTestListItem {
   status?: string | null
   test_time?: string | null
   is_tested?: boolean | null
+}
+
+/**
+ * 카메라테스트 등록 (관리자/디렉터용)
+ * POST /admins/models/cameraTest
+ */
+export interface CameraTestCreateRequest {
+  model_id: string // UUID
+}
+
+export interface CameraTestCreateResponse {
+  id: number
+  model_id: string
+  is_tested: string // 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
+  visited_at: string // ISO datetime
+}
+
+export async function createCameraTest(
+  data: CameraTestCreateRequest,
+): Promise<CameraTestCreateResponse> {
+  return post<CameraTestCreateResponse>('/admins/models/cameraTest', data)
 }
 
 /**

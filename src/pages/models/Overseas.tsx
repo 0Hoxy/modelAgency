@@ -4,12 +4,18 @@
 import { Pagination } from '@molecules/Pagination'
 import { Popover } from '@molecules/Popover'
 import { TextField } from '@molecules/TextField'
+import { CreateGlobalModelModal } from '@organisms/models/CreateGlobalModelModal'
 import { SidebarLayout } from '@templates/SidebarLayout'
 import { Filter as FilterIcon, Search as SearchIcon } from '@utils/icon'
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { getGlobalModels, type GlobalListItem, type PaginatedResponse } from '../../api/models'
+import {
+  createCameraTest,
+  getGlobalModels,
+  type GlobalListItem,
+  type PaginatedResponse,
+} from '../../api/models'
 // import { searchOverseasModels } from '../../api/search'
 // import type { OverseasModelRow } from '../../types/models'
 // import type { SearchResponse } from '../../types/search'
@@ -93,6 +99,9 @@ export default function ModelsOverseas() {
   // const [overseasData, setOverseasData] = useState<SearchResponse<OverseasModelRow> | null>(null)
   const [globalList, setGlobalList] = useState<GlobalListItem[] | null>(null)
   const [globalPage, setGlobalPage] = useState<PaginatedResponse<GlobalListItem> | null>(null)
+  
+  // 카메라테스트 등록용 선택된 모델 ID
+  const [selectedModelId, setSelectedModelId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -158,6 +167,28 @@ export default function ModelsOverseas() {
     return t ? t : '-'
   }
 
+  // 카메라테스트 등록 핸들러
+  const handleCameraTestRegister = async () => {
+    if (!selectedModelId) {
+      alert('카메라테스트에 등록할 모델을 선택해주세요.')
+      return
+    }
+
+    try {
+      await createCameraTest({ model_id: selectedModelId })
+      alert('카메라테스트 등록이 완료되었습니다.')
+      setSelectedModelId(null) // 선택 해제
+    } catch (error: unknown) {
+      console.error('카메라테스트 등록 실패:', error)
+      const err = error as { response?: { data?: { detail?: string; message?: string } } }
+      const errorMsg =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        '카메라테스트 등록에 실패했습니다.'
+      alert(errorMsg)
+    }
+  }
+
   // 주소 선택 상태
   const [selectedCity, setSelectedCity] = useState('')
   const [selectedDistrict, setSelectedDistrict] = useState('')
@@ -204,6 +235,25 @@ export default function ModelsOverseas() {
       >
         {/* 좌측 액션 버튼들 */}
         <div style={{ display: 'flex', gap: 8 }}>
+          <CreateGlobalModelModal
+            onSuccess={() => {
+              // 모델 등록 성공 시 목록 새로고침
+              setCurrentPage(1)
+              const fetchData = async () => {
+                try {
+                  setIsLoading(true)
+                  const page = await getGlobalModels({ page: 1, page_size: pageSize })
+                  setGlobalPage(page)
+                  setGlobalList(page.data)
+                } catch (e) {
+                  console.error('목록 로드 실패:', e)
+                } finally {
+                  setIsLoading(false)
+                }
+              }
+              fetchData()
+            }}
+          />
           <button
             type="button"
             className="iconBtn"
@@ -216,31 +266,7 @@ export default function ModelsOverseas() {
               padding: '6px 10px',
               cursor: 'pointer',
             }}
-            onClick={() => console.log('모델 등록 클릭')}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f1f5f9'
-              e.currentTarget.style.color = '#111827'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#fff'
-              e.currentTarget.style.color = '#374151'
-            }}
-          >
-            모델 등록
-          </button>
-          <button
-            type="button"
-            className="iconBtn"
-            style={{
-              border: 'none',
-              background: '#fff',
-              color: '#374151',
-              borderRadius: 6,
-              transition: 'background 160ms ease, color 160ms ease',
-              padding: '6px 10px',
-              cursor: 'pointer',
-            }}
-            onClick={() => console.log('카메라테스트 등록 클릭')}
+            onClick={handleCameraTestRegister}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#f1f5f9'
               e.currentTarget.style.color = '#111827'
@@ -843,7 +869,26 @@ export default function ModelsOverseas() {
               </thead>
               <tbody>
                 {(globalList || []).map((r, idx) => (
-                  <tr key={idx} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                  <tr
+                    key={idx}
+                    onClick={() => setSelectedModelId(r.id)}
+                    style={{
+                      borderBottom: '1px solid #f3f4f6',
+                      cursor: 'pointer',
+                      background: selectedModelId === r.id ? '#dbeafe' : 'transparent',
+                      transition: 'background 120ms ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (selectedModelId !== r.id) {
+                        e.currentTarget.style.background = '#f8fafc'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedModelId !== r.id) {
+                        e.currentTarget.style.background = 'transparent'
+                      }
+                    }}
+                  >
                     <td
                       style={{
                         padding: '12px 16px',

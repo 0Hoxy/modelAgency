@@ -4,12 +4,18 @@
 import { Pagination } from '@molecules/Pagination'
 import { Popover } from '@molecules/Popover'
 import { TextField } from '@molecules/TextField'
+import { CreateDomesticModelModal } from '@organisms/models/CreateDomesticModelModal'
 import { SidebarLayout } from '@templates/SidebarLayout'
 import { Filter as FilterIcon, Search as SearchIcon } from '@utils/icon'
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { type DomesticListItem, getDomesticModels, type PaginatedResponse } from '../../api/models'
+import {
+  createCameraTest,
+  type DomesticListItem,
+  getDomesticModels,
+  type PaginatedResponse,
+} from '../../api/models'
 // import { searchDomesticModels } from '../../api/search'
 // import type { DomesticModelRow } from '../../types/models'
 // import type { SearchResponse } from '../../types/search'
@@ -98,6 +104,9 @@ export default function ModelsDomestic() {
   // const [domesticData, setDomesticData] = useState<SearchResponse<DomesticModelRow> | null>(null)
   const [domesticList, setDomesticList] = useState<DomesticListItem[] | null>(null)
   const [domesticPage, setDomesticPage] = useState<PaginatedResponse<DomesticListItem> | null>(null)
+  
+  // 카메라테스트 등록용 선택된 모델 ID
+  const [selectedModelId, setSelectedModelId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -172,6 +181,28 @@ export default function ModelsDomestic() {
     const t = String(v).trim()
     return t ? t : '-'
   }
+
+  // 카메라테스트 등록 핸들러
+  const handleCameraTestRegister = async () => {
+    if (!selectedModelId) {
+      alert('카메라테스트에 등록할 모델을 선택해주세요.')
+      return
+    }
+
+    try {
+      await createCameraTest({ model_id: selectedModelId })
+      alert('카메라테스트 등록이 완료되었습니다.')
+      setSelectedModelId(null) // 선택 해제
+    } catch (error: unknown) {
+      console.error('카메라테스트 등록 실패:', error)
+      const err = error as { response?: { data?: { detail?: string; message?: string } } }
+      const errorMsg =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        '카메라테스트 등록에 실패했습니다.'
+      alert(errorMsg)
+    }
+  }
   return (
     <SidebarLayout>
       <div
@@ -184,6 +215,25 @@ export default function ModelsDomestic() {
       >
         {/* 좌측 액션 버튼들 */}
         <div style={{ display: 'flex', gap: 8 }}>
+          <CreateDomesticModelModal
+            onSuccess={() => {
+              // 모델 등록 성공 시 목록 새로고침
+              setCurrentPage(1)
+              const fetchData = async () => {
+                try {
+                  setIsLoading(true)
+                  const page = await getDomesticModels({ page: 1, page_size: pageSize })
+                  setDomesticPage(page)
+                  setDomesticList(page.data)
+                } catch (e) {
+                  console.error('목록 로드 실패:', e)
+                } finally {
+                  setIsLoading(false)
+                }
+              }
+              fetchData()
+            }}
+          />
           <button
             type="button"
             className="iconBtn"
@@ -196,31 +246,7 @@ export default function ModelsDomestic() {
               padding: '6px 10px',
               cursor: 'pointer',
             }}
-            onClick={() => console.log('모델 등록 클릭')}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f1f5f9'
-              e.currentTarget.style.color = '#111827'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#fff'
-              e.currentTarget.style.color = '#374151'
-            }}
-          >
-            모델 등록
-          </button>
-          <button
-            type="button"
-            className="iconBtn"
-            style={{
-              border: 'none',
-              background: '#fff',
-              color: '#374151',
-              borderRadius: 6,
-              transition: 'background 160ms ease, color 160ms ease',
-              padding: '6px 10px',
-              cursor: 'pointer',
-            }}
-            onClick={() => console.log('카메라테스트 등록 클릭')}
+            onClick={handleCameraTestRegister}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#f1f5f9'
               e.currentTarget.style.color = '#111827'
@@ -819,7 +845,26 @@ export default function ModelsDomestic() {
               </thead>
               <tbody>
                 {(domesticList || []).map((r, idx) => (
-                  <tr key={idx} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                  <tr
+                    key={idx}
+                    onClick={() => setSelectedModelId(r.id)}
+                    style={{
+                      borderBottom: '1px solid #f3f4f6',
+                      cursor: 'pointer',
+                      background: selectedModelId === r.id ? '#dbeafe' : 'transparent',
+                      transition: 'background 120ms ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (selectedModelId !== r.id) {
+                        e.currentTarget.style.background = '#f8fafc'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedModelId !== r.id) {
+                        e.currentTarget.style.background = 'transparent'
+                      }
+                    }}
+                  >
                     <td
                       style={{
                         padding: '12px 16px',
