@@ -22,6 +22,7 @@ import ModelsCategories from './models/Categories'
 import ModelsDomestic from './models/Domestic'
 import ModelsFilters from './models/Filters'
 import ModelsOverseas from './models/Overseas'
+import ModelsQRCode from './models/QRCode'
 import ProfileSettings from './profile/Settings'
 import RegistrationComplete from './registration/Complete'
 import RegistrationLanding from './registration/Landing'
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
   { path: '/models/domestic', element: <ModelsDomestic /> },
   { path: '/models/overseas', element: <ModelsOverseas /> },
   { path: '/models/camera-test', element: <ModelsCameraTest /> },
+  { path: '/models/qrcode', element: <ModelsQRCode /> },
   {
     path: '/hr',
     element: <Hr />,

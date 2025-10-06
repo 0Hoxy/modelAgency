@@ -23,6 +23,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
           { label: '국내모델', to: '/models/domestic' },
           { label: '해외모델', to: '/models/overseas' },
           { label: '카메라테스트', to: '/models/camera-test' },
+          { label: 'QR코드 발급', to: '/models/qrcode' },
         ]
       : inSection('/hr')
         ? [

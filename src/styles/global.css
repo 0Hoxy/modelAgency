@@ -1,9 +1,9 @@
+@import 'tailwindcss/preflight';
+@import 'tailwindcss/utilities';
+
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
-
-@import 'tailwindcss/preflight';
-@import 'tailwindcss/utilities';
 
 /* Atomic Design base styles */
 :root {
