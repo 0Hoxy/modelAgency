@@ -80,7 +80,7 @@ export interface BaseModelData {
 
 export interface DomesticModelData extends BaseModelData {
   is_foreigner: false
-  tiktok?: string
+  tictok?: string
   has_agency: boolean
   agency_name?: string
   agency_manager_name?: string

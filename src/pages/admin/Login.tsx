@@ -1,15 +1,19 @@
 /**
  * 관리자 로그인 페이지 - Premium Admin Login with Signup Modal
  */
+import { login, signup } from '@api/auth'
+import { type AuthState, useAuthStore } from '@stores/authStore'
 import { Eye, EyeOff, Lock, LogIn, Mail, Shield, User, UserPlus, X } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function AdminLogin() {
   const navigate = useNavigate()
+  const authLogin = useAuthStore((state: AuthState) => state.login)
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showSignupModal, setShowSignupModal] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,16 +29,25 @@ export default function AdminLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError(null)
 
     try {
-      // TODO: API 호출
-      setTimeout(() => {
-        // 임시: 로그인 성공 시 대시보드로 이동
-        navigate('/dashboard/overview')
-      }, 1000)
-    } catch (error) {
-      console.error('로그인 실패:', error)
-      alert('로그인에 실패했습니다. 다시 시도해주세요.')
+      const response = await login({
+        pid: formData.email,
+        password: formData.password,
+      })
+
+      // Zustand store에 저장
+      authLogin(response.user, response.access_token, response.refresh_token)
+
+      // 로그인 성공 시 대시보드로 이동
+      navigate('/dashboard/overview')
+    } catch (err: unknown) {
+      console.error('로그인 실패:', err)
+      const errorMessage =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.'
+      setError(errorMessage)
     } finally {
       setLoading(false)
     }
@@ -49,18 +62,30 @@ export default function AdminLogin() {
       return
     }
 
+    // 비밀번호 길이 확인 (8-20자)
+    if (signupData.password.length < 8 || signupData.password.length > 20) {
+      alert('비밀번호는 8자 이상 20자 이하로 입력해주세요.')
+      return
+    }
+
     setSignupLoading(true)
 
     try {
-      // TODO: API 호출
-      setTimeout(() => {
-        alert('회원가입 요청이 완료되었습니다.\n관리자 승인 후 로그인이 가능합니다.')
-        setShowSignupModal(false)
-        setSignupData({ name: '', email: '', password: '', confirmPassword: '' })
-      }, 1000)
-    } catch (error) {
-      console.error('회원가입 실패:', error)
-      alert('회원가입에 실패했습니다. 다시 시도해주세요.')
+      await signup({
+        name: signupData.name,
+        pid: signupData.email,
+        password: signupData.password,
+      })
+
+      alert('회원가입이 완료되었습니다!\n이제 로그인하실 수 있습니다.')
+      setShowSignupModal(false)
+      setSignupData({ name: '', email: '', password: '', confirmPassword: '' })
+    } catch (err: unknown) {
+      console.error('회원가입 실패:', err)
+      const errorMessage =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        '회원가입에 실패했습니다. 다시 시도해주세요.'
+      alert(errorMessage)
     } finally {
       setSignupLoading(false)
     }
@@ -311,6 +336,30 @@ export default function AdminLogin() {
               인증된 관리자만 접근 가능합니다
             </p>
           </div>
+
+          {/* 에러 메시지 */}
+          {error && (
+            <div
+              style={{
+                padding: '12px 16px',
+                background: 'rgba(239, 68, 68, 0.1)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                borderRadius: '12px',
+                marginBottom: '24px',
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: '14px',
+                  color: '#fca5a5',
+                  textAlign: 'center',
+                }}
+              >
+                {error}
+              </p>
+            </div>
+          )}
 
           {/* 로그인 폼 */}
           <form

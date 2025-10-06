@@ -10,17 +10,46 @@ export const http = axios.create({
 })
 
 http.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
+  // Zustand store에서 토큰 가져오기
+  const authStorage = localStorage.getItem('auth-storage')
+  let token: string | null = null
+
+  if (authStorage) {
+    try {
+      const parsed = JSON.parse(authStorage)
+      token = parsed.state?.token
+    } catch {
+      // fallback to old method
+      token = localStorage.getItem('token')
+    }
+  }
+
   if (token) {
     config.headers = config.headers ?? {}
     ;(config.headers as Record<string, string>).Authorization = `Bearer ${token}`
+    console.log('🔐 Token attached:', token.substring(0, 20) + '...')
+  } else {
+    console.warn('⚠️ No token found in storage')
   }
+
   return config
 })
 
 http.interceptors.response.use(
-  (res) => res,
-  (error) => Promise.reject(error),
+  (res) => {
+    console.log('✅ API Success:', res.config.url, res.status)
+    return res
+  },
+  (error) => {
+    console.error('❌ API Error:', {
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+    })
+    return Promise.reject(error)
+  },
 )
 
 export type HttpError = unknown

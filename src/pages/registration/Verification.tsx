@@ -1,6 +1,8 @@
 /**
  * Step 2: 본인인증 (재방문 확인) - Premium Mobile UI with i18n
  */
+import { verifyDomesticRevisit, verifyGlobalRevisit } from '@api/models'
+import { normalizeKrPhoneToE164 } from '@utils/phone'
 import { ArrowLeft, CheckCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -52,18 +54,51 @@ export default function Verification() {
     setLoading(true)
 
     try {
-      // TODO: API 호출
-      setTimeout(() => {
+      // API 호출: 본인 인증 (재방문 확인)
+      const verifyFn = modelType === 'domestic' ? verifyDomesticRevisit : verifyGlobalRevisit
+      const result = await verifyFn({
+        name: formData.name,
+        phone: normalizeKrPhoneToE164(formData.phone) || '',
+        birth: formData.birth,
+      })
+
+      if (result.is_existing && result.model_data) {
+        // 기존 등록된 모델 → 수정 모드로 폼 이동
+        navigate(`/registration/form?type=${modelType}&mode=update`, {
+          state: {
+            verification: formData,
+            modelData: result.model_data,
+          },
+        })
+      } else {
+        // 신규 모델 → 등록 폼으로 이동
         navigate(`/registration/form?type=${modelType}&mode=new`, {
           state: { verification: formData },
         })
-      }, 1000)
+      }
     } catch (error) {
       console.error('본인인증 실패:', error)
+
+      // 상세 에러 로그
+      const err = error as { response?: { status?: number; data?: { detail?: string } } }
+      const errorDetail = err?.response?.data?.detail || 'Unknown error'
+      const errorStatus = err?.response?.status || 'Unknown'
+
+      console.error('🚨 Verification Error Details:', {
+        status: errorStatus,
+        detail: errorDetail,
+        requestData: {
+          name: formData.name,
+          phone_raw: formData.phone,
+          phone_normalized: normalizeKrPhoneToE164(formData.phone),
+          birth: formData.birth,
+        },
+      })
+
       alert(
         modelType === 'domestic'
-          ? '본인인증에 실패했습니다. 다시 시도해주세요.'
-          : 'Verification failed. Please try again.',
+          ? `본인인증에 실패했습니다.\n\n에러: ${errorDetail}\n\n백엔드 로그를 확인해주세요.`
+          : `Verification failed.\n\nError: ${errorDetail}\n\nPlease check backend logs.`,
       )
     } finally {
       setLoading(false)

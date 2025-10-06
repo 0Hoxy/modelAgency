@@ -12,7 +12,7 @@ export type DomesticModelRow = {
   languages: string
   instagram: string
   youtube: string
-  tiktok: string
+  tictok: string
   tattoo: string
   note: string
 }

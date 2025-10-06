@@ -2,7 +2,7 @@
  * Camera Test related types
  */
 
-export type CameraTestStatus = '대기중' | '테스트' | '완료'
+export type CameraTestStatus = '대기중' | '테스트' | '완료' | '취소'
 
 export type CameraTestModel = {
   id: string

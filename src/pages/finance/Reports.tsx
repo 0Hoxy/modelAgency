@@ -10,9 +10,9 @@ import {
   calculateTotals,
   formatCurrency,
   formatDate,
+  generateFinancialReports,
   mockExpenses,
   mockIncome,
-  generateFinancialReports,
 } from '../../utils/finance'
 
 const reportTypeLabels: Record<string, string> = {

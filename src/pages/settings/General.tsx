@@ -37,7 +37,6 @@ export default function SettingsGeneral() {
               gap: '6px',
             }}
           >
-            {menu.icon}
             {menu.label}
           </Link>
         ))}

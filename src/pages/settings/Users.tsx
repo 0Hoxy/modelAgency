@@ -138,51 +138,10 @@ export default function SettingsUsers() {
               gap: '6px',
             }}
           >
-            {menu.icon}
             {menu.label}
           </Link>
         ))}
       </nav>
-
-      {/* 검색 바 */}
-      <div style={{ marginBottom: '24px' }}>
-        <div style={{ position: 'relative', maxWidth: '400px' }}>
-          <Search
-            size={20}
-            color="#71717a"
-            style={{
-              position: 'absolute',
-              left: '14px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-            }}
-          />
-          <input
-            type="text"
-            placeholder="이름 또는 이메일로 검색..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '12px 14px 12px 44px',
-              background: '#ffffff',
-              border: '1px solid #e5e7eb',
-              borderRadius: '10px',
-              fontSize: '15px',
-              outline: 'none',
-              transition: 'all 0.2s ease',
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = '#3b82f6'
-              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)'
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = '#e5e7eb'
-              e.currentTarget.style.boxShadow = 'none'
-            }}
-          />
-        </div>
-      </div>
 
       {/* 통계 카드 */}
       <div
@@ -238,6 +197,46 @@ export default function SettingsUsers() {
           <div style={{ fontSize: '28px', fontWeight: 700, color: '#991b1b' }}>
             {users.filter((u) => u.status === 'inactive').length}
           </div>
+        </div>
+      </div>
+
+      {/* 검색 바 */}
+      <div style={{ marginBottom: '24px' }}>
+        <div style={{ position: 'relative', maxWidth: '400px' }}>
+          <Search
+            size={20}
+            color="#71717a"
+            style={{
+              position: 'absolute',
+              left: '14px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+            }}
+          />
+          <input
+            type="text"
+            placeholder="이름 또는 이메일로 검색..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '12px 14px 12px 44px',
+              background: '#ffffff',
+              border: '1px solid #e5e7eb',
+              borderRadius: '10px',
+              fontSize: '15px',
+              outline: 'none',
+              transition: 'all 0.2s ease',
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = '#3b82f6'
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)'
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = '#e5e7eb'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          />
         </div>
       </div>
 

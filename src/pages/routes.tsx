@@ -21,8 +21,8 @@ import ModelsCameraTest from './models/CameraTest'
 import ModelsCategories from './models/Categories'
 import ModelsDomestic from './models/Domestic'
 import ModelsFilters from './models/Filters'
-import ModelsList from './models/List'
 import ModelsOverseas from './models/Overseas'
+import ProfileSettings from './profile/Settings'
 import RegistrationComplete from './registration/Complete'
 import RegistrationLanding from './registration/Landing'
 import RegistrationTypeSelection from './registration/ModelTypeSelection'
@@ -43,7 +43,6 @@ export const router = createBrowserRouter([
   { path: '/registration/form', element: <RegistrationForm /> },
   { path: '/registration/complete', element: <RegistrationComplete /> },
   { path: '/home', element: <Home /> },
-  { path: '/models/list', element: <ModelsList /> },
   { path: '/models/categories', element: <ModelsCategories /> },
   { path: '/models/filters', element: <ModelsFilters /> },
   { path: '/models/domestic', element: <ModelsDomestic /> },
@@ -73,4 +72,5 @@ export const router = createBrowserRouter([
   { path: '/settings/users', element: <SettingsUsers /> },
   { path: '/settings/permissions', element: <SettingsPermissions /> },
   { path: '/settings/general', element: <SettingsGeneral /> },
+  { path: '/profile/settings', element: <ProfileSettings /> },
 ])

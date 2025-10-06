@@ -37,7 +37,6 @@ export default function SettingsPermissions() {
               gap: '6px',
             }}
           >
-            {menu.icon}
             {menu.label}
           </Link>
         ))}

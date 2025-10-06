@@ -2,6 +2,7 @@
  * Sidebar: 좌측 내비게이션 오거니즘. 주요 섹션으로 이동하는 링크 제공.
  */
 import { Popover } from '@molecules/Popover'
+import { type AuthState, useAuthStore } from '@stores/authStore'
 import {
   Bell,
   Check,
@@ -31,6 +32,15 @@ const linkStyle: React.CSSProperties = {
 export function Sidebar() {
   const { pathname } = useLocation()
   const [activeTheme, setActiveTheme] = useState<'system' | 'dark' | 'light'>('system')
+  const currentUser = useAuthStore((state: AuthState) => state.user)
+  const logout = useAuthStore((state: AuthState) => state.logout)
+
+  // 사용자 이니셜 생성 (이름의 첫 글자)
+  const getUserInitial = () => {
+    if (!currentUser?.name) return 'U'
+    return currentUser.name.charAt(0).toUpperCase()
+  }
+
   const getSectionPrefix = (path: string) => {
     const parts = path.split('/').filter(Boolean)
     return parts.length > 0 ? `/${parts[0]}` : '/'
@@ -200,27 +210,30 @@ export function Sidebar() {
                     width: 32,
                     height: 32,
                     borderRadius: '50%',
-                    background: '#e2e8f0',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)',
                     display: 'grid',
                     placeItems: 'center',
-                    color: '#475569',
-                    fontSize: 12,
+                    color: '#ffffff',
+                    fontSize: 14,
+                    fontWeight: 600,
                   }}
                 >
-                  <User size={16} />
+                  {getUserInitial()}
                 </span>
                 <span style={{ textAlign: 'left' }}>
-                  <div style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.1 }}>홍길동</div>
+                  <div style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.1 }}>
+                    {currentUser?.name || '사용자'}
+                  </div>
                   <div style={{ color: '#64748b', fontSize: 12, lineHeight: 1.1 }}>
-                    manager@company.com
+                    {currentUser?.pid || 'user@example.com'}
                   </div>
                 </span>
               </button>
             }
           >
             <div style={{ display: 'grid', gap: 6, minWidth: 180 }}>
-              <button
-                type="button"
+              <Link
+                to="/profile/settings"
                 className="iconBtn"
                 style={{
                   display: 'flex',
@@ -228,10 +241,13 @@ export function Sidebar() {
                   gap: 8,
                   justifyContent: 'flex-start',
                   border: 'none',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  fontSize: 14,
                 }}
               >
                 <Cog size={16} /> 설정
-              </button>
+              </Link>
               <button
                 type="button"
                 className="iconBtn"
@@ -241,6 +257,13 @@ export function Sidebar() {
                   gap: 8,
                   justifyContent: 'flex-start',
                   border: 'none',
+                  fontSize: 14,
+                }}
+                onClick={() => {
+                  if (confirm('로그아웃 하시겠습니까?')) {
+                    logout()
+                    window.location.href = '/admin/login'
+                  }
                 }}
               >
                 <LogOut size={16} /> 로그아웃

@@ -9,10 +9,12 @@ import { Filter as FilterIcon, Search as SearchIcon } from '@utils/icon'
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { searchDomesticModels } from '../../api/search'
-import type { DomesticModelRow } from '../../types/models'
-import type { SearchResponse } from '../../types/search'
+import { type DomesticListItem, getDomesticModels, type PaginatedResponse } from '../../api/models'
+// import { searchDomesticModels } from '../../api/search'
+// import type { DomesticModelRow } from '../../types/models'
+// import type { SearchResponse } from '../../types/search'
 import type { DomesticFilters } from '../../types/search'
+import { toLocalKrPhone } from '../../utils/phone'
 import {
   ADDRESS_OPTIONS,
   domesticFiltersToQueryParams,
@@ -92,26 +94,33 @@ export default function ModelsDomestic() {
     setTimeout(() => setIsApplying(false), 1000)
   }
 
-  // ---------------- Models list (통합 검색 API) ----------------
-  const [domesticData, setDomesticData] = useState<SearchResponse<DomesticModelRow> | null>(null)
+  // ---------------- Models list ----------------
+  // const [domesticData, setDomesticData] = useState<SearchResponse<DomesticModelRow> | null>(null)
+  const [domesticList, setDomesticList] = useState<DomesticListItem[] | null>(null)
+  const [domesticPage, setDomesticPage] = useState<PaginatedResponse<DomesticListItem> | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('국내모델 통합 검색 요청 시작', filters)
+      try {
+        setIsLoading(true)
+        setError(null)
+        // 1) 실제 목록 API 로드
+        const page = await getDomesticModels({ page: currentPage, page_size: pageSize })
+        setDomesticPage(page)
+        setDomesticList(page.data)
 
-      const result = await searchDomesticModels(
-        {
-          page: currentPage,
-          pageSize,
-          search: filters.query,
-        },
-        filters,
-      )
-
-      console.log('국내모델 통합 검색 결과:', result)
-      setDomesticData(result)
+        // 통합 검색은 추후 필요 시 재도입
+      } catch (e) {
+        console.error('국내모델 목록 로드 실패:', e)
+        const err = e as { response?: { data?: { detail?: string } }; message?: string }
+        setError(err?.response?.data?.detail || err?.message || '알 수 없는 오류')
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     fetchData()
@@ -148,6 +157,21 @@ export default function ModelsDomestic() {
   const [nationalityQ, setNationalityQ] = useState('')
   const [languageQ, setLanguageQ] = useState('')
   const [specialtyQ, setSpecialtyQ] = useState('')
+
+  // Display helpers
+  const formatGender = (g?: string | null) => {
+    if (!g) return '-'
+    const key = String(g).toUpperCase()
+    if (key === 'MALE') return '남성'
+    if (key === 'FEMALE') return '여성'
+    if (key === 'OTHER' || key === 'OTHERS') return '기타'
+    return g
+  }
+  const display = (v?: string | null) => {
+    if (!v) return '-'
+    const t = String(v).trim()
+    return t ? t : '-'
+  }
   return (
     <SidebarLayout>
       <div
@@ -738,11 +762,15 @@ export default function ModelsDomestic() {
 
       {/* Domestic models list */}
       <div style={{ marginTop: 12 }}>
-        {!domesticData ? (
+        {isLoading ? (
           <div style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
             데이터를 불러오는 중...
           </div>
-        ) : domesticData.data && domesticData.data.length === 0 ? (
+        ) : error ? (
+          <div style={{ textAlign: 'center', padding: '40px', color: '#b91c1c' }}>
+            데이터를 불러오지 못했습니다: {error}
+          </div>
+        ) : domesticList && domesticList.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px', color: '#64748b' }}>
             <div style={{ fontSize: 16, marginBottom: 8 }}>검색 결과가 없습니다</div>
             <div style={{ fontSize: 14, color: '#94a3b8' }}>
@@ -775,7 +803,7 @@ export default function ModelsDomestic() {
                     <th
                       key={h}
                       style={{
-                        textAlign: 'left',
+                        textAlign: 'center',
                         padding: '12px 16px',
                         borderBottom: '1px solid #e2e8f0',
                         whiteSpace: 'nowrap',
@@ -790,7 +818,7 @@ export default function ModelsDomestic() {
                 </tr>
               </thead>
               <tbody>
-                {domesticData?.data?.map((r, idx) => (
+                {(domesticList || []).map((r, idx) => (
                   <tr key={idx} style={{ borderBottom: '1px solid #f3f4f6' }}>
                     <td
                       style={{
@@ -798,6 +826,7 @@ export default function ModelsDomestic() {
                         fontSize: 13,
                         color: '#0f172a',
                         whiteSpace: 'nowrap',
+                        textAlign: 'left',
                       }}
                     >
                       {r.name}
@@ -808,9 +837,32 @@ export default function ModelsDomestic() {
                         fontSize: 13,
                         color: '#64748b',
                         whiteSpace: 'nowrap',
+                        textAlign: 'center',
                       }}
                     >
-                      {r.gender}
+                      {formatGender(r.gender as unknown as string)}
+                    </td>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {r.birth_date}
+                    </td>
+                    <td
+                      style={{
+                        padding: '12px 16px',
+                        fontSize: 13,
+                        color: '#64748b',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {toLocalKrPhone(r.phone) || display(r.phone)}
                     </td>
                     <td
                       style={{
@@ -820,7 +872,7 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.birth}
+                      {display(r.agency_name)}
                     </td>
                     <td
                       style={{
@@ -830,7 +882,7 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.phone}
+                      {display(r.agency_manager_name)}
                     </td>
                     <td
                       style={{
@@ -840,7 +892,8 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.agency}
+                      {toLocalKrPhone(r.agency_manager_phone || '') ||
+                        display(r.agency_manager_phone || '')}
                     </td>
                     <td
                       style={{
@@ -850,7 +903,10 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.manager}
+                      {[r.address_city, r.address_district, r.address_street]
+                        .filter((p) => !!(p && String(p).trim()))
+                        .map((p) => String(p).trim())
+                        .join(' ') || '-'}
                     </td>
                     <td
                       style={{
@@ -860,7 +916,7 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.managerPhone}
+                      {display(r.nationality)}
                     </td>
                     <td
                       style={{
@@ -870,7 +926,9 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.address}
+                      {display(
+                        (r as unknown as { special_abilities?: string | null }).special_abilities,
+                      )}
                     </td>
                     <td
                       style={{
@@ -880,7 +938,9 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.nationality}
+                      {display(
+                        (r as unknown as { other_languages?: string | null }).other_languages,
+                      )}
                     </td>
                     <td
                       style={{
@@ -890,7 +950,7 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.specialty}
+                      {display(r.instagram)}
                     </td>
                     <td
                       style={{
@@ -900,7 +960,7 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.languages}
+                      {display(r.youtube)}
                     </td>
                     <td
                       style={{
@@ -910,7 +970,7 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.instagram}
+                      {display(r.tictok)}
                     </td>
                     <td
                       style={{
@@ -920,7 +980,7 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.youtube}
+                      {'-'}
                     </td>
                     <td
                       style={{
@@ -930,27 +990,7 @@ export default function ModelsDomestic() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.tiktok}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {r.tattoo}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {r.note}
+                      {'-'}
                     </td>
                   </tr>
                 ))}
@@ -960,13 +1000,13 @@ export default function ModelsDomestic() {
         )}
       </div>
 
-      {/* Pagination */}
-      {domesticData && domesticData.data && domesticData.data.length > 0 && (
+      {/* Pagination (API 기반) */}
+      {domesticPage && domesticList && domesticList.length > 0 && (
         <Pagination
-          currentPage={domesticData.page}
-          totalPages={domesticData.totalPages}
-          pageSize={domesticData.pageSize}
-          totalItems={domesticData.total}
+          currentPage={domesticPage.page}
+          totalPages={domesticPage.total_pages}
+          pageSize={domesticPage.page_size}
+          totalItems={domesticPage.total}
           onPageChange={(page) => {
             setCurrentPage(page)
             window.scrollTo({ top: 0, behavior: 'smooth' })

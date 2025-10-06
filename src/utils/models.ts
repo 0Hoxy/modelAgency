@@ -77,7 +77,7 @@ export const generateMockDomestic = async (
       languages: langSets[i % langSets.length],
       instagram: `@model_${i + 1}`,
       youtube: i % 3 === 0 ? `channel_${i + 1}` : '-',
-      tiktok: i % 4 === 0 ? `@tok_${i + 1}` : '-',
+      tictok: i % 4 === 0 ? `@tok_${i + 1}` : '-',
       tattoo: i % 5 === 0 ? '좌측 손목' : '-',
       note: '-',
     }
