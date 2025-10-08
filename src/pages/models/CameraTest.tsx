@@ -61,6 +61,8 @@ export default function CameraTest() {
           visaType?: string | null
           visa?: string | null
           status?: string | null
+          is_tested?: string | boolean | null
+          visited_at?: string | null
           model?: {
             id?: string | null
             name?: string | null
@@ -88,12 +90,17 @@ export default function CameraTest() {
         }
 
         // 백엔드 상태를 프론트엔드 상태로 변환
-        const backendToFrontendStatus = (backendStatus: string | null | undefined): string => {
+        const backendToFrontendStatus = (
+          backendStatus: string | boolean | null | undefined,
+        ): string => {
           const statusMap: Record<string, string> = {
             PENDING: '대기중',
             CONFIRMED: '테스트',
             COMPLETED: '완료',
             CANCELLED: '취소',
+          }
+          if (typeof backendStatus === 'boolean') {
+            return backendStatus ? '완료' : '대기중'
           }
           return backendStatus ? statusMap[backendStatus] || '대기중' : '대기중'
         }
@@ -138,7 +145,7 @@ export default function CameraTest() {
             nested?.visa_type,
             nested?.visa,
           )
-          const rawStatus = pick<string>(m.status)
+          const rawStatus = (m.status ?? m.is_tested) as string | boolean | null | undefined
           const status = backendToFrontendStatus(rawStatus)
 
           return {

@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
+import RequireAuth from './RequireAuth'
 
 import AdminLogin from './admin/Login'
 import Contact from './Contact'
@@ -43,36 +44,212 @@ export const router = createBrowserRouter([
   { path: '/registration/verification', element: <RegistrationVerification /> },
   { path: '/registration/form', element: <RegistrationForm /> },
   { path: '/registration/complete', element: <RegistrationComplete /> },
-  { path: '/home', element: <Home /> },
-  { path: '/models/categories', element: <ModelsCategories /> },
-  { path: '/models/filters', element: <ModelsFilters /> },
-  { path: '/models/domestic', element: <ModelsDomestic /> },
-  { path: '/models/overseas', element: <ModelsOverseas /> },
-  { path: '/models/camera-test', element: <ModelsCameraTest /> },
-  { path: '/models/qrcode', element: <ModelsQRCode /> },
+  {
+    path: '/home',
+    element: (
+      <RequireAuth>
+        <Home />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/models/categories',
+    element: (
+      <RequireAuth>
+        <ModelsCategories />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/models/filters',
+    element: (
+      <RequireAuth>
+        <ModelsFilters />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/models/domestic',
+    element: (
+      <RequireAuth>
+        <ModelsDomestic />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/models/overseas',
+    element: (
+      <RequireAuth>
+        <ModelsOverseas />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/models/camera-test',
+    element: (
+      <RequireAuth>
+        <ModelsCameraTest />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/models/qrcode',
+    element: (
+      <RequireAuth>
+        <ModelsQRCode />
+      </RequireAuth>
+    ),
+  },
   {
     path: '/hr',
-    element: <Hr />,
+    element: (
+      <RequireAuth>
+        <Hr />
+      </RequireAuth>
+    ),
   },
-  { path: '/hr/members', element: <HrMembers /> },
-  { path: '/hr/recruit', element: <HrRecruit /> },
-  { path: '/hr/attendance', element: <HrAttendance /> },
-  { path: '/hr/payroll', element: <HrPayroll /> },
-  { path: '/hr/training', element: <HrTraining /> },
-  { path: '/hr/benefits', element: <HrBenefits /> },
-  { path: '/hr/performance', element: <HrPerformance /> },
-  { path: '/finance/expenses', element: <FinanceExpenses /> },
-  { path: '/finance/income', element: <FinanceIncome /> },
-  { path: '/finance/reports', element: <FinanceReports /> },
+  {
+    path: '/hr/members',
+    element: (
+      <RequireAuth>
+        <HrMembers />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/hr/recruit',
+    element: (
+      <RequireAuth>
+        <HrRecruit />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/hr/attendance',
+    element: (
+      <RequireAuth>
+        <HrAttendance />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/hr/payroll',
+    element: (
+      <RequireAuth>
+        <HrPayroll />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/hr/training',
+    element: (
+      <RequireAuth>
+        <HrTraining />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/hr/benefits',
+    element: (
+      <RequireAuth>
+        <HrBenefits />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/hr/performance',
+    element: (
+      <RequireAuth>
+        <HrPerformance />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/finance/expenses',
+    element: (
+      <RequireAuth>
+        <FinanceExpenses />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/finance/income',
+    element: (
+      <RequireAuth>
+        <FinanceIncome />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/finance/reports',
+    element: (
+      <RequireAuth>
+        <FinanceReports />
+      </RequireAuth>
+    ),
+  },
   {
     path: '/contact',
-    element: <Contact />,
+    element: (
+      <RequireAuth>
+        <Contact />
+      </RequireAuth>
+    ),
   },
-  { path: '/contact/new', element: <ContactNew /> },
-  { path: '/dashboard/overview', element: <DashboardOverview /> },
-  { path: '/dashboard/stats', element: <DashboardStats /> },
-  { path: '/settings/users', element: <SettingsUsers /> },
-  { path: '/settings/permissions', element: <SettingsPermissions /> },
-  { path: '/settings/general', element: <SettingsGeneral /> },
-  { path: '/profile/settings', element: <ProfileSettings /> },
+  {
+    path: '/contact/new',
+    element: (
+      <RequireAuth>
+        <ContactNew />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/dashboard/overview',
+    element: (
+      <RequireAuth>
+        <DashboardOverview />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/dashboard/stats',
+    element: (
+      <RequireAuth>
+        <DashboardStats />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/settings/users',
+    element: (
+      <RequireAuth>
+        <SettingsUsers />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/settings/permissions',
+    element: (
+      <RequireAuth>
+        <SettingsPermissions />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/settings/general',
+    element: (
+      <RequireAuth>
+        <SettingsGeneral />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/profile/settings',
+    element: (
+      <RequireAuth>
+        <ProfileSettings />
+      </RequireAuth>
+    ),
+  },
 ])
