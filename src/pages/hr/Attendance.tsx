@@ -238,16 +238,16 @@ export default function HrAttendance() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
+                  gap: '6px',
+                  padding: '5px 10px',
                   border: '1px solid #d1d5db',
                   borderRadius: '8px',
                   background: 'white',
                   cursor: 'pointer',
-                  fontSize: '14px',
+                  fontSize: '11px',
                 }}
               >
-                <Filter style={{ width: '16px', height: '16px' }} />
+                <Filter style={{ width: '14px', height: '14px' }} />
                 필터
               </button>
             }

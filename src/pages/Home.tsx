@@ -30,13 +30,13 @@ export default function Home() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
-            padding: '16px 32px',
+            gap: '8px',
+            padding: '12px 24px',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             border: 'none',
             borderRadius: '12px',
             color: 'white',
-            fontSize: '16px',
+            fontSize: '12px',
             fontWeight: 600,
             cursor: 'pointer',
             boxShadow: '0 4px 6px rgba(102, 126, 234, 0.3)',
@@ -51,7 +51,7 @@ export default function Home() {
             e.currentTarget.style.boxShadow = '0 4px 6px rgba(102, 126, 234, 0.3)'
           }}
         >
-          <UserPlus size={24} />
+          <UserPlus size={18} />
           모델 등록하기
         </button>
       </div>

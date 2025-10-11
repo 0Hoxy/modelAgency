@@ -596,7 +596,7 @@ export const getDomesticActiveFilterCount = (filters: DomesticFilters): number =
   let count = 0
   if (filters.query) count++
   if (filters.name) count++
-  if (filters.address) count++
+  if (filters.address_city || filters.address_district || filters.address_street) count++
   if (filters.nationality) count++
   if (filters.specialty) count++
   if (filters.languages) count++
@@ -613,7 +613,7 @@ export const getOverseasActiveFilterCount = (filters: OverseasFilters): number =
   let count = 0
   if (filters.query) count++
   if (filters.name) count++
-  if (filters.address) count++
+  if (filters.address_city || filters.address_district || filters.address_street) count++
   if (filters.nationality) count++
   if (filters.specialty) count++
   if (filters.languages) count++
@@ -638,7 +638,9 @@ export const isFilterDirty = (filters: DomesticFilters | OverseasFilters): boole
 export const resetDomesticFilters = (): DomesticFilters => ({
   query: '',
   name: '',
-  address: '',
+  address_city: '',
+  address_district: '',
+  address_street: '',
   nationality: '',
   specialty: '',
   languages: '',
@@ -653,7 +655,9 @@ export const resetDomesticFilters = (): DomesticFilters => ({
 export const resetOverseasFilters = (): OverseasFilters => ({
   query: '',
   name: '',
-  address: '',
+  address_city: '',
+  address_district: '',
+  address_street: '',
   nationality: '',
   specialty: '',
   languages: '',

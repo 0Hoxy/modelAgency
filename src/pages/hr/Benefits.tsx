@@ -63,7 +63,7 @@ export default function HrBenefits() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
             <DollarSign size={20} style={{ color: '#3b82f6' }} />
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>총 예산</span>
+            <span style={{ fontSize: '11px', color: '#6b7280' }}>총 예산</span>
           </div>
           <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
             {summaryStats.totalBudget.toLocaleString()}원
@@ -80,7 +80,7 @@ export default function HrBenefits() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
             <TrendingUp size={20} style={{ color: '#10b981' }} />
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>사용액</span>
+            <span style={{ fontSize: '11px', color: '#6b7280' }}>사용액</span>
           </div>
           <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
             {summaryStats.totalUsed.toLocaleString()}원
@@ -97,7 +97,7 @@ export default function HrBenefits() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
             <Users size={20} style={{ color: '#f59e0b' }} />
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>총 신청</span>
+            <span style={{ fontSize: '11px', color: '#6b7280' }}>총 신청</span>
           </div>
           <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
             {summaryStats.totalRequests}건
@@ -114,7 +114,7 @@ export default function HrBenefits() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
             <Gift size={20} style={{ color: '#ef4444' }} />
-            <span style={{ fontSize: '14px', color: '#6b7280' }}>대기중</span>
+            <span style={{ fontSize: '11px', color: '#6b7280' }}>대기중</span>
           </div>
           <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
             {summaryStats.pendingRequests}건
@@ -187,15 +187,16 @@ export default function HrBenefits() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
+                  gap: '6px',
+                  padding: '5px 10px',
                   border: '1px solid #d1d5db',
                   borderRadius: '6px',
                   background: 'white',
                   cursor: 'pointer',
+                  fontSize: '11px',
                 }}
               >
-                <Filter size={16} />
+                <Filter size={14} />
                 필터
               </button>
             }
@@ -205,7 +206,7 @@ export default function HrBenefits() {
                 <label
                   style={{
                     display: 'block',
-                    fontSize: '14px',
+                    fontSize: '10px',
                     fontWeight: 500,
                     marginBottom: '8px',
                   }}
@@ -234,7 +235,7 @@ export default function HrBenefits() {
                 <label
                   style={{
                     display: 'block',
-                    fontSize: '14px',
+                    fontSize: '10px',
                     fontWeight: 500,
                     marginBottom: '8px',
                   }}
@@ -269,12 +270,12 @@ export default function HrBenefits() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 16px',
+              padding: '6px 12px',
               border: 'none',
-              background: 'none',
+              background: 'transparent',
               color: '#374151',
               cursor: 'pointer',
-              fontSize: '14px',
+              fontSize: '10px',
             }}
           >
             <Plus size={16} />
@@ -285,12 +286,12 @@ export default function HrBenefits() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 16px',
+              padding: '6px 12px',
               border: 'none',
-              background: 'none',
+              background: 'transparent',
               color: '#374151',
               cursor: 'pointer',
-              fontSize: '14px',
+              fontSize: '10px',
             }}
           >
             <Upload size={16} />
@@ -301,12 +302,12 @@ export default function HrBenefits() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 16px',
+              padding: '6px 12px',
               border: 'none',
-              background: 'none',
+              background: 'transparent',
               color: '#374151',
               cursor: 'pointer',
-              fontSize: '14px',
+              fontSize: '10px',
             }}
           >
             <Download size={16} />

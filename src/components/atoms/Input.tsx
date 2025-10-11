@@ -18,11 +18,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       {...props}
       style={{
         width: '100%',
-        padding: '8px 12px',
+        padding: '6px 10px',
         borderRadius: 8,
         border: `1px solid ${invalid ? '#ef4444' : '#cbd5e1'}`,
         outline: 'none',
         boxShadow: 'none',
+        fontSize: '12px',
         ...(style || {}),
       }}
     />

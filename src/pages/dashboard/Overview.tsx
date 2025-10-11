@@ -250,13 +250,13 @@ export default function DashboardOverview() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '12px 16px',
+                padding: '8px 12px',
                 border: '1px solid #d1d5db',
                 borderRadius: '6px',
-                background: 'white',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '11px',
                 textAlign: 'left',
               }}
             >
@@ -270,13 +270,13 @@ export default function DashboardOverview() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '12px 16px',
+                padding: '8px 12px',
                 border: '1px solid #d1d5db',
                 borderRadius: '6px',
-                background: 'white',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '11px',
                 textAlign: 'left',
               }}
             >
@@ -289,18 +289,18 @@ export default function DashboardOverview() {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                padding: '12px 16px',
+                gap: '6px',
+                padding: '8px 12px',
                 border: '1px solid #d1d5db',
                 borderRadius: '6px',
-                background: 'white',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '11px',
                 textAlign: 'left',
               }}
             >
-              <Camera size={16} />
+              <Camera size={14} />
               카메라 테스트
             </button>
           </div>

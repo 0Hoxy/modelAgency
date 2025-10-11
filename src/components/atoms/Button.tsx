@@ -11,10 +11,11 @@ export function Button({ variant = 'primary', className = '', ...props }: Button
   return (
     <button
       style={{
-        padding: '8px 14px',
-        borderRadius: 8,
+        padding: '6px 10px',
+        borderRadius: 6,
         border: 'none',
         cursor: 'pointer',
+        fontSize: '11px',
         ...(variant === 'primary' && { backgroundColor: 'var(--color-primary)', color: 'white' }),
         ...(variant === 'secondary' && { backgroundColor: '#e2e8f0', color: '#0f172a' }),
         ...(variant === 'ghost' && {

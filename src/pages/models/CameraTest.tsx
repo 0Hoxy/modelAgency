@@ -305,10 +305,10 @@ export default function CameraTest() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{
-                padding: '8px 12px',
+                padding: '6px 10px',
                 border: '1px solid #d1d5db',
                 borderRadius: 6,
-                fontSize: 14,
+                fontSize: 12,
                 width: 280,
                 background: '#fff',
               }}
@@ -331,7 +331,7 @@ export default function CameraTest() {
 
             {/* 날짜 선택 */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <label htmlFor="testDate" style={{ fontSize: 14, fontWeight: 500, color: '#374151' }}>
+              <label htmlFor="testDate" style={{ fontSize: 12, fontWeight: 500, color: '#374151' }}>
                 테스트 일자:
               </label>
               <input
@@ -341,11 +341,11 @@ export default function CameraTest() {
                   setSelectedDate(e.target.value ? new Date(e.target.value) : undefined)
                 }
                 style={{
-                  padding: '8px 12px',
+                  padding: '6px 10px',
                   border: '1px solid #d1d5db',
                   borderRadius: '6px',
-                  fontSize: '14px',
-                  width: '160px',
+                  fontSize: '12px',
+                  width: '120px',
                 }}
               />
             </div>
@@ -494,9 +494,9 @@ export default function CameraTest() {
                         handleStatusChange(model.id, e.target.value as CameraTestStatus)
                       }
                       style={{
-                        padding: '4px 8px',
+                        padding: '3px 6px',
                         borderRadius: 4,
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: 500,
                         ...getStatusBadgeStyle(
                           ((model.status as CameraTestStatus) || '대기중') as CameraTestStatus,
@@ -520,10 +520,10 @@ export default function CameraTest() {
       <div
         style={{
           marginTop: 16,
-          padding: '12px 16px',
+          padding: '10px 14px',
           background: '#f8fafc',
           borderRadius: 6,
-          fontSize: 14,
+          fontSize: 12,
           color: '#64748b',
         }}
       >

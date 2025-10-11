@@ -17,6 +17,7 @@ export interface AuthState {
   login: (user: UserResponse, token: string, refreshToken: string) => void
   logout: () => void
   updateUser: (user: Partial<UserResponse>) => void
+  updateTokens: (token: string, refreshToken: string) => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -49,6 +50,12 @@ export const useAuthStore = create<AuthState>()(
         set((state) => ({
           user: state.user ? { ...state.user, ...userData } : null,
         })),
+
+      updateTokens: (token, refreshToken) =>
+        set({
+          token,
+          refreshToken,
+        }),
     }),
     {
       name: 'auth-storage', // localStorage key

@@ -7,35 +7,84 @@ import { TextField } from '@molecules/TextField'
 import { CreateDomesticModelModal } from '@organisms/models/CreateDomesticModelModal'
 import { SidebarLayout } from '@templates/SidebarLayout'
 import { Filter as FilterIcon, Search as SearchIcon } from '@utils/icon'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import {
   createCameraTest,
+  deleteDomesticModel,
   type DomesticListItem,
+  type DomesticSearchParams,
   getDomesticModels,
+  getModelPhysicalSize,
+  type ModelPhysicalSize,
   type PaginatedResponse,
 } from '../../api/models'
+import { useFilterOptions } from '../../hooks/useFilterOptions'
 // import { searchDomesticModels } from '../../api/search'
 // import type { DomesticModelRow } from '../../types/models'
 // import type { SearchResponse } from '../../types/search'
 import type { DomesticFilters } from '../../types/search'
 import { toLocalKrPhone } from '../../utils/phone'
 import {
-  ADDRESS_OPTIONS,
   domesticFiltersToQueryParams,
   getDomesticActiveFilterCount,
   isFilterDirty,
   isSelected,
-  LANGUAGE_OPTIONS,
-  NATIONALITY_OPTIONS,
   resetDomesticFilters,
-  SPECIALTY_OPTIONS,
   toggleToken,
 } from '../../utils/search'
 
 export default function ModelsDomestic() {
   const [searchParams, setSearchParams] = useSearchParams()
+
+  // 동적 필터 옵션
+  const {
+    nationalities,
+    specialties,
+    languages,
+    addressCities,
+    isLoading: optionsLoading,
+    error: optionsError,
+  } = useFilterOptions()
+
+  // 주소 선택 상태 (임시 상태 - 팝오버에서만 사용)
+  const [tempAddressSelectedCity, setTempAddressSelectedCity] = useState<string | null>(null)
+  const [tempAddressSelectedDistrict, setTempAddressSelectedDistrict] = useState<string | null>(
+    null,
+  )
+  const [tempAddressSelectedDong, setTempAddressSelectedDong] = useState<string | null>(null)
+
+  // 시/도 선택 시 하위 항목들 초기화
+  const handleCityChange = (cityValue: string | null) => {
+    setTempAddressSelectedCity(cityValue)
+    setTempAddressSelectedDistrict(null)
+    setTempAddressSelectedDong(null)
+  }
+
+  // 구/군 선택 시 하위 항목 초기화
+  const handleDistrictChange = (districtValue: string | null) => {
+    setTempAddressSelectedDistrict(districtValue)
+    setTempAddressSelectedDong(null)
+  }
+
+  // 주소 선택 초기화 함수
+  const clearAddressSelection = () => {
+    setTempAddressSelectedCity(null)
+    setTempAddressSelectedDistrict(null)
+    setTempAddressSelectedDong(null)
+  }
+
+  // 선택된 시/도에 따른 구/군 목록
+  const districts = tempAddressSelectedCity
+    ? addressCities.find((city) => city.value === tempAddressSelectedCity)?.districts || []
+    : []
+
+  // 선택된 구/군에 따른 동/면/읍 목록
+  const dongs = tempAddressSelectedDistrict
+    ? districts.find((district) => district.value === tempAddressSelectedDistrict)?.dongs || []
+    : []
 
   // 통합 필터 상태 관리
   const [filters, setFilters] = useState<DomesticFilters>(() => ({
@@ -67,12 +116,10 @@ export default function ModelsDomestic() {
     window.setTimeout(() => setRecentChange(false), 1800)
   }
 
-  // 통합 검색어는 즉시 적용
+  // 필터 업데이트 (즉시 적용)
   const updateFilter = <K extends keyof DomesticFilters>(key: K, value: DomesticFilters[K]) => {
-    if (key === 'query') {
-      setFilters((prev) => ({ ...prev, [key]: value }))
-      markChanged()
-    }
+    setFilters((prev) => ({ ...prev, [key]: value }))
+    markChanged()
   }
 
   // 필터 팝오버용 임시 필터 업데이트
@@ -85,17 +132,24 @@ export default function ModelsDomestic() {
     setFilters(resetDomesticFilters())
     setTempFilters(resetDomesticFilters())
     // 주소 선택 상태도 초기화
-    setSelectedCity('')
-    setSelectedDistrict('')
-    setSelectedDong('')
+    clearAddressSelection()
     markChanged()
   }
 
   // 필터 적용 (URL 동기화)
   const applyFilters = () => {
-    setFilters(tempFilters)
-    const params = domesticFiltersToQueryParams(tempFilters)
+    // 임시 주소 선택을 실제 필터에 적용
+    const updatedFilters = {
+      ...tempFilters,
+      address_city: tempAddressSelectedCity || '',
+      address_district: tempAddressSelectedDistrict || '',
+      address_street: tempAddressSelectedDong || '',
+    }
+
+    setFilters(updatedFilters)
+    const params = domesticFiltersToQueryParams(updatedFilters)
     setSearchParams(params)
+    setCurrentPage(1) // 첫 페이지로 리셋
     setIsApplying(true)
     setTimeout(() => setIsApplying(false), 1000)
   }
@@ -104,21 +158,171 @@ export default function ModelsDomestic() {
   // const [domesticData, setDomesticData] = useState<SearchResponse<DomesticModelRow> | null>(null)
   const [domesticList, setDomesticList] = useState<DomesticListItem[] | null>(null)
   const [domesticPage, setDomesticPage] = useState<PaginatedResponse<DomesticListItem> | null>(null)
-  
+
   // 카메라테스트 등록용 선택된 모델 ID
   const [selectedModelId, setSelectedModelId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+
+  // 확장된 행과 모델 신체사이즈 정보
+  const [expandedModelId, setExpandedModelId] = useState<string | null>(null)
+  const [modelPhysicalSizes, setModelPhysicalSizes] = useState<Record<string, ModelPhysicalSize>>(
+    {},
+  )
+  const [loadingDetails, setLoadingDetails] = useState<Record<string, boolean>>({})
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
 
+  // 테이블 헤더 정의
+  const headers = [
+    '이름',
+    '성별',
+    '생년월일',
+    '전화번호',
+    '소속사명',
+    '담당자명',
+    '담당자 전화번호',
+    '주소',
+    '국적',
+    '특기',
+    '가능한외국어',
+    '인스타그램',
+    '유튜브',
+    '틱톡',
+    '문신 위치',
+    '문신 사이즈',
+    '비고',
+  ]
+
+  // 검색 파라미터 구성 함수
+  const buildSearchParams = useCallback(
+    (page: number, pageSize: number): DomesticSearchParams => {
+      const params: DomesticSearchParams = {
+        page,
+        page_size: pageSize,
+      }
+
+      // 필터가 있을 때만 파라미터에 추가
+      if (filters.name?.trim()) {
+        params.name = filters.name.trim()
+      }
+
+      if (filters.gender && filters.gender !== 'all') {
+        // API 응답을 보면 gender는 대문자 enum 형식 (MALE, FEMALE, OTHERS)
+        params.gender =
+          filters.gender === 'male' ? 'MALE' : filters.gender === 'female' ? 'FEMALE' : 'OTHER'
+      }
+
+      if (filters.nationality?.trim()) {
+        params.nationality = filters.nationality.trim()
+      }
+
+      // 주소 필터 처리
+      if (filters.address_city?.trim()) {
+        params.address_city = filters.address_city.trim()
+      }
+      if (filters.address_district?.trim()) {
+        params.address_district = filters.address_district.trim()
+      }
+      if (filters.address_street?.trim()) {
+        params.address_street = filters.address_street.trim()
+      }
+
+      if (filters.specialty?.trim()) {
+        params.special_abilities = filters.specialty.trim()
+      }
+
+      if (filters.languages?.trim()) {
+        params.other_languages = filters.languages.trim()
+      }
+
+      return params
+    },
+    [filters],
+  )
+
+  // 모델 클릭 시 상세 정보 로드
+  const handleModelClick = async (modelId: string) => {
+    setSelectedModelId(modelId)
+
+    if (expandedModelId === modelId) {
+      // 이미 확장된 모델을 클릭하면 축소
+      setExpandedModelId(null)
+      return
+    }
+
+    setExpandedModelId(modelId)
+
+    // 이미 로드된 신체사이즈 정보가 있으면 재사용
+    if (modelPhysicalSizes[modelId]) {
+      return
+    }
+
+    // 로딩 상태 설정
+    setLoadingDetails((prev) => ({ ...prev, [modelId]: true }))
+
+    try {
+      const physicalSize = await getModelPhysicalSize(modelId)
+      setModelPhysicalSizes((prev) => ({ ...prev, [modelId]: physicalSize }))
+    } catch (err) {
+      console.error('모델 신체사이즈 정보 로드 실패:', err)
+      setError('모델 신체사이즈 정보를 불러오는데 실패했습니다.')
+    } finally {
+      setLoadingDetails((prev) => ({ ...prev, [modelId]: false }))
+    }
+  }
+
+  // 모델 삭제
+  const handleDeleteModel = async (modelId: string) => {
+    if (!confirm('정말로 이 모델을 삭제하시겠습니까?')) {
+      return
+    }
+
+    console.log('삭제할 모델 ID:', modelId, '타입:', typeof modelId)
+
+    try {
+      await deleteDomesticModel(modelId)
+      // 목록 새로고침
+      const response = await getDomesticModels(buildSearchParams(currentPage, pageSize))
+      setDomesticList(response.data)
+      setDomesticPage(response)
+      setExpandedModelId(null)
+      setSelectedModelId(null)
+      // 신체사이즈 정보 캐시에서 제거
+      setModelPhysicalSizes((prev) => {
+        const newSizes = { ...prev }
+        delete newSizes[modelId]
+        return newSizes
+      })
+    } catch (err: unknown) {
+      console.error('모델 삭제 실패:', err)
+
+      const axiosError = err as { response?: { status?: number; data?: { detail?: unknown } } }
+      console.error('에러 상세:', axiosError.response?.data)
+
+      // 422 에러의 경우 더 자세한 메시지 표시
+      if (axiosError.response?.status === 422) {
+        const detail = axiosError.response?.data?.detail
+        if (Array.isArray(detail) && detail.length > 0) {
+          setError(`모델 삭제 실패: ${detail[0].msg || detail[0]}`)
+        } else {
+          setError('모델 삭제 실패: 서버에서 요청을 처리할 수 없습니다.')
+        }
+      } else {
+        setError('모델 삭제에 실패했습니다.')
+      }
+    }
+  }
+
+  // 초기 로딩과 페이지네이션을 위한 useEffect
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
         setError(null)
+
         // 1) 실제 목록 API 로드
-        const page = await getDomesticModels({ page: currentPage, page_size: pageSize })
+        const page = await getDomesticModels(buildSearchParams(currentPage, pageSize))
         setDomesticPage(page)
         setDomesticList(page.data)
 
@@ -133,12 +337,7 @@ export default function ModelsDomestic() {
     }
 
     fetchData()
-  }, [currentPage, pageSize, filters])
-
-  // 주소 선택 상태
-  const [selectedCity, setSelectedCity] = useState('')
-  const [selectedDistrict, setSelectedDistrict] = useState('')
-  const [selectedDong, setSelectedDong] = useState('')
+  }, [currentPage, pageSize, buildSearchParams]) // buildSearchParams 사용
 
   const renderPill = (current: string, setCurrent: (v: string) => void, token: string) => (
     <button
@@ -151,11 +350,12 @@ export default function ModelsDomestic() {
       aria-pressed={isSelected(current, token)}
       className="iconBtn"
       style={{
-        padding: '6px 10px',
+        padding: '4px 8px',
         borderRadius: 999,
         border: '1px solid #cbd5e1',
         background: isSelected(current, token) ? '#2563eb' : '#ffffff',
         color: isSelected(current, token) ? '#ffffff' : '#0f172a',
+        fontSize: '11px',
       }}
     >
       {token}
@@ -208,9 +408,8 @@ export default function ModelsDomestic() {
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-end',
           gap: 12,
-          marginBottom: 8,
         }}
       >
         {/* 좌측 액션 버튼들 */}
@@ -222,7 +421,7 @@ export default function ModelsDomestic() {
               const fetchData = async () => {
                 try {
                   setIsLoading(true)
-                  const page = await getDomesticModels({ page: 1, page_size: pageSize })
+                  const page = await getDomesticModels(buildSearchParams(1, pageSize))
                   setDomesticPage(page)
                   setDomesticList(page.data)
                 } catch (e) {
@@ -239,20 +438,19 @@ export default function ModelsDomestic() {
             className="iconBtn"
             style={{
               border: 'none',
-              background: '#fff',
+              background: 'transparent',
               color: '#374151',
               borderRadius: 6,
-              transition: 'background 160ms ease, color 160ms ease',
-              padding: '6px 10px',
+              transition: 'color 160ms ease',
+              padding: '4px 8px',
               cursor: 'pointer',
+              fontSize: '13px',
             }}
             onClick={handleCameraTestRegister}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f1f5f9'
               e.currentTarget.style.color = '#111827'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#fff'
               e.currentTarget.style.color = '#374151'
             }}
           >
@@ -263,20 +461,19 @@ export default function ModelsDomestic() {
             className="iconBtn"
             style={{
               border: 'none',
-              background: '#fff',
+              background: 'transparent',
               color: '#374151',
               borderRadius: 6,
-              transition: 'background 160ms ease, color 160ms ease',
-              padding: '6px 10px',
+              transition: 'color 160ms ease',
+              padding: '4px 8px',
               cursor: 'pointer',
+              fontSize: '13px',
             }}
             onClick={() => console.log('주소록 저장 클릭')}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f1f5f9'
               e.currentTarget.style.color = '#111827'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#fff'
               e.currentTarget.style.color = '#374151'
             }}
           >
@@ -303,11 +500,10 @@ export default function ModelsDomestic() {
               if (open) {
                 // 필터 팝오버가 열릴 때 임시 필터를 현재 필터로 초기화
                 setTempFilters(filters)
-                // 주소 선택 상태도 초기화
-                const addressParts = filters.address?.split(' ') || []
-                setSelectedCity(addressParts[0] || '')
-                setSelectedDistrict(addressParts[1] || '')
-                setSelectedDong(addressParts[2] || '')
+                // 주소 선택 상태도 현재 필터 값으로 초기화 (함수형 업데이트 사용)
+                setTempAddressSelectedCity(() => filters.address_city || null)
+                setTempAddressSelectedDistrict(() => filters.address_district || null)
+                setTempAddressSelectedDong(() => filters.address_street || null)
               }
             }}
             trigger={
@@ -318,10 +514,15 @@ export default function ModelsDomestic() {
                   border: '1px solid #cbd5e1',
                   background: recentChange ? '#f1f5f9' : '#fff',
                   transition: 'background 180ms ease',
+                  padding: '5px 10px',
+                  fontSize: '11px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                  <FilterIcon size={16} />
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <FilterIcon size={14} />
                   필터{activeCount > 0 ? `(${activeCount})` : ''}
                 </span>
               </button>
@@ -330,19 +531,19 @@ export default function ModelsDomestic() {
             {(api) => (
               <div
                 style={{
-                  padding: 12,
+                  padding: 10,
                   width: 440,
                   minWidth: 440,
                   maxWidth: 440,
                   display: 'grid',
-                  gap: 12,
+                  gap: 10,
                 }}
               >
                 <div
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr',
-                    gap: 12,
+                    gap: 10,
                   }}
                 >
                   <div>
@@ -354,7 +555,14 @@ export default function ModelsDomestic() {
                       value={tempFilters.name}
                       onChange={(e) => updateTempFilter('name', e.target.value)}
                       style={{ maxWidth: '100%' }}
-                      inputStyle={{ padding: '6px 10px', borderRadius: 6, fontSize: 14 }}
+                      inputStyle={{
+                        paddingTop: 6,
+                        paddingRight: 10,
+                        paddingBottom: 6,
+                        paddingLeft: 10,
+                        borderRadius: 6,
+                        fontSize: 12,
+                      }}
                     />
                   </div>
                   <div
@@ -365,94 +573,128 @@ export default function ModelsDomestic() {
                       padding: 10,
                     }}
                   >
-                    <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>주소</div>
-                    <div style={{ display: 'grid', gap: 8 }}>
-                      <div>
-                        <select
-                          value={selectedCity}
-                          onChange={(e) => {
-                            setSelectedCity(e.target.value)
-                            setSelectedDistrict('')
-                            setSelectedDong('')
-                            const newAddress = e.target.value
-                            updateTempFilter('address', newAddress)
-                          }}
-                          aria-label="시 선택"
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        fontSize: 12,
+                        color: '#475569',
+                        marginBottom: 6,
+                      }}
+                    >
+                      주소
+                      {(tempAddressSelectedCity ||
+                        tempAddressSelectedDistrict ||
+                        tempAddressSelectedDong) && (
+                        <button
+                          type="button"
+                          onClick={clearAddressSelection}
                           style={{
-                            padding: '6px 10px',
-                            border: '1px solid #cbd5e1',
-                            borderRadius: 8,
-                            background: '#fff',
-                            fontSize: 14,
-                            width: '100%',
+                            padding: '2px 6px',
+                            borderRadius: 3,
+                            border: '1px solid #e2e8f0',
+                            background: 'transparent',
+                            color: '#64748b',
+                            fontSize: 10,
+                            cursor: 'pointer',
                           }}
                         >
-                          <option value="">시/도</option>
-                          {ADDRESS_OPTIONS.map((opt) => (
-                            <option key={opt.city} value={opt.city}>
-                              {opt.city}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                          초기화
+                        </button>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      {/* 시/도 선택 */}
                       <div>
                         <select
-                          value={selectedDistrict}
-                          onChange={(e) => {
-                            setSelectedDistrict(e.target.value)
-                            setSelectedDong('')
-                            const newAddress = `${selectedCity} ${e.target.value}`.trim()
-                            updateTempFilter('address', newAddress)
-                          }}
-                          aria-label="구 선택"
+                          value={tempAddressSelectedCity || ''}
+                          onChange={(e) => handleCityChange(e.target.value || null)}
                           style={{
-                            padding: '6px 10px',
-                            border: '1px solid #cbd5e1',
-                            borderRadius: 8,
-                            background: '#fff',
-                            fontSize: 14,
                             width: '100%',
+                            padding: '6px 8px',
+                            borderRadius: 6,
+                            border: '1px solid #cbd5e1',
+                            fontSize: 12,
+                            background: '#fff',
                           }}
-                          disabled={!selectedCity}
                         >
-                          <option value="">구/군</option>
-                          {ADDRESS_OPTIONS.find((opt) => opt.city === selectedCity)?.districts.map(
-                            (opt) => (
-                              <option key={opt.name} value={opt.name}>
-                                {opt.name}
+                          <option value="">시/도 선택</option>
+                          {optionsLoading ? (
+                            <option disabled>로딩 중...</option>
+                          ) : optionsError ? (
+                            <option disabled>로딩 실패</option>
+                          ) : (
+                            addressCities.map((city) => (
+                              <option key={city.value} value={city.value}>
+                                {city.label}
                               </option>
-                            ),
+                            ))
                           )}
                         </select>
                       </div>
+
+                      {/* 구/군 선택 */}
                       <div>
                         <select
-                          value={selectedDong}
-                          onChange={(e) => {
-                            setSelectedDong(e.target.value)
-                            const newAddress =
-                              `${selectedCity} ${selectedDistrict} ${e.target.value}`.trim()
-                            updateTempFilter('address', newAddress)
-                          }}
-                          aria-label="동 선택"
+                          value={tempAddressSelectedDistrict || ''}
+                          onChange={(e) => handleDistrictChange(e.target.value || null)}
+                          disabled={!tempAddressSelectedCity}
                           style={{
-                            padding: '6px 10px',
-                            border: '1px solid #cbd5e1',
-                            borderRadius: 8,
-                            background: '#fff',
-                            fontSize: 14,
                             width: '100%',
+                            padding: '6px 8px',
+                            borderRadius: 6,
+                            border: '1px solid #cbd5e1',
+                            fontSize: 12,
+                            background: tempAddressSelectedCity ? '#fff' : '#f8fafc',
+                            color: tempAddressSelectedCity ? '#1e293b' : '#94a3b8',
+                            cursor: tempAddressSelectedCity ? 'pointer' : 'not-allowed',
                           }}
-                          disabled={!selectedDistrict}
                         >
-                          <option value="">동/면/읍</option>
-                          {ADDRESS_OPTIONS.find((opt) => opt.city === selectedCity)
-                            ?.districts.find((dist) => dist.name === selectedDistrict)
-                            ?.dong?.map((dong) => (
+                          <option value="">구/군 선택</option>
+                          {optionsLoading ? (
+                            <option disabled>로딩 중...</option>
+                          ) : optionsError ? (
+                            <option disabled>로딩 실패</option>
+                          ) : (
+                            districts.map((district) => (
+                              <option key={district.value} value={district.value}>
+                                {district.label}
+                              </option>
+                            ))
+                          )}
+                        </select>
+                      </div>
+
+                      {/* 동/면/읍 선택 */}
+                      <div>
+                        <select
+                          value={tempAddressSelectedDong || ''}
+                          onChange={(e) => setTempAddressSelectedDong(e.target.value || null)}
+                          disabled={!tempAddressSelectedDistrict}
+                          style={{
+                            width: '100%',
+                            padding: '6px 8px',
+                            borderRadius: 6,
+                            border: '1px solid #cbd5e1',
+                            fontSize: 12,
+                            background: tempAddressSelectedDistrict ? '#fff' : '#f8fafc',
+                            color: tempAddressSelectedDistrict ? '#1e293b' : '#94a3b8',
+                            cursor: tempAddressSelectedDistrict ? 'pointer' : 'not-allowed',
+                          }}
+                        >
+                          <option value="">동/면/읍 선택</option>
+                          {optionsLoading ? (
+                            <option disabled>로딩 중...</option>
+                          ) : optionsError ? (
+                            <option disabled>로딩 실패</option>
+                          ) : (
+                            dongs.map((dong) => (
                               <option key={dong} value={dong}>
                                 {dong}
                               </option>
-                            ))}
+                            ))
+                          )}
                         </select>
                       </div>
                     </div>
@@ -462,7 +704,7 @@ export default function ModelsDomestic() {
                       background: '#f8fafc',
                       border: '1px solid #e2e8f0',
                       borderRadius: 8,
-                      padding: 10,
+                      padding: 8,
                     }}
                   >
                     <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>국적</div>
@@ -473,21 +715,39 @@ export default function ModelsDomestic() {
                         value={nationalityQ}
                         onChange={(e) => setNationalityQ(e.target.value)}
                         aria-label="국적 검색"
-                        inputStyle={{ padding: '6px 10px', borderRadius: 6, fontSize: 14 }}
+                        inputStyle={{
+                          paddingTop: 6,
+                          paddingRight: 10,
+                          paddingBottom: 6,
+                          paddingLeft: 10,
+                          borderRadius: 6,
+                          fontSize: 12,
+                        }}
                       />
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                      {NATIONALITY_OPTIONS.filter((opt) =>
-                        opt.label.toLowerCase().includes(nationalityQ.toLowerCase()),
-                      )
-                        .slice(0, 5)
-                        .map((opt) =>
-                          renderPill(
-                            tempFilters.nationality || '',
-                            (value) => updateTempFilter('nationality', value),
-                            opt.label,
-                          ),
-                        )}
+                      {optionsLoading ? (
+                        <div style={{ fontSize: 12, color: '#64748b', padding: '4px 8px' }}>
+                          로딩 중...
+                        </div>
+                      ) : optionsError ? (
+                        <div style={{ fontSize: 12, color: '#ef4444', padding: '4px 8px' }}>
+                          옵션 로드 실패
+                        </div>
+                      ) : (
+                        nationalities
+                          .filter((opt) =>
+                            opt.label.toLowerCase().includes(nationalityQ.toLowerCase()),
+                          )
+                          .slice(0, 5)
+                          .map((opt) =>
+                            renderPill(
+                              tempFilters.nationality || '',
+                              (value) => updateTempFilter('nationality', value),
+                              opt.label,
+                            ),
+                          )
+                      )}
                     </div>
                   </div>
                   <div
@@ -495,7 +755,7 @@ export default function ModelsDomestic() {
                       background: '#f8fafc',
                       border: '1px solid #e2e8f0',
                       borderRadius: 8,
-                      padding: 10,
+                      padding: 8,
                     }}
                   >
                     <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>특기</div>
@@ -506,21 +766,39 @@ export default function ModelsDomestic() {
                         value={specialtyQ}
                         onChange={(e) => setSpecialtyQ(e.target.value)}
                         aria-label="특기 검색"
-                        inputStyle={{ padding: '6px 10px', borderRadius: 6, fontSize: 14 }}
+                        inputStyle={{
+                          paddingTop: 6,
+                          paddingRight: 10,
+                          paddingBottom: 6,
+                          paddingLeft: 10,
+                          borderRadius: 6,
+                          fontSize: 12,
+                        }}
                       />
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                      {SPECIALTY_OPTIONS.filter((opt) =>
-                        opt.label.toLowerCase().includes(specialtyQ.toLowerCase()),
-                      )
-                        .slice(0, 5)
-                        .map((opt) =>
-                          renderPill(
-                            tempFilters.specialty || '',
-                            (value) => updateTempFilter('specialty', value),
-                            opt.label,
-                          ),
-                        )}
+                      {optionsLoading ? (
+                        <div style={{ fontSize: 12, color: '#64748b', padding: '4px 8px' }}>
+                          로딩 중...
+                        </div>
+                      ) : optionsError ? (
+                        <div style={{ fontSize: 12, color: '#ef4444', padding: '4px 8px' }}>
+                          옵션 로드 실패
+                        </div>
+                      ) : (
+                        specialties
+                          .filter((opt) =>
+                            opt.label.toLowerCase().includes(specialtyQ.toLowerCase()),
+                          )
+                          .slice(0, 5)
+                          .map((opt) =>
+                            renderPill(
+                              tempFilters.specialty || '',
+                              (value) => updateTempFilter('specialty', value),
+                              opt.label,
+                            ),
+                          )
+                      )}
                     </div>
                   </div>
                   <div
@@ -528,7 +806,7 @@ export default function ModelsDomestic() {
                       background: '#f8fafc',
                       border: '1px solid #e2e8f0',
                       borderRadius: 8,
-                      padding: 10,
+                      padding: 8,
                     }}
                   >
                     <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>
@@ -541,21 +819,39 @@ export default function ModelsDomestic() {
                         value={languageQ}
                         onChange={(e) => setLanguageQ(e.target.value)}
                         aria-label="외국어 검색"
-                        inputStyle={{ padding: '6px 10px', borderRadius: 6, fontSize: 14 }}
+                        inputStyle={{
+                          paddingTop: 6,
+                          paddingRight: 10,
+                          paddingBottom: 6,
+                          paddingLeft: 10,
+                          borderRadius: 6,
+                          fontSize: 12,
+                        }}
                       />
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                      {LANGUAGE_OPTIONS.filter((opt) =>
-                        opt.label.toLowerCase().includes(languageQ.toLowerCase()),
-                      )
-                        .slice(0, 5)
-                        .map((opt) =>
-                          renderPill(
-                            tempFilters.languages || '',
-                            (value) => updateTempFilter('languages', value),
-                            opt.label,
-                          ),
-                        )}
+                      {optionsLoading ? (
+                        <div style={{ fontSize: 12, color: '#64748b', padding: '4px 8px' }}>
+                          로딩 중...
+                        </div>
+                      ) : optionsError ? (
+                        <div style={{ fontSize: 12, color: '#ef4444', padding: '4px 8px' }}>
+                          옵션 로드 실패
+                        </div>
+                      ) : (
+                        languages
+                          .filter((opt) =>
+                            opt.label.toLowerCase().includes(languageQ.toLowerCase()),
+                          )
+                          .slice(0, 5)
+                          .map((opt) =>
+                            renderPill(
+                              tempFilters.languages || '',
+                              (value) => updateTempFilter('languages', value),
+                              opt.label,
+                            ),
+                          )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -568,12 +864,13 @@ export default function ModelsDomestic() {
                   }}
                 >
                   <div style={{ fontSize: 12, color: '#475569', marginBottom: 6 }}>성별</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     {(
                       [
                         { key: 'all', label: '전체' },
                         { key: 'male', label: '남' },
                         { key: 'female', label: '여' },
+                        { key: 'others', label: '기타' },
                       ] as const
                     ).map((g) => (
                       <button
@@ -582,11 +879,12 @@ export default function ModelsDomestic() {
                         aria-pressed={tempFilters.gender === g.key}
                         onClick={() => updateTempFilter('gender', g.key)}
                         style={{
-                          padding: '6px 12px',
-                          borderRadius: 8,
+                          padding: '4px 8px',
+                          borderRadius: 6,
                           border: '1px solid #cbd5e1',
                           background: tempFilters.gender === g.key ? '#2563eb' : '#ffffff',
                           color: tempFilters.gender === g.key ? '#ffffff' : '#0f172a',
+                          fontSize: '11px',
                           boxShadow:
                             tempFilters.gender === g.key ? 'inset 0 0 0 1px #1d4ed8' : 'none',
                         }}
@@ -605,7 +903,7 @@ export default function ModelsDomestic() {
                     paddingTop: 8,
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    gap: 8,
+                    gap: 6,
                   }}
                 >
                   <button
@@ -614,8 +912,16 @@ export default function ModelsDomestic() {
                     disabled={!isDirty || isApplying}
                     className="iconBtn"
                     style={{
-                      border: '1px solid #cbd5e1',
+                      border: '1px solid #e2e8f0',
+                      background: 'transparent',
+                      color: '#64748b',
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: '500',
                       opacity: isDirty && !isApplying ? 1 : 0.5,
+                      cursor: isDirty && !isApplying ? 'pointer' : 'not-allowed',
+                      transition: 'all 0.2s ease',
                     }}
                     aria-label="모든 필터 초기화"
                   >
@@ -624,7 +930,18 @@ export default function ModelsDomestic() {
                   <button
                     type="button"
                     className="iconBtn"
-                    style={{ border: '1px solid #2563eb', background: '#2563eb', color: '#fff' }}
+                    style={{
+                      border: '1px solid #2563eb',
+                      background: '#2563eb',
+                      color: '#fff',
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: '500',
+                      cursor: isApplying ? 'not-allowed' : 'pointer',
+                      opacity: isApplying ? 0.7 : 1,
+                      transition: 'all 0.2s ease',
+                    }}
                     disabled={isApplying}
                     onClick={async () => {
                       try {
@@ -648,19 +965,28 @@ export default function ModelsDomestic() {
           <button
             type="button"
             className="iconBtn"
-            style={{ border: '1px solid #2563eb', background: '#2563eb', color: '#fff' }}
+            style={{
+              border: '1px solid #2563eb',
+              background: '#2563eb',
+              color: '#fff',
+              fontSize: '11px',
+              padding: '5px 10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
             onClick={applyFilters}
             aria-label="검색 실행"
           >
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <SearchIcon size={16} />
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <SearchIcon size={14} />
               검색
             </span>
           </button>
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
         {filters.query && (
           <button
             type="button"
@@ -672,6 +998,7 @@ export default function ModelsDomestic() {
               background: '#f8fafc',
               padding: '4px 8px',
               borderRadius: 999,
+              fontSize: '11px',
             }}
             aria-label="통합검색 필터 제거"
           >
@@ -689,25 +1016,35 @@ export default function ModelsDomestic() {
               background: '#f8fafc',
               padding: '4px 8px',
               borderRadius: 999,
+              fontSize: '11px',
             }}
           >
             이름: {filters.name} ×
           </button>
         )}
-        {filters.address && (
+        {(filters.address_city || filters.address_district || filters.address_street) && (
           <button
             type="button"
             className="iconBtn"
-            onClick={() => updateFilter('address', '')}
+            onClick={() => {
+              updateFilter('address_city', '')
+              updateFilter('address_district', '')
+              updateFilter('address_street', '')
+            }}
             style={{
               display: 'inline-block',
               border: '1px solid #cbd5e1',
               background: '#f8fafc',
               padding: '4px 8px',
               borderRadius: 999,
+              fontSize: '11px',
             }}
           >
-            주소: {filters.address} ×
+            주소:{' '}
+            {[filters.address_city, filters.address_district, filters.address_street]
+              .filter(Boolean)
+              .join(' ')}{' '}
+            ×
           </button>
         )}
         {filters.nationality && (
@@ -721,6 +1058,7 @@ export default function ModelsDomestic() {
               background: '#f8fafc',
               padding: '4px 8px',
               borderRadius: 999,
+              fontSize: '11px',
             }}
           >
             국적: {filters.nationality} ×
@@ -737,6 +1075,7 @@ export default function ModelsDomestic() {
               background: '#f8fafc',
               padding: '4px 8px',
               borderRadius: 999,
+              fontSize: '11px',
             }}
           >
             특기: {filters.specialty} ×
@@ -753,6 +1092,7 @@ export default function ModelsDomestic() {
               background: '#f8fafc',
               padding: '4px 8px',
               borderRadius: 999,
+              fontSize: '11px',
             }}
           >
             외국어: {filters.languages} ×
@@ -769,6 +1109,7 @@ export default function ModelsDomestic() {
               background: '#f8fafc',
               padding: '4px 8px',
               borderRadius: 999,
+              fontSize: '11px',
             }}
           >
             성별: {filters.gender === 'male' ? '남' : '여'} ×
@@ -779,7 +1120,14 @@ export default function ModelsDomestic() {
             type="button"
             className="iconBtn"
             onClick={reset}
-            style={{ display: 'inline-block', border: '1px solid #cbd5e1', background: '#ffffff' }}
+            style={{
+              display: 'inline-block',
+              border: '1px solid #cbd5e1',
+              background: '#ffffff',
+              padding: '4px 8px',
+              borderRadius: '999px',
+              fontSize: '11px',
+            }}
           >
             전체 해제
           </button>
@@ -787,7 +1135,7 @@ export default function ModelsDomestic() {
       </div>
 
       {/* Domestic models list */}
-      <div style={{ marginTop: 12 }}>
+      <div style={{ marginTop: 8 }}>
         {isLoading ? (
           <div style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
             데이터를 불러오는 중...
@@ -804,28 +1152,11 @@ export default function ModelsDomestic() {
             </div>
           </div>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
+          <div style={{ overflowX: 'auto', position: 'relative' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 1200 }}>
               <thead>
                 <tr style={{ background: '#f8fafc' }}>
-                  {[
-                    '이름',
-                    '성별',
-                    '생년월일',
-                    '전화번호',
-                    '소속사명',
-                    '담당자명',
-                    '담당자 전화번호',
-                    '주소',
-                    '국적',
-                    '특기',
-                    '가능한외국어',
-                    '인스타그램',
-                    '유튜브',
-                    '틱톡',
-                    '문신 위치',
-                    '비고',
-                  ].map((h) => (
+                  {headers.map((h) => (
                     <th
                       key={h}
                       style={{
@@ -845,199 +1176,401 @@ export default function ModelsDomestic() {
               </thead>
               <tbody>
                 {(domesticList || []).map((r, idx) => (
-                  <tr
-                    key={idx}
-                    onClick={() => setSelectedModelId(r.id)}
-                    style={{
-                      borderBottom: '1px solid #f3f4f6',
-                      cursor: 'pointer',
-                      background: selectedModelId === r.id ? '#dbeafe' : 'transparent',
-                      transition: 'background 120ms ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (selectedModelId !== r.id) {
-                        e.currentTarget.style.background = '#f8fafc'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (selectedModelId !== r.id) {
-                        e.currentTarget.style.background = 'transparent'
-                      }
-                    }}
-                  >
-                    <td
+                  <React.Fragment key={idx}>
+                    <tr
+                      onClick={() => handleModelClick(r.id)}
                       style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#0f172a',
-                        whiteSpace: 'nowrap',
-                        textAlign: 'left',
+                        borderBottom: '1px solid #f3f4f6',
+                        cursor: 'pointer',
+                        background: selectedModelId === r.id ? '#dbeafe' : 'transparent',
+                        transition: 'background 120ms ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        if (selectedModelId !== r.id) {
+                          e.currentTarget.style.background = '#f8fafc'
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedModelId !== r.id) {
+                          e.currentTarget.style.background = 'transparent'
+                        }
                       }}
                     >
-                      {r.name}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                        textAlign: 'center',
-                      }}
-                    >
-                      {formatGender(r.gender as unknown as string)}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                        textAlign: 'center',
-                      }}
-                    >
-                      {r.birth_date}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                        textAlign: 'center',
-                      }}
-                    >
-                      {toLocalKrPhone(r.phone) || display(r.phone)}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {display(r.agency_name)}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {display(r.agency_manager_name)}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {toLocalKrPhone(r.agency_manager_phone || '') ||
-                        display(r.agency_manager_phone || '')}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {[r.address_city, r.address_district, r.address_street]
-                        .filter((p) => !!(p && String(p).trim()))
-                        .map((p) => String(p).trim())
-                        .join(' ') || '-'}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {display(r.nationality)}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {display(
-                        (r as unknown as { special_abilities?: string | null }).special_abilities,
-                      )}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {display(
-                        (r as unknown as { other_languages?: string | null }).other_languages,
-                      )}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {display(r.instagram)}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {display(r.youtube)}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {display(r.tictok)}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {'-'}
-                    </td>
-                    <td
-                      style={{
-                        padding: '12px 16px',
-                        fontSize: 13,
-                        color: '#64748b',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {'-'}
-                    </td>
-                  </tr>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#0f172a',
+                          whiteSpace: 'nowrap',
+                          textAlign: 'left',
+                        }}
+                      >
+                        {r.name}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                          textAlign: 'center',
+                        }}
+                      >
+                        {formatGender(r.gender as unknown as string)}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                          textAlign: 'center',
+                        }}
+                      >
+                        {r.birth_date}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                          textAlign: 'center',
+                        }}
+                      >
+                        {toLocalKrPhone(r.phone) || display(r.phone)}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {display(r.agency_name)}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {display(r.agency_manager_name)}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {toLocalKrPhone(r.agency_manager_phone || '') ||
+                          display(r.agency_manager_phone || '')}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {[r.address_city, r.address_district, r.address_street]
+                          .filter((p) => !!(p && String(p).trim()))
+                          .map((p) => String(p).trim())
+                          .join(' ') || '-'}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {display(r.nationality)}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {display(
+                          (r as unknown as { special_abilities?: string | null }).special_abilities,
+                        )}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {display(
+                          (r as unknown as { other_languages?: string | null }).other_languages,
+                        )}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {display(r.instagram)}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {display(r.youtube)}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {display(r.tictok)}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {modelPhysicalSizes[r.id]?.has_tattoo
+                          ? modelPhysicalSizes[r.id].tattoo_location || '위치미상'
+                          : '없음'}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {modelPhysicalSizes[r.id]?.has_tattoo
+                          ? modelPhysicalSizes[r.id].tattoo_size || '-'
+                          : '-'}
+                      </td>
+                      <td
+                        style={{
+                          padding: '12px 16px',
+                          fontSize: 13,
+                          color: '#64748b',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {'-'}
+                      </td>
+                    </tr>
+
+                    {/* 확장된 행 - 신체사이즈 정보 */}
+                    {expandedModelId === r.id && (
+                      <tr key={`${idx}-detail`}>
+                        <td colSpan={headers.length} style={{ padding: 0, background: '#f8fafc' }}>
+                          <div style={{ padding: '20px' }}>
+                            {loadingDetails[r.id] ? (
+                              <div style={{ textAlign: 'center', padding: '20px' }}>
+                                <div style={{ fontSize: 14, color: '#64748b' }}>로딩 중...</div>
+                              </div>
+                            ) : modelPhysicalSizes[r.id] ? (
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '20px',
+                                }}
+                              >
+                                {/* 액션 아이콘 버튼 */}
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    gap: '8px',
+                                    flexShrink: 0,
+                                  }}
+                                >
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      // TODO: 수정 기능 구현
+                                      alert('수정 기능은 추후 구현 예정입니다.')
+                                    }}
+                                    style={{
+                                      width: '32px',
+                                      height: '32px',
+                                      background: 'transparent',
+                                      color: '#6b7280',
+                                      border: '1px solid #d1d5db',
+                                      borderRadius: '6px',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      transition: 'all 0.2s',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      e.currentTarget.style.background = '#f3f4f6'
+                                      e.currentTarget.style.color = '#374151'
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.background = 'transparent'
+                                      e.currentTarget.style.color = '#6b7280'
+                                    }}
+                                    title="수정"
+                                  >
+                                    <svg
+                                      width="14"
+                                      height="14"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    >
+                                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                      <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      handleDeleteModel(r.id)
+                                    }}
+                                    style={{
+                                      width: '32px',
+                                      height: '32px',
+                                      background: 'transparent',
+                                      color: '#6b7280',
+                                      border: '1px solid #d1d5db',
+                                      borderRadius: '6px',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      transition: 'all 0.2s',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      e.currentTarget.style.background = '#fef2f2'
+                                      e.currentTarget.style.color = '#dc2626'
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.background = 'transparent'
+                                      e.currentTarget.style.color = '#6b7280'
+                                    }}
+                                    title="삭제"
+                                  >
+                                    <svg
+                                      width="14"
+                                      height="14"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    >
+                                      <polyline points="3,6 5,6 21,6"></polyline>
+                                      <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                                      <line x1="10" y1="11" x2="10" y2="17"></line>
+                                      <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                  </button>
+                                </div>
+
+                                {/* 신체사이즈 정보 - 한 줄로 표시 */}
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    gap: '24px',
+                                    flex: 1,
+                                    alignItems: 'center',
+                                    fontSize: '13px',
+                                    color: '#374151',
+                                  }}
+                                >
+                                  <div
+                                    style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                                  >
+                                    <span style={{ color: '#64748b', fontWeight: 500 }}>키:</span>
+                                    <span style={{ fontWeight: 600 }}>
+                                      {modelPhysicalSizes[r.id].height
+                                        ? `${modelPhysicalSizes[r.id].height}cm`
+                                        : '-'}
+                                    </span>
+                                  </div>
+                                  <div
+                                    style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                                  >
+                                    <span style={{ color: '#64748b', fontWeight: 500 }}>
+                                      몸무게:
+                                    </span>
+                                    <span style={{ fontWeight: 600 }}>
+                                      {modelPhysicalSizes[r.id].weight
+                                        ? `${modelPhysicalSizes[r.id].weight}kg`
+                                        : '-'}
+                                    </span>
+                                  </div>
+                                  <div
+                                    style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                                  >
+                                    <span style={{ color: '#64748b', fontWeight: 500 }}>상의:</span>
+                                    <span style={{ fontWeight: 600 }}>
+                                      {modelPhysicalSizes[r.id].top_size || '-'}
+                                    </span>
+                                  </div>
+                                  <div
+                                    style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                                  >
+                                    <span style={{ color: '#64748b', fontWeight: 500 }}>하의:</span>
+                                    <span style={{ fontWeight: 600 }}>
+                                      {modelPhysicalSizes[r.id].bottom_size || '-'}
+                                    </span>
+                                  </div>
+                                  <div
+                                    style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                                  >
+                                    <span style={{ color: '#64748b', fontWeight: 500 }}>신발:</span>
+                                    <span style={{ fontWeight: 600 }}>
+                                      {modelPhysicalSizes[r.id].shoes_size || '-'}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div style={{ textAlign: 'center', padding: '20px' }}>
+                                <div style={{ fontSize: 14, color: '#64748b' }}>
+                                  상세 정보를 불러올 수 없습니다.
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>

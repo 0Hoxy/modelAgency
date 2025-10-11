@@ -222,7 +222,7 @@ export default function HrPerformance() {
               style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}
             >
               <BarChart3 size={20} style={{ color: '#3b82f6' }} />
-              <span style={{ fontSize: '14px', color: '#6b7280' }}>총 평가</span>
+              <span style={{ fontSize: '12px', color: '#6b7280' }}>총 평가</span>
             </div>
             <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
               {summaryStats.totalReviews}건
@@ -241,7 +241,7 @@ export default function HrPerformance() {
               style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}
             >
               <Target size={20} style={{ color: '#10b981' }} />
-              <span style={{ fontSize: '14px', color: '#6b7280' }}>완료율</span>
+              <span style={{ fontSize: '12px', color: '#6b7280' }}>완료율</span>
             </div>
             <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
               {summaryStats.completionRate.toFixed(1)}%
@@ -260,7 +260,7 @@ export default function HrPerformance() {
               style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}
             >
               <Star size={20} style={{ color: '#f59e0b' }} />
-              <span style={{ fontSize: '14px', color: '#6b7280' }}>평균 점수</span>
+              <span style={{ fontSize: '12px', color: '#6b7280' }}>평균 점수</span>
             </div>
             <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
               {summaryStats.averageRating.toFixed(1)}점
@@ -279,7 +279,7 @@ export default function HrPerformance() {
               style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}
             >
               <Users size={20} style={{ color: '#8b5cf6' }} />
-              <span style={{ fontSize: '14px', color: '#6b7280' }}>총 목표</span>
+              <span style={{ fontSize: '12px', color: '#6b7280' }}>총 목표</span>
             </div>
             <div style={{ fontSize: '24px', fontWeight: 600, color: '#111827' }}>
               {summaryStats.totalGoals}개
@@ -369,7 +369,7 @@ export default function HrPerformance() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    padding: '8px 16px',
+                    padding: '6px 12px',
                     border: '1px solid #d1d5db',
                     borderRadius: '6px',
                     background: 'white',
@@ -386,7 +386,7 @@ export default function HrPerformance() {
                   <label
                     style={{
                       display: 'block',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       fontWeight: 500,
                       marginBottom: '8px',
                     }}
@@ -427,7 +427,7 @@ export default function HrPerformance() {
                     <label
                       style={{
                         display: 'block',
-                        fontSize: '14px',
+                        fontSize: '12px',
                         fontWeight: 500,
                         marginBottom: '8px',
                       }}
@@ -463,12 +463,12 @@ export default function HrPerformance() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
-                background: 'none',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Plus size={16} />
@@ -483,12 +483,12 @@ export default function HrPerformance() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
-                background: 'none',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Upload size={16} />
@@ -499,12 +499,12 @@ export default function HrPerformance() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
-                background: 'none',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Download size={16} />
@@ -771,7 +771,7 @@ export default function HrPerformance() {
                     이전
                   </button>
 
-                  <span style={{ padding: '8px 16px', fontSize: '14px' }}>
+                  <span style={{ padding: '8px 16px', fontSize: '12px' }}>
                     {currentPage} /{' '}
                     {selectedTab === 'reviews'
                       ? paginatedReviews.totalPages
@@ -843,7 +843,7 @@ export default function HrPerformance() {
                     <div style={{ marginBottom: '16px' }}>
                       <h4
                         style={{
-                          fontSize: '14px',
+                          fontSize: '12px',
                           fontWeight: 500,
                           marginBottom: '8px',
                           color: '#374151',
@@ -851,7 +851,7 @@ export default function HrPerformance() {
                       >
                         기본 정보
                       </h4>
-                      <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
                         <div style={{ marginBottom: '4px' }}>
                           <strong>직원:</strong> {selectedReview.employeeName}
                         </div>
@@ -886,7 +886,7 @@ export default function HrPerformance() {
                     <div style={{ marginBottom: '16px' }}>
                       <h4
                         style={{
-                          fontSize: '14px',
+                          fontSize: '12px',
                           fontWeight: 500,
                           marginBottom: '8px',
                           color: '#374151',
@@ -894,7 +894,7 @@ export default function HrPerformance() {
                       >
                         강점
                       </h4>
-                      <div style={{ fontSize: '14px' }}>
+                      <div style={{ fontSize: '12px' }}>
                         {selectedReview.strengths.map((strength: string, index: number) => (
                           <div key={index} style={{ marginBottom: '4px' }}>
                             • {strength}
@@ -906,7 +906,7 @@ export default function HrPerformance() {
                     <div>
                       <h4
                         style={{
-                          fontSize: '14px',
+                          fontSize: '12px',
                           fontWeight: 500,
                           marginBottom: '8px',
                           color: '#374151',
@@ -914,7 +914,7 @@ export default function HrPerformance() {
                       >
                         개선사항
                       </h4>
-                      <div style={{ fontSize: '14px' }}>
+                      <div style={{ fontSize: '12px' }}>
                         {selectedReview.improvements.map((improvement: string, index: number) => (
                           <div key={index} style={{ marginBottom: '4px' }}>
                             • {improvement}
@@ -939,7 +939,7 @@ export default function HrPerformance() {
                     <div style={{ marginBottom: '16px' }}>
                       <h4
                         style={{
-                          fontSize: '14px',
+                          fontSize: '12px',
                           fontWeight: 500,
                           marginBottom: '8px',
                           color: '#374151',
@@ -947,7 +947,7 @@ export default function HrPerformance() {
                       >
                         기본 정보
                       </h4>
-                      <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
                         <div style={{ marginBottom: '4px' }}>
                           <strong>목표명:</strong> {selectedGoal.title}
                         </div>
@@ -978,7 +978,7 @@ export default function HrPerformance() {
                     <div>
                       <h4
                         style={{
-                          fontSize: '14px',
+                          fontSize: '12px',
                           fontWeight: 500,
                           marginBottom: '8px',
                           color: '#374151',
@@ -1025,7 +1025,7 @@ export default function HrPerformance() {
                   <div style={{ marginBottom: '16px' }}>
                     <h4
                       style={{
-                        fontSize: '14px',
+                        fontSize: '12px',
                         fontWeight: 500,
                         marginBottom: '8px',
                         color: '#374151',
@@ -1033,7 +1033,7 @@ export default function HrPerformance() {
                     >
                       기본 정보
                     </h4>
-                    <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
                       <div style={{ marginBottom: '4px' }}>
                         <strong>피드백 제공자:</strong> {selectedFeedback.fromEmployeeName}
                       </div>
@@ -1060,7 +1060,7 @@ export default function HrPerformance() {
                   <div>
                     <h4
                       style={{
-                        fontSize: '14px',
+                        fontSize: '12px',
                         fontWeight: 500,
                         marginBottom: '8px',
                         color: '#374151',
@@ -1070,7 +1070,7 @@ export default function HrPerformance() {
                     </h4>
                     <div
                       style={{
-                        fontSize: '14px',
+                        fontSize: '12px',
                         padding: '12px',
                         background: '#f9fafb',
                         borderRadius: '6px',

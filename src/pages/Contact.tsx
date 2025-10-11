@@ -299,10 +299,10 @@ export default function Contact() {
                 onChange={(e) => handleSearch(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '8px 12px',
+                  padding: '6px 10px',
                   border: '1px solid #d1d5db',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                 }}
               />
             </div>
@@ -312,12 +312,13 @@ export default function Contact() {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
+                    gap: '6px',
+                    padding: '6px 12px',
                     border: '1px solid #d1d5db',
                     borderRadius: '6px',
                     background: 'white',
                     cursor: 'pointer',
+                    fontSize: '12px',
                   }}
                 >
                   <Filter size={16} />

@@ -145,7 +145,7 @@ export default function FinanceExpenses() {
                 background: 'none',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Download size={16} />
@@ -161,7 +161,7 @@ export default function FinanceExpenses() {
                 background: 'none',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Plus size={16} />
@@ -554,7 +554,7 @@ export default function FinanceExpenses() {
                         background: 'white',
                         color: '#374151',
                         cursor: 'pointer',
-                        fontSize: '14px',
+                        fontSize: '12px',
                       }}
                     >
                       초기화
@@ -568,7 +568,7 @@ export default function FinanceExpenses() {
                         background: '#3b82f6',
                         color: 'white',
                         cursor: 'pointer',
-                        fontSize: '14px',
+                        fontSize: '12px',
                       }}
                     >
                       적용

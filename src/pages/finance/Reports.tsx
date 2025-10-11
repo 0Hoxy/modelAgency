@@ -116,12 +116,12 @@ export default function FinanceReports() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
                 background: 'none',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Download size={16} />
@@ -133,12 +133,12 @@ export default function FinanceReports() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
                 background: 'none',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <FileText size={16} />

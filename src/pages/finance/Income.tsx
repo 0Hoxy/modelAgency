@@ -22,12 +22,12 @@ export default function FinanceIncome() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
                 background: 'none',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Download size={16} />
@@ -38,12 +38,12 @@ export default function FinanceIncome() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
                 background: 'none',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Plus size={16} />
@@ -269,7 +269,7 @@ export default function FinanceIncome() {
                   padding: '8px 12px',
                   border: '1px solid #d1d5db',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                 }}
               />
             </div>
@@ -278,7 +278,7 @@ export default function FinanceIncome() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 background: 'white',

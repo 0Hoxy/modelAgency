@@ -6,7 +6,7 @@
 export type CommonFilters = {
   query?: string // 통합 검색어
   name?: string // 이름
-  gender?: 'all' | 'male' | 'female' // 성별
+  gender?: 'all' | 'male' | 'female' | 'others' // 성별
   nationality?: string // 국적 (쉼표로 구분된 다중 선택)
   specialty?: string // 특기 (쉼표로 구분된 다중 선택)
   languages?: string // 가능한 언어 (쉼표로 구분된 다중 선택)
@@ -15,6 +15,9 @@ export type CommonFilters = {
 // 국내모델 전용 필터
 export type DomesticFilters = CommonFilters & {
   address?: string // 주소 (쉼표로 구분된 다중 선택)
+  address_city?: string // 시/도
+  address_district?: string // 구/군
+  address_street?: string // 동/면/읍
   agency?: string // 소속사
   manager?: string // 담당자
 }
@@ -22,6 +25,9 @@ export type DomesticFilters = CommonFilters & {
 // 해외모델 전용 필터
 export type OverseasFilters = CommonFilters & {
   address?: string // 주소 (쉼표로 구분된 다중 선택)
+  address_city?: string // 시/도
+  address_district?: string // 구/군
+  address_street?: string // 동/면/읍
 }
 
 // 통합 검색 파라미터

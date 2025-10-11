@@ -1,6 +1,6 @@
 // 모델 관리 API
 
-import { get, post, put } from '@utils/http'
+import { del, get, post, put } from '@utils/http'
 
 // ==================== 타입 정의 ====================
 
@@ -334,10 +334,10 @@ export async function updateGlobalModel(data: UpdateGlobalModelRequest): Promise
 export interface DomesticListItem {
   id: string
   name: string
+  stage_name?: string | null
   gender: Gender
   birth_date: string
   phone: string
-  height?: number | null
   nationality?: string | null
   address_city?: string | null
   address_district?: string | null
@@ -345,11 +345,21 @@ export interface DomesticListItem {
   instagram?: string | null
   youtube?: string | null
   tictok?: string | null
+  special_abilities?: string | null
+  other_languages?: string | null
+  has_tattoo?: boolean | null
+  tattoo_location?: string | null
+  tattoo_size?: string | null
+  height?: number | null
+  weight?: number | null
+  top_size?: string | null
+  bottom_size?: string | null
+  shoes_size?: string | null
+  is_foreigner?: boolean | null
   has_agency?: boolean | null
   agency_name?: string | null
   agency_manager_name?: string | null
   agency_manager_phone?: string | null
-  created_at?: string
 }
 
 export interface PaginatedResponse<T> {
@@ -383,30 +393,47 @@ function normalizePage<T>(
   type AliasPage = {
     items?: T[]
     results?: T[]
+    models?: T[]
     total?: number
     count?: number
+    total_count?: number
     page?: number
     page_size?: number
     total_pages?: number
   }
-  const anyRaw = raw as AliasPage
-  if (anyRaw && Array.isArray(anyRaw.items) && typeof anyRaw.total === 'number') {
-    const totalPages = anyRaw.total_pages || Math.max(1, Math.ceil(anyRaw.total / params.page_size))
+  const aliasPage = raw as AliasPage
+  if (aliasPage && Array.isArray(aliasPage.items) && typeof aliasPage.total === 'number') {
+    const totalPages =
+      aliasPage.total_pages || Math.max(1, Math.ceil(aliasPage.total / params.page_size))
     return {
-      data: anyRaw.items as T[],
-      total: anyRaw.total as number,
-      page: anyRaw.page ?? params.page,
-      page_size: anyRaw.page_size ?? params.page_size,
+      data: aliasPage.items as T[],
+      total: aliasPage.total as number,
+      page: aliasPage.page ?? params.page,
+      page_size: aliasPage.page_size ?? params.page_size,
       total_pages: totalPages,
     }
   }
-  if (anyRaw && Array.isArray(anyRaw.results) && typeof anyRaw.count === 'number') {
-    const totalPages = anyRaw.total_pages || Math.max(1, Math.ceil(anyRaw.count / params.page_size))
+  if (aliasPage && Array.isArray(aliasPage.results) && typeof aliasPage.count === 'number') {
+    const totalPages =
+      aliasPage.total_pages || Math.max(1, Math.ceil(aliasPage.count / params.page_size))
     return {
-      data: anyRaw.results as T[],
-      total: anyRaw.count as number,
-      page: anyRaw.page ?? params.page,
-      page_size: anyRaw.page_size ?? params.page_size,
+      data: aliasPage.results as T[],
+      total: aliasPage.count as number,
+      page: aliasPage.page ?? params.page,
+      page_size: aliasPage.page_size ?? params.page_size,
+      total_pages: totalPages,
+    }
+  }
+
+  // Handle models array with total_count (API response format)
+  if (aliasPage && Array.isArray(aliasPage.models) && typeof aliasPage.total_count === 'number') {
+    const totalPages =
+      aliasPage.total_pages || Math.max(1, Math.ceil(aliasPage.total_count / params.page_size))
+    return {
+      data: aliasPage.models as T[],
+      total: aliasPage.total_count as number,
+      page: aliasPage.page ?? params.page,
+      page_size: aliasPage.page_size ?? params.page_size,
       total_pages: totalPages,
     }
   }
@@ -435,13 +462,29 @@ function normalizePage<T>(
   }
 }
 
-export async function getDomesticModels(params: {
-  page: number
-  page_size: number
-  // optional filters can be added here later
-}): Promise<PaginatedResponse<DomesticListItem>> {
-  const raw = await get<unknown>('/models/domestic', { params })
-  return normalizePage<DomesticListItem>(raw, params)
+export interface DomesticSearchParams {
+  page?: number
+  page_size?: number
+  name?: string
+  gender?: string
+  nationality?: string
+  address_city?: string
+  address_district?: string
+  address_street?: string
+  special_abilities?: string
+  other_languages?: string
+}
+
+export async function getDomesticModels(
+  params: DomesticSearchParams,
+): Promise<PaginatedResponse<DomesticListItem>> {
+  const raw = await get<unknown>('/admins/models/domestic', { params })
+  // normalizePage 함수에 필요한 필수 파라미터 전달
+  const normalizedParams = {
+    page: params.page ?? 1,
+    page_size: params.page_size ?? 20,
+  }
+  return normalizePage<DomesticListItem>(raw, normalizedParams)
 }
 
 // ==================== 해외 모델 목록 ====================
@@ -462,12 +505,153 @@ export interface GlobalListItem {
   created_at?: string
 }
 
-export async function getGlobalModels(params: {
-  page: number
-  page_size: number
-}): Promise<PaginatedResponse<GlobalListItem>> {
-  const raw = await get<unknown>('/models/global', { params })
-  return normalizePage<GlobalListItem>(raw, params)
+export interface GlobalSearchParams {
+  page?: number
+  page_size?: number
+  name?: string
+  gender?: string
+  nationality?: string
+  address_city?: string
+  address_district?: string
+  address_street?: string | null
+  special_abilities?: string
+  other_languages?: string
+  korean_level?: string
+  visa_type?: string
+}
+
+export async function getGlobalModels(
+  params: GlobalSearchParams,
+): Promise<PaginatedResponse<GlobalListItem>> {
+  const raw = await get<unknown>('/admins/models/global', { params })
+  // normalizePage 함수에 필요한 필수 파라미터 전달
+  const normalizedParams = {
+    page: params.page ?? 1,
+    page_size: params.page_size ?? 20,
+  }
+  return normalizePage<GlobalListItem>(raw, normalizedParams)
+}
+
+// ==================== 필터 옵션 조회 ====================
+
+export interface FilterOption {
+  label: string
+  value: string
+  description?: string // 설명 (한국어 능력, 비자 타입 등에 사용)
+}
+
+export interface AddressDistrictOption extends FilterOption {
+  dongs: string[]
+}
+
+export interface AddressCityOption extends FilterOption {
+  districts: AddressDistrictOption[]
+}
+
+export interface FilterOptionsResponse {
+  nationalities: FilterOption[]
+  specialties: FilterOption[]
+  languages: FilterOption[]
+  korean_levels: FilterOption[] // description 포함
+  visa_types: FilterOption[] // description 포함
+  address_cities: AddressCityOption[]
+  metadata: {
+    last_updated: string
+    version: string
+    total_counts: {
+      nationalities: number
+      specialties: number
+      languages: number
+      korean_levels: number
+      visa_types: number
+      address_cities: number
+    }
+  }
+}
+
+/**
+ * 필터 옵션 조회
+ * GET /admins/models/filter-options
+ */
+export async function getFilterOptions(): Promise<FilterOptionsResponse> {
+  const response = await get<FilterOptionsResponse>('/admins/models/filter-options')
+  return response
+}
+
+/**
+ * 주소 시/도 목록 조회
+ * GET /admins/models/address/cities
+ */
+export async function getAddressCities(): Promise<AddressCityOption[]> {
+  const response = await get<AddressCityOption[]>('/admins/models/address/cities')
+  return response
+}
+
+/**
+ * 특정 시/도의 구/군 목록 조회
+ * GET /admins/models/address/districts?city={city}
+ */
+export async function getAddressDistricts(city: string): Promise<AddressDistrictOption[]> {
+  const response = await get<AddressDistrictOption[]>(
+    `/admins/models/address/districts?city=${encodeURIComponent(city)}`,
+  )
+  return response
+}
+
+/**
+ * 특정 구/군의 동/면/읍 목록 조회
+ * GET /admins/models/address/dongs?city={city}&district={district}
+ */
+export async function getAddressDongs(city: string, district: string): Promise<string[]> {
+  const response = await get<string[]>(
+    `/admins/models/address/dongs?city=${encodeURIComponent(city)}&district=${encodeURIComponent(district)}`,
+  )
+  return response
+}
+
+// ==================== 모델 상세 정보 조회 ====================
+
+/**
+ * 모델 신체 사이즈 정보 조회
+ * GET /admins/models/{model_id}/physical
+ */
+export interface ModelPhysicalSize {
+  id: string
+  height?: number | null
+  weight?: number | null
+  top_size?: string | null
+  bottom_size?: string | null
+  shoes_size?: string | null
+  has_tattoo?: boolean
+  tattoo_location?: string | null
+  tattoo_size?: string | null
+  // 해외 모델 추가 정보
+  visa_type?: VisaType | null
+  korean_level?: KoreanLevel | null
+}
+
+export async function getModelPhysicalSize(modelId: string): Promise<ModelPhysicalSize> {
+  return get<ModelPhysicalSize>(`/admins/models/${modelId}/physical`)
+}
+
+// ==================== 모델 삭제 ====================
+
+/**
+ * 국내 모델 삭제
+ * DELETE /admins/models/{id}
+ */
+export async function deleteDomesticModel(id: string): Promise<void> {
+  console.log('삭제 요청 ID:', id, '타입:', typeof id)
+  return del(`/admins/models/${id}`)
+}
+
+/**
+ * 해외 모델 삭제
+ * DELETE /admins/models/{id}
+ */
+export async function deleteGlobalModel(id: string): Promise<void> {
+  console.log('삭제 요청 ID:', id, '타입:', typeof id)
+  return del(`/admins/models/${id}`)
 }
 
 // ==================== 카메라테스트 목록 조회 ====================

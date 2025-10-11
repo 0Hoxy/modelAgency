@@ -1,7 +1,7 @@
 /**
  * Authentication API
  */
-import { post } from '@utils/http'
+import { get, post, put } from '@utils/http'
 
 // 사용자 역할
 export type UserRole = 'ADMIN' | 'DIRECTOR'
@@ -46,6 +46,18 @@ export interface SignupRequest {
 // 회원가입 응답 타입
 export type SignupResponse = UserResponse
 
+// 리프레시 토큰 요청 타입
+export interface RefreshTokenRequest {
+  refresh_token: string
+}
+
+// 리프레시 토큰 응답 타입
+export interface RefreshTokenResponse {
+  access_token: string
+  refresh_token: string
+  token_type: string
+}
+
 /**
  * 관리자 로그인
  * POST /accounts/login
@@ -67,6 +79,36 @@ export async function signup(data: SignupRequest): Promise<SignupResponse> {
     role: 'ADMIN',
     provider: data.provider || 'LOCAL',
   })
+}
+
+/**
+ * 토큰 갱신
+ * POST /accounts/refresh
+ */
+export async function refreshToken(data: RefreshTokenRequest): Promise<RefreshTokenResponse> {
+  return post<RefreshTokenResponse>('/accounts/refresh', data)
+}
+
+/**
+ * 현재 사용자 정보 조회
+ * GET /accounts/me
+ */
+export async function getCurrentUserInfo(): Promise<UserResponse> {
+  return get<UserResponse>('/accounts/me')
+}
+
+// 비밀번호 변경 요청 타입
+export interface ChangePasswordRequest {
+  current_password: string
+  new_password: string
+}
+
+/**
+ * 비밀번호 변경
+ * PUT /accounts/me/password
+ */
+export async function changePassword(data: ChangePasswordRequest): Promise<void> {
+  return put<void>('/accounts/me/password', data)
 }
 
 /**

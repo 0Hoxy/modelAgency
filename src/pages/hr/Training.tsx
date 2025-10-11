@@ -224,15 +224,16 @@ export default function HrTraining() {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
+                    gap: '6px',
+                    padding: '5px 10px',
                     border: '1px solid #d1d5db',
                     borderRadius: '6px',
                     background: 'white',
                     cursor: 'pointer',
+                    fontSize: '11px',
                   }}
                 >
-                  <Filter size={16} />
+                  <Filter size={14} />
                   필터
                 </button>
               }
@@ -242,7 +243,7 @@ export default function HrTraining() {
                   <label
                     style={{
                       display: 'block',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       fontWeight: 500,
                       marginBottom: '8px',
                     }}
@@ -283,7 +284,7 @@ export default function HrTraining() {
                     <label
                       style={{
                         display: 'block',
-                        fontSize: '14px',
+                        fontSize: '12px',
                         fontWeight: 500,
                         marginBottom: '8px',
                       }}
@@ -318,12 +319,12 @@ export default function HrTraining() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
-                background: 'none',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Plus size={16} />
@@ -334,12 +335,12 @@ export default function HrTraining() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
-                background: 'none',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Upload size={16} />
@@ -350,12 +351,12 @@ export default function HrTraining() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
+                padding: '6px 12px',
                 border: 'none',
-                background: 'none',
+                background: 'transparent',
                 color: '#374151',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '12px',
               }}
             >
               <Download size={16} />
@@ -586,7 +587,7 @@ export default function HrTraining() {
                     이전
                   </button>
 
-                  <span style={{ padding: '8px 16px', fontSize: '14px' }}>
+                  <span style={{ padding: '8px 16px', fontSize: '12px' }}>
                     {currentPage} /{' '}
                     {selectedTab === 'courses'
                       ? paginatedCourses.totalPages
@@ -650,7 +651,7 @@ export default function HrTraining() {
                     <div style={{ marginBottom: '16px' }}>
                       <h4
                         style={{
-                          fontSize: '14px',
+                          fontSize: '12px',
                           fontWeight: 500,
                           marginBottom: '8px',
                           color: '#374151',
@@ -658,7 +659,7 @@ export default function HrTraining() {
                       >
                         기본 정보
                       </h4>
-                      <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
                         <div style={{ marginBottom: '4px' }}>
                           <strong>설명:</strong> {selectedCourse.description}
                         </div>
@@ -689,7 +690,7 @@ export default function HrTraining() {
                     <div style={{ marginBottom: '16px' }}>
                       <h4
                         style={{
-                          fontSize: '14px',
+                          fontSize: '12px',
                           fontWeight: 500,
                           marginBottom: '8px',
                           color: '#374151',
@@ -697,7 +698,7 @@ export default function HrTraining() {
                       >
                         사전 요구사항
                       </h4>
-                      <div style={{ fontSize: '14px' }}>
+                      <div style={{ fontSize: '12px' }}>
                         {selectedCourse.prerequisites?.map((prereq, index) => (
                           <div
                             key={index}
@@ -719,7 +720,7 @@ export default function HrTraining() {
                     <div>
                       <h4
                         style={{
-                          fontSize: '14px',
+                          fontSize: '12px',
                           fontWeight: 500,
                           marginBottom: '8px',
                           color: '#374151',
@@ -727,7 +728,7 @@ export default function HrTraining() {
                       >
                         학습 목표
                       </h4>
-                      <div style={{ fontSize: '14px' }}>
+                      <div style={{ fontSize: '12px' }}>
                         {selectedCourse.objectives.map((objective, index) => (
                           <div key={index} style={{ marginBottom: '4px' }}>
                             • {objective}
@@ -751,7 +752,7 @@ export default function HrTraining() {
                   <div style={{ marginBottom: '16px' }}>
                     <h4
                       style={{
-                        fontSize: '14px',
+                        fontSize: '12px',
                         fontWeight: 500,
                         marginBottom: '8px',
                         color: '#374151',
@@ -759,7 +760,7 @@ export default function HrTraining() {
                     >
                       수강자 정보
                     </h4>
-                    <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
                       <div style={{ marginBottom: '4px' }}>
                         <strong>이름:</strong> {selectedEnrollment.employeeName}
                       </div>
@@ -782,7 +783,7 @@ export default function HrTraining() {
                   <div>
                     <h4
                       style={{
-                        fontSize: '14px',
+                        fontSize: '12px',
                         fontWeight: 500,
                         marginBottom: '8px',
                         color: '#374151',
@@ -792,7 +793,7 @@ export default function HrTraining() {
                     </h4>
                     <div
                       style={{
-                        fontSize: '14px',
+                        fontSize: '12px',
                         padding: '12px',
                         background: '#f9fafb',
                         borderRadius: '6px',

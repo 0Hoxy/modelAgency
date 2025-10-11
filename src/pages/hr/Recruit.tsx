@@ -390,7 +390,7 @@ export default function HrRecruit() {
                   padding: '8px 12px',
                   border: '1px solid #e2e8f0',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                 }}
               >
                 <option value="">전체 단계</option>
@@ -408,7 +408,7 @@ export default function HrRecruit() {
                   padding: '8px 12px',
                   border: '1px solid #e2e8f0',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                 }}
               >
                 <option value="">전체 채용공고</option>
@@ -518,7 +518,7 @@ export default function HrRecruit() {
                   padding: '6px 12px',
                   border: 'none',
                   background: 'none',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: '#374151',
                   cursor: 'pointer',
                   borderRadius: '4px',
@@ -539,7 +539,7 @@ export default function HrRecruit() {
                   padding: '6px 12px',
                   border: 'none',
                   background: 'none',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: '#374151',
                   cursor: 'pointer',
                   borderRadius: '4px',
@@ -560,7 +560,7 @@ export default function HrRecruit() {
                   padding: '6px 12px',
                   border: 'none',
                   background: 'none',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: '#374151',
                   cursor: 'pointer',
                   borderRadius: '4px',
@@ -584,7 +584,7 @@ export default function HrRecruit() {
                   padding: '6px 12px',
                   border: 'none',
                   background: 'none',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: '#374151',
                   cursor: 'pointer',
                   borderRadius: '4px',
@@ -605,7 +605,7 @@ export default function HrRecruit() {
                   padding: '6px 12px',
                   border: 'none',
                   background: 'none',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: '#374151',
                   cursor: 'pointer',
                   borderRadius: '4px',
@@ -626,7 +626,7 @@ export default function HrRecruit() {
                   padding: '6px 12px',
                   border: 'none',
                   background: 'none',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: '#374151',
                   cursor: 'pointer',
                   borderRadius: '4px',
@@ -1023,7 +1023,7 @@ export default function HrRecruit() {
                       border: '1px solid #e2e8f0',
                       background: '#fff',
                       borderRadius: '4px',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       cursor: 'pointer',
                     }}
                   >
@@ -1101,7 +1101,7 @@ export default function HrRecruit() {
                         display: 'grid',
                         gridTemplateColumns: '1fr 1fr',
                         gap: '12px',
-                        fontSize: '14px',
+                        fontSize: '12px',
                       }}
                     >
                       <div>
@@ -1123,7 +1123,7 @@ export default function HrRecruit() {
                         display: 'grid',
                         gridTemplateColumns: '1fr',
                         gap: '12px',
-                        fontSize: '14px',
+                        fontSize: '12px',
                         marginTop: '8px',
                       }}
                     >
@@ -1213,7 +1213,7 @@ export default function HrRecruit() {
                             <a
                               href={`#${selected.resumeUrl}`}
                               style={{
-                                fontSize: '14px',
+                                fontSize: '12px',
                                 color: '#3b82f6',
                                 textDecoration: 'none',
                                 fontWeight: 500,
@@ -1266,7 +1266,7 @@ export default function HrRecruit() {
                         border: '1px solid #e2e8f0',
                         background: '#fff',
                         borderRadius: '6px',
-                        fontSize: '14px',
+                        fontSize: '12px',
                         cursor: 'pointer',
                         flex: 1,
                         fontWeight: 500,
@@ -1282,7 +1282,7 @@ export default function HrRecruit() {
                         border: '1px solid #e2e8f0',
                         background: selected?.resumeUrl ? '#fff' : '#f8fafc',
                         borderRadius: '6px',
-                        fontSize: '14px',
+                        fontSize: '12px',
                         cursor: selected?.resumeUrl ? 'pointer' : 'not-allowed',
                         flex: 1,
                         fontWeight: 500,
@@ -1746,7 +1746,7 @@ export default function HrRecruit() {
                   border: 'none',
                   background: stageValue === selected?.stage ? '#f8fafc' : 'transparent',
                   color: stageValue === selected?.stage ? '#64748b' : '#374151',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   textAlign: 'left',
                   cursor: stageValue === selected?.stage ? 'default' : 'pointer',
                   display: 'flex',
@@ -1829,7 +1829,7 @@ export default function HrRecruit() {
               <label
                 style={{
                   display: 'block',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontWeight: 500,
                   marginBottom: '8px',
                   color: '#374151',
@@ -1847,7 +1847,7 @@ export default function HrRecruit() {
                   padding: '12px',
                   border: '1px solid #e2e8f0',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   background: '#fff',
                   resize: 'vertical',
                   fontFamily: 'inherit',
@@ -1863,7 +1863,7 @@ export default function HrRecruit() {
                   border: '1px solid #e2e8f0',
                   background: '#fff',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   cursor: 'pointer',
                   color: '#64748b',
                 }}
@@ -1879,7 +1879,7 @@ export default function HrRecruit() {
                   background: '#3b82f6',
                   color: '#fff',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   cursor: newMemo.trim() ? 'pointer' : 'not-allowed',
                   opacity: newMemo.trim() ? 1 : 0.5,
                   fontWeight: 500,
@@ -1937,7 +1937,7 @@ export default function HrRecruit() {
                 <label
                   style={{
                     display: 'block',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontWeight: 500,
                     marginBottom: '8px',
                     color: '#374151',
@@ -1953,7 +1953,7 @@ export default function HrRecruit() {
                     padding: '12px',
                     border: '1px solid #e2e8f0',
                     borderRadius: '6px',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     background: '#fff',
                   }}
                 />
@@ -1964,7 +1964,7 @@ export default function HrRecruit() {
                   <label
                     style={{
                       display: 'block',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       fontWeight: 500,
                       marginBottom: '8px',
                       color: '#374151',
@@ -1979,7 +1979,7 @@ export default function HrRecruit() {
                       padding: '12px',
                       border: '1px solid #e2e8f0',
                       borderRadius: '6px',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       background: '#fff',
                     }}
                   >
@@ -1996,7 +1996,7 @@ export default function HrRecruit() {
                   <label
                     style={{
                       display: 'block',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       fontWeight: 500,
                       marginBottom: '8px',
                       color: '#374151',
@@ -2011,7 +2011,7 @@ export default function HrRecruit() {
                       padding: '12px',
                       border: '1px solid #e2e8f0',
                       borderRadius: '6px',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       background: '#fff',
                     }}
                   >
@@ -2027,7 +2027,7 @@ export default function HrRecruit() {
                 <label
                   style={{
                     display: 'block',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontWeight: 500,
                     marginBottom: '8px',
                     color: '#374151',
@@ -2043,7 +2043,7 @@ export default function HrRecruit() {
                     padding: '12px',
                     border: '1px solid #e2e8f0',
                     borderRadius: '6px',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     background: '#fff',
                     resize: 'vertical',
                   }}
@@ -2055,7 +2055,7 @@ export default function HrRecruit() {
                   <label
                     style={{
                       display: 'block',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       fontWeight: 500,
                       marginBottom: '8px',
                       color: '#374151',
@@ -2079,7 +2079,7 @@ export default function HrRecruit() {
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
-                            fontSize: '14px',
+                            fontSize: '12px',
                             cursor: 'pointer',
                             padding: '8px 12px',
                             borderRadius: '8px',
@@ -2124,7 +2124,7 @@ export default function HrRecruit() {
                   <label
                     style={{
                       display: 'block',
-                      fontSize: '14px',
+                      fontSize: '12px',
                       fontWeight: 500,
                       marginBottom: '8px',
                       color: '#374151',
@@ -2148,7 +2148,7 @@ export default function HrRecruit() {
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
-                            fontSize: '14px',
+                            fontSize: '12px',
                             cursor: 'pointer',
                             padding: '8px 12px',
                             borderRadius: '8px',
@@ -2208,7 +2208,7 @@ export default function HrRecruit() {
                   border: '1px solid #e2e8f0',
                   background: '#fff',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   cursor: 'pointer',
                   color: '#64748b',
                 }}
@@ -2227,7 +2227,7 @@ export default function HrRecruit() {
                   background: '#3b82f6',
                   color: '#fff',
                   borderRadius: '6px',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   cursor: 'pointer',
                   fontWeight: 500,
                 }}

@@ -53,21 +53,35 @@ export function Pagination({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 16,
+        padding: '12px 16px',
+        background: '#ffffff',
+        borderRadius: 8,
+        border: '1px solid #e2e8f0',
+        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
       }}
     >
       {/* Page size selector */}
       {showPageSizeSelector && onPageSizeChange && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 14, color: '#64748b' }}>페이지당</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>페이지당</span>
           <select
             value={pageSize}
             onChange={(e) => onPageSizeChange(Number(e.target.value))}
             style={{
               padding: '4px 8px',
-              border: '1px solid #cbd5e1',
+              border: '1px solid #d1d5db',
               borderRadius: 4,
-              fontSize: 14,
-              background: '#fff',
+              fontSize: 12,
+              background: '#ffffff',
+              color: '#374151',
+              cursor: 'pointer',
+              transition: 'border-color 0.2s',
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = '#2563eb'
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = '#d1d5db'
             }}
           >
             <option value={10}>10</option>
@@ -75,16 +89,21 @@ export function Pagination({
             <option value={50}>50</option>
             <option value={100}>100</option>
           </select>
-          <span style={{ fontSize: 14, color: '#64748b' }}>개</span>
+          <span style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>개</span>
         </div>
       )}
 
       {/* Pagination info */}
       {totalItems && (
-        <div style={{ fontSize: 14, color: '#64748b' }}>
-          총 {totalItems.toLocaleString()}개 중{' '}
-          {((currentPage - 1) * pageSize + 1).toLocaleString()}-
-          {Math.min(currentPage * pageSize, totalItems).toLocaleString()}개
+        <div style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>
+          총{' '}
+          <span style={{ color: '#1f2937', fontWeight: 600 }}>{totalItems.toLocaleString()}</span>개
+          중{' '}
+          <span style={{ color: '#1f2937', fontWeight: 600 }}>
+            {((currentPage - 1) * pageSize + 1).toLocaleString()}-
+            {Math.min(currentPage * pageSize, totalItems).toLocaleString()}
+          </span>
+          개
         </div>
       )}
 
@@ -96,18 +115,33 @@ export function Pagination({
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
           style={{
-            padding: '6px 8px',
-            border: '1px solid #cbd5e1',
-            borderRadius: 4,
-            background: currentPage === 1 ? '#f8fafc' : '#fff',
-            color: currentPage === 1 ? '#94a3b8' : '#0f172a',
+            padding: '6px 10px',
+            border: '1px solid #e2e8f0',
+            borderRadius: 6,
+            background: currentPage === 1 ? '#f8fafc' : '#ffffff',
+            color: currentPage === 1 ? '#94a3b8' : '#374151',
             cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: 4,
+            fontSize: 12,
+            fontWeight: 500,
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            if (currentPage !== 1) {
+              e.currentTarget.style.borderColor = '#cbd5e1'
+              e.currentTarget.style.background = '#f8fafc'
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (currentPage !== 1) {
+              e.currentTarget.style.borderColor = '#e2e8f0'
+              e.currentTarget.style.background = '#ffffff'
+            }
           }}
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft size={14} />
           이전
         </button>
 
@@ -119,13 +153,28 @@ export function Pagination({
             onClick={() => onPageChange(page)}
             style={{
               padding: '6px 10px',
-              border: '1px solid #cbd5e1',
-              borderRadius: 4,
-              background: page === currentPage ? '#2563eb' : '#fff',
-              color: page === currentPage ? '#fff' : '#0f172a',
+              border: '1px solid #e2e8f0',
+              borderRadius: 6,
+              background: page === currentPage ? '#2563eb' : '#ffffff',
+              color: page === currentPage ? '#ffffff' : '#374151',
               cursor: 'pointer',
               minWidth: 32,
               textAlign: 'center',
+              fontSize: 12,
+              fontWeight: page === currentPage ? 600 : 500,
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              if (page !== currentPage) {
+                e.currentTarget.style.borderColor = '#cbd5e1'
+                e.currentTarget.style.background = '#f8fafc'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (page !== currentPage) {
+                e.currentTarget.style.borderColor = '#e2e8f0'
+                e.currentTarget.style.background = '#ffffff'
+              }
             }}
           >
             {page}
@@ -138,19 +187,34 @@ export function Pagination({
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           style={{
-            padding: '6px 8px',
-            border: '1px solid #cbd5e1',
-            borderRadius: 4,
-            background: currentPage === totalPages ? '#f8fafc' : '#fff',
-            color: currentPage === totalPages ? '#94a3b8' : '#0f172a',
+            padding: '6px 10px',
+            border: '1px solid #e2e8f0',
+            borderRadius: 6,
+            background: currentPage === totalPages ? '#f8fafc' : '#ffffff',
+            color: currentPage === totalPages ? '#94a3b8' : '#374151',
             cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: 4,
+            fontSize: 12,
+            fontWeight: 500,
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            if (currentPage !== totalPages) {
+              e.currentTarget.style.borderColor = '#cbd5e1'
+              e.currentTarget.style.background = '#f8fafc'
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (currentPage !== totalPages) {
+              e.currentTarget.style.borderColor = '#e2e8f0'
+              e.currentTarget.style.background = '#ffffff'
+            }
           }}
         >
           다음
-          <ChevronRight size={16} />
+          <ChevronRight size={14} />
         </button>
       </div>
     </div>

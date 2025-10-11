@@ -212,7 +212,7 @@ export default function AdminLogin() {
             <div>
               <h3
                 style={{
-                  fontSize: '16px',
+                  fontSize: '12px',
                   fontWeight: 600,
                   color: '#e4e4e7',
                   margin: 0,
@@ -220,7 +220,7 @@ export default function AdminLogin() {
               >
                 보안 강화
               </h3>
-              <p style={{ fontSize: '14px', color: '#71717a', margin: 0 }}>안전한 데이터 관리</p>
+              <p style={{ fontSize: '12px', color: '#71717a', margin: 0 }}>안전한 데이터 관리</p>
             </div>
           </div>
 
@@ -241,7 +241,7 @@ export default function AdminLogin() {
             <div>
               <h3
                 style={{
-                  fontSize: '16px',
+                  fontSize: '12px',
                   fontWeight: 600,
                   color: '#e4e4e7',
                   margin: 0,
@@ -249,7 +249,7 @@ export default function AdminLogin() {
               >
                 간편한 접근
               </h3>
-              <p style={{ fontSize: '14px', color: '#71717a', margin: 0 }}>빠른 로그인 시스템</p>
+              <p style={{ fontSize: '12px', color: '#71717a', margin: 0 }}>빠른 로그인 시스템</p>
             </div>
           </div>
         </div>
@@ -328,7 +328,7 @@ export default function AdminLogin() {
             </h2>
             <p
               style={{
-                fontSize: '15px',
+                fontSize: '13px',
                 color: '#a1a1aa',
                 margin: 0,
               }}
@@ -351,7 +351,7 @@ export default function AdminLogin() {
               <p
                 style={{
                   margin: 0,
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: '#fca5a5',
                   textAlign: 'center',
                 }}
@@ -371,7 +371,7 @@ export default function AdminLogin() {
               <label
                 style={{
                   display: 'block',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontWeight: 600,
                   color: '#e4e4e7',
                   marginBottom: '10px',
@@ -403,7 +403,7 @@ export default function AdminLogin() {
                     background: 'rgba(9, 9, 11, 0.5)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '12px',
-                    fontSize: '16px',
+                    fontSize: '12px',
                     color: '#ffffff',
                     boxSizing: 'border-box',
                     outline: 'none',
@@ -426,7 +426,7 @@ export default function AdminLogin() {
               <label
                 style={{
                   display: 'block',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontWeight: 600,
                   color: '#e4e4e7',
                   marginBottom: '10px',
@@ -458,7 +458,7 @@ export default function AdminLogin() {
                     background: 'rgba(9, 9, 11, 0.5)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '12px',
-                    fontSize: '16px',
+                    fontSize: '12px',
                     color: '#ffffff',
                     boxSizing: 'border-box',
                     outline: 'none',
@@ -513,7 +513,7 @@ export default function AdminLogin() {
                   alignItems: 'center',
                   gap: '8px',
                   cursor: 'pointer',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   color: '#a1a1aa',
                 }}
               >
@@ -535,7 +535,7 @@ export default function AdminLogin() {
                   background: 'none',
                   border: 'none',
                   color: '#60a5fa',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontWeight: 500,
                   cursor: 'pointer',
                   padding: 0,
@@ -558,7 +558,7 @@ export default function AdminLogin() {
                 border: 'none',
                 borderRadius: '12px',
                 color: 'white',
-                fontSize: '16px',
+                fontSize: '12px',
                 fontWeight: 600,
                 cursor: loading ? 'not-allowed' : 'pointer',
                 display: 'flex',
@@ -629,7 +629,7 @@ export default function AdminLogin() {
 
           {/* 회원가입 링크 */}
           <div style={{ marginTop: '24px', textAlign: 'center' }}>
-            <p style={{ fontSize: '14px', color: '#a1a1aa', margin: 0 }}>
+            <p style={{ fontSize: '12px', color: '#a1a1aa', margin: 0 }}>
               계정이 없으신가요?{' '}
               <button
                 onClick={() => setShowSignupModal(true)}
@@ -637,7 +637,7 @@ export default function AdminLogin() {
                   background: 'none',
                   border: 'none',
                   color: '#60a5fa',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontWeight: 600,
                   cursor: 'pointer',
                   padding: 0,
@@ -750,7 +750,7 @@ export default function AdminLogin() {
                   <X size={20} color="#ffffff" />
                 </button>
               </div>
-              <p style={{ fontSize: '14px', color: '#a1a1aa', margin: 0 }}>
+              <p style={{ fontSize: '12px', color: '#a1a1aa', margin: 0 }}>
                 관리자 승인 후 계정이 활성화됩니다
               </p>
             </div>
@@ -765,7 +765,7 @@ export default function AdminLogin() {
                 <label
                   style={{
                     display: 'block',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontWeight: 600,
                     color: '#e4e4e7',
                     marginBottom: '8px',
@@ -797,7 +797,7 @@ export default function AdminLogin() {
                       background: 'rgba(9, 9, 11, 0.5)',
                       border: '1px solid rgba(255, 255, 255, 0.1)',
                       borderRadius: '10px',
-                      fontSize: '15px',
+                      fontSize: '13px',
                       color: '#ffffff',
                       boxSizing: 'border-box',
                       outline: 'none',
@@ -820,7 +820,7 @@ export default function AdminLogin() {
                 <label
                   style={{
                     display: 'block',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontWeight: 600,
                     color: '#e4e4e7',
                     marginBottom: '8px',
@@ -852,7 +852,7 @@ export default function AdminLogin() {
                       background: 'rgba(9, 9, 11, 0.5)',
                       border: '1px solid rgba(255, 255, 255, 0.1)',
                       borderRadius: '10px',
-                      fontSize: '15px',
+                      fontSize: '13px',
                       color: '#ffffff',
                       boxSizing: 'border-box',
                       outline: 'none',
@@ -875,7 +875,7 @@ export default function AdminLogin() {
                 <label
                   style={{
                     display: 'block',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontWeight: 600,
                     color: '#e4e4e7',
                     marginBottom: '8px',
@@ -908,7 +908,7 @@ export default function AdminLogin() {
                       background: 'rgba(9, 9, 11, 0.5)',
                       border: '1px solid rgba(255, 255, 255, 0.1)',
                       borderRadius: '10px',
-                      fontSize: '15px',
+                      fontSize: '13px',
                       color: '#ffffff',
                       boxSizing: 'border-box',
                       outline: 'none',
@@ -934,7 +934,7 @@ export default function AdminLogin() {
                 <label
                   style={{
                     display: 'block',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontWeight: 600,
                     color: '#e4e4e7',
                     marginBottom: '8px',
@@ -968,7 +968,7 @@ export default function AdminLogin() {
                       background: 'rgba(9, 9, 11, 0.5)',
                       border: '1px solid rgba(255, 255, 255, 0.1)',
                       borderRadius: '10px',
-                      fontSize: '15px',
+                      fontSize: '13px',
                       color: '#ffffff',
                       boxSizing: 'border-box',
                       outline: 'none',
@@ -1014,7 +1014,7 @@ export default function AdminLogin() {
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '10px',
                     color: '#a1a1aa',
-                    fontSize: '15px',
+                    fontSize: '13px',
                     fontWeight: 600,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
@@ -1040,7 +1040,7 @@ export default function AdminLogin() {
                     border: 'none',
                     borderRadius: '10px',
                     color: 'white',
-                    fontSize: '15px',
+                    fontSize: '13px',
                     fontWeight: 600,
                     cursor: signupLoading ? 'not-allowed' : 'pointer',
                     display: 'flex',

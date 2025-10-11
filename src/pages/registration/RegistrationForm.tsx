@@ -431,11 +431,11 @@ export default function RegistrationForm() {
 
   const inputStyle = {
     width: '100%',
-    padding: '14px 16px',
+    padding: '12px 14px',
     background: 'rgba(9, 9, 11, 0.5)',
     border: '1px solid rgba(255, 255, 255, 0.1)',
     borderRadius: '12px',
-    fontSize: '16px',
+    fontSize: '14px',
     color: '#ffffff',
     boxSizing: 'border-box' as const,
     outline: 'none',
@@ -862,7 +862,7 @@ export default function RegistrationForm() {
                     alignItems: 'center',
                     gap: '10px',
                     cursor: 'pointer',
-                    fontSize: '15px',
+                    fontSize: '13px',
                     color: '#e4e4e7',
                   }}
                 >
@@ -1093,7 +1093,7 @@ export default function RegistrationForm() {
               disabled={loading}
               style={{
                 width: '100%',
-                padding: '16px',
+                padding: '12px',
                 background: loading
                   ? 'rgba(63, 63, 70, 0.5)'
                   : modelType === 'domestic'
@@ -1102,13 +1102,13 @@ export default function RegistrationForm() {
                 border: 'none',
                 borderRadius: '12px',
                 color: 'white',
-                fontSize: '16px',
+                fontSize: '11px',
                 fontWeight: 600,
                 cursor: loading ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px',
+                gap: '6px',
                 transition: 'all 0.3s ease',
                 boxShadow: loading
                   ? 'none'
@@ -1117,7 +1117,7 @@ export default function RegistrationForm() {
                     : '0 8px 24px rgba(168, 85, 247, 0.3)',
               }}
             >
-              <Save size={20} />
+              <Save size={16} />
               {loading ? t.loadingButton : t.submitButton(mode)}
             </button>
           </div>

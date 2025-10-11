@@ -249,7 +249,20 @@ export default function DashboardStats() {
 
           {hasData ? (
             <>
-              <BarSpark heights={chartHeights} maxHeight={120} barWidth={22} gap={8} />
+              <BarSpark
+                heights={chartHeights}
+                maxHeight={120}
+                barWidth={28}
+                gap={6}
+                labels={chartData.map((d) => {
+                  const date = new Date(d.date)
+                  return selectedPeriod === '7d'
+                    ? date.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })
+                    : date.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })
+                })}
+                showValues={false}
+                showTooltip={true}
+              />
               <div style={{ marginTop: 12, fontSize: 12, color: '#64748b' }}>
                 {selectedPeriod === '7d' ? '최근 7일간의 등록 추이' : '최근 30일간의 등록 추이'}
               </div>

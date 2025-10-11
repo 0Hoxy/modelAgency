@@ -3,7 +3,7 @@
  */
 import { TextField } from '@molecules/TextField'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { type ReactNode,useState } from 'react'
+import { type ReactNode, useState } from 'react'
 
 import type { CreateDomesticModelRequest, Gender } from '../../../api/models'
 import { createDomesticModelByAdmin } from '../../../api/models'
@@ -154,7 +154,7 @@ export function CreateDomesticModelModal({ trigger, onSuccess }: CreateDomesticM
       }
 
       await createDomesticModelByAdmin(requestData)
-      
+
       resetForm()
       setOpen(false)
       onSuccess?.()
@@ -173,19 +173,18 @@ export function CreateDomesticModelModal({ trigger, onSuccess }: CreateDomesticM
       className="iconBtn"
       style={{
         border: 'none',
-        background: '#fff',
+        background: 'transparent',
         color: '#374151',
         borderRadius: 6,
-        transition: 'background 160ms ease, color 160ms ease',
-        padding: '6px 10px',
+        transition: 'color 160ms ease',
+        padding: '4px 8px',
         cursor: 'pointer',
+        fontSize: '13px',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = '#f1f5f9'
         e.currentTarget.style.color = '#111827'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = '#fff'
         e.currentTarget.style.color = '#374151'
       }}
     >
@@ -347,7 +346,9 @@ export function CreateDomesticModelModal({ trigger, onSuccess }: CreateDomesticM
                     placeholder="대한민국"
                   />
                   <div style={{ gridColumn: '1 / -1' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                    <label
+                      style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+                    >
                       <input
                         type="checkbox"
                         checked={isForeigner}
@@ -474,7 +475,9 @@ export function CreateDomesticModelModal({ trigger, onSuccess }: CreateDomesticM
                   타투
                 </h3>
                 <div style={{ display: 'grid', gap: 16 }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                  <label
+                    style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+                  >
                     <input
                       type="checkbox"
                       checked={hasTattoo}
@@ -565,7 +568,9 @@ export function CreateDomesticModelModal({ trigger, onSuccess }: CreateDomesticM
                   소속사 정보
                 </h3>
                 <div style={{ display: 'grid', gap: 16 }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                  <label
+                    style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+                  >
                     <input
                       type="checkbox"
                       checked={hasAgency}
@@ -719,4 +724,3 @@ export function CreateDomesticModelModal({ trigger, onSuccess }: CreateDomesticM
     </DialogPrimitive.Root>
   )
 }
-
